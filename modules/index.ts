@@ -1,6 +1,6 @@
 import database from "./database";
 import {Express} from "express";
-import config from "../config";
+import config from "../node-sub-modules/config";
 
 export default {
     initialize: async (e: Express) => {
