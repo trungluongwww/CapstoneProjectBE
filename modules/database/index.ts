@@ -7,11 +7,11 @@ let dataSource: DataSource;
 const connect = async (cfg: IConfig) => {
   dataSource = new DataSource({
     type: "postgres",
-    host: cfg.database.host,
-    port: Number(cfg.database.port),
-    username: cfg.database.username,
-    password: cfg.database.password,
-    database: cfg.database.name,
+    host: cfg.postgres.url,
+    port: Number(cfg.postgres.port),
+    username: cfg.postgres.username,
+    password: cfg.postgres.password,
+    database: cfg.postgres.name,
     synchronize: true,
     logging: false,
     entities: entities,
@@ -22,14 +22,14 @@ const connect = async (cfg: IConfig) => {
   // Connect
   try {
     await dataSource.initialize();
-    console.log(`⚡️[postgres]: connected to ${cfg.database.port}`);
+    console.log(`⚡️[postgres]: connected to ${cfg.postgres.port}`);
 
     // Set timezone
     await dataSource.manager.query(`SET timezone = '+00:00';`);
 
     // Run migration
   } catch (err) {
-    console.log("err when connected to database postgres", err);
+    console.log("err when connected to postgres postgres", err);
     process.exit(1);
   }
 };
