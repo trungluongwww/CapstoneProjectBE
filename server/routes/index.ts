@@ -4,7 +4,7 @@ import { expressjwt, Request } from "express-jwt";
 import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
-import response from "../../ultilities/response";
+import response from "../../node-sub-modules/ultilities/response";
 
 export default (app: Express) => {
   app.use(helmet());
