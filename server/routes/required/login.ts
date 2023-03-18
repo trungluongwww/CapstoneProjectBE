@@ -1,6 +1,6 @@
 import { Request } from "express-jwt";
 import { NextFunction, Response } from "express";
-import response from "../../../node-sub-modules/ultilities/response";
+import response from "../../../external_node/ultilities/response";
 
 export default (req: Request, res: Response, next: NextFunction) => {
   if (!req.auth?.id) {

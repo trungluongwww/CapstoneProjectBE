@@ -1,3 +1,3 @@
-[submodule "node-sub-modules"]
-	path = node-sub-modules
-	url = git@github.com:trungluongwww/node-sub-modules.git
+[submodule "external_node"]
+	path = external_node
+	url = git@github.com:trungluongwww/external_node.git
