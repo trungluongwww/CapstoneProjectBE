@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
 import entities from "./entities";
-import {IConfig} from "../../node-sub-modules/interfaces/config";
+import {IConfig} from "../../external_node/interfaces/config";
 
 let dataSource: DataSource;
 

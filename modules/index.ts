@@ -1,6 +1,7 @@
 import database from "./database";
 import {Express} from "express";
-import config from "../node-sub-modules/config";
+import config from "../external_node/config";
+import response from "../external_node/ultilities/response";
 
 export default {
     initialize: async (e: Express) => {
@@ -11,5 +12,7 @@ export default {
         const cfg = config.get()
 
         await database.connect(cfg);
+
+        response.init()
     },
 };
