@@ -5,11 +5,12 @@ import {
   Entity,
   PrimaryColumn,
 } from "typeorm";
-import {v4 as uuid} from "uuid";
 
 @Entity()
 export default class BaseEntity {
-  @PrimaryColumn({})
+  @PrimaryColumn({
+    type: "text",
+  })
   id: string;
 
   @Column({
@@ -18,16 +19,20 @@ export default class BaseEntity {
   })
   createdAt: Date;
 
-
   @Column({
     name: "updated_at",
     type: "timestamp with time zone",
   })
   updatedAt: Date;
 
+  @BeforeInsert()
+  setTime() {
+    this.createdAt = new Date();
+    this.updatedAt = new Date();
+  }
 
   @BeforeUpdate()
-  setTime() {
+  setUpdatedAt() {
     this.updatedAt = new Date();
   }
 }
