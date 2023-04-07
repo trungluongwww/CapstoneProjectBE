@@ -3,6 +3,10 @@ interface IUserCreatePayload {
   password: string;
   phone: string;
   name: string;
+  provinceId: string;
+  districtId: string;
+  wardId: string;
+  address: string;
 }
 
 export { IUserCreatePayload };
