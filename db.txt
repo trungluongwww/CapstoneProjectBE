@@ -1,0 +1,92 @@
+provinces :
+	id text Pk
+	name text
+	code text
+	created_at timestamp with time zone default now() not null
+	updated_at timestamp with time zone default now() not null
+districts:
+	id text Pk
+	province_id text FK
+	name text
+	code text
+	created_at timestamp with time zone default now() not null
+	updated_at timestamp with time zone default now() not null
+wards:
+	id text Pk
+	district_id text FK
+	name text
+	code text
+	created_at timestamp with time zone default now() not null
+	updated_at timestamp with time zone default now() not null
+users :
+	id text PK
+	username text
+	password text
+	// contacts
+	phone text
+	email text
+	zalo text
+	facebook text
+	// info
+	name text
+	avatar text
+	search_text text
+	// address
+	province_id text FK
+	district_id text FK
+	ward_id text FK
+	address text
+	created_at timestamp with time zone default now() not null
+	updated_at timestamp with time zone default now() not null
+rooms:
+	id text PK
+	user_id text PK
+	name text
+	description text
+	province_id text FK
+	district_id text FK
+	ward_id text FK
+	address text
+	searchtext text
+	status text
+	recent_active_at timestamp with time zone default now() not null
+	created_at timestamp with time zone default now() not null
+	updated_at timestamp with time zone default now() not null
+room_files:
+	id text pk
+	room_id text fk
+	originName text
+	name text
+	url text
+	type text
+	created_at timestamp with time zone default now() not null
+	updated_at timestamp with time zone default now() not null
+conversations:
+	id text pk
+	created_at timestamp with time zone default now() not null
+	updated_at timestamp with time zone default now() not null
+conversation_users:
+	id text pk
+	conversation_id text fk
+	user_id text fk
+	unread int default 0
+	created_at timestamp with time zone default now() not null
+	updated_at timestamp with time zone default now() not null
+messages:
+	id text pk
+	author_id text
+	content text
+	type text
+	file jsonp
+	room_id text
+	conversation_id fk
+	created_at timestamp with time zone default now() not null
+	updated_at timestamp with time zone default now() not null
+
+
+
+
+
+
+
+

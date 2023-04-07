@@ -5,7 +5,7 @@ import {
   Entity,
   PrimaryColumn,
 } from "typeorm";
-import { v4 as uuid } from "uuid";
+import {v4 as uuid} from "uuid";
 
 @Entity()
 export default class BaseEntity {
@@ -18,11 +18,6 @@ export default class BaseEntity {
   })
   createdAt: Date;
 
-  @Column({
-    name: "created_at_number",
-    type: "bigint",
-  })
-  createdAtNumber: number;
 
   @Column({
     name: "updated_at",
@@ -30,26 +25,7 @@ export default class BaseEntity {
   })
   updatedAt: Date;
 
-  @Column({
-    name: "updated_at_number",
-    type: "bigint",
-  })
-  updatedAtNumber: number;
 
-  @BeforeInsert()
-  setId() {
-    if (!this.id) {
-      this.id = uuid();
-    }
-    if (!this.createdAt) {
-      this.createdAt = new Date();
-      this.createdAtNumber = Date.parse(this.createdAt.toString());
-    }
-    if (!this.updatedAt) {
-      this.updatedAt = new Date();
-      this.updatedAtNumber = Date.parse(this.updatedAt.toString());
-    }
-  }
   @BeforeUpdate()
   setTime() {
     this.updatedAt = new Date();
