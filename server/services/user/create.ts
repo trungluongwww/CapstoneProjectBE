@@ -15,6 +15,11 @@ const fromClient = async (
   user.password = hashPw;
   user.phone = payload.phone;
   user.name = payload.name;
+  user.provinceId = payload.provinceId;
+  user.wardId = payload.wardId;
+  user.districtId = payload.districtId;
+  user.address = payload.address;
+
   return await dao.user.create.one(user);
 };
 
