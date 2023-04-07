@@ -1,17 +1,13 @@
-import { Column, Entity } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
 import BaseEntity from "./base";
+import { District } from "./index";
+import User from "./user";
 
-@Entity("provinces")
+@Entity({ name: "provinces" })
 export default class Province extends BaseEntity {
-  @Column({
-    name: "province_id",
-    type: "int",
-  })
-  provinceId: number;
-
-  @Column({
-    name: "name",
-    type: "text",
-  })
+  @Column({ name: "name", nullable: false, default: "", type: "text" })
   name: string;
+
+  @Column({ name: "code", nullable: false, default: "", type: "text" })
+  code: string;
 }

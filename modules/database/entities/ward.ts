@@ -1,23 +1,15 @@
-import { Column, Entity } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import BaseEntity from "./base";
+import { District } from "./index";
 
-@Entity("wards")
+@Entity({ name: "wards" })
 export default class Ward extends BaseEntity {
-  @Column({
-    name: "ward_id",
-    type: "varchar",
-  })
-  wardId: string;
+  @Column({ name: "district_id" })
+  districtId: string;
 
-  @Column({
-    name: "district_id",
-    type: "int",
-  })
-  districtId: number;
-
-  @Column({
-    name: "name",
-    type: "text",
-  })
+  @Column({ name: "name", nullable: true })
   name: string;
+
+  @Column({ name: "code", nullable: true })
+  code: string;
 }
