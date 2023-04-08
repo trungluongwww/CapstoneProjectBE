@@ -1,11 +1,11 @@
-import {User} from "../../../modules/database/entities";
+import { User } from "../../../modules/database/entities";
 import pmongo from "../../../external_node/ultilities/pmongo";
 import ptoken from "../../../external_node/ultilities/ptoken";
 import dao from "../../dao";
-import {IUserCreatePayload} from "../../../internal/interfaces/user";
+import { IUserCreatePayload } from "../../../internal/interfaces/user";
 
 const fromClient = async (
-    payload: IUserCreatePayload
+  payload: IUserCreatePayload
 ): Promise<Error | null> => {
   const hashPw = await ptoken.hashPassword(payload.password);
   const user = new User();
