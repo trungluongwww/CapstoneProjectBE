@@ -5,18 +5,22 @@ import errorcode from "../../../../internal/errorcode";
 const create = () => {
   return [
     body("username")
+      .isString()
       .notEmpty()
-      .isLength({ min: 8 })
+      .isLength({ min: 5 })
       .withMessage(errorcode.user.USER_INVALID_USERNAME),
     body("password")
+      .isString()
       .notEmpty()
-      .isLength({ min: 8 })
+      .isLength({ min: 6 })
       .withMessage(errorcode.user.USER_INVALID_PASSWORD),
     body("phone")
+      .isString()
       .notEmpty()
       .isLength({ min: 10 })
       .withMessage(errorcode.user.USER_INVALID_PHONE),
     body("name")
+      .isString()
       .notEmpty()
       .isLength({ min: 10 })
       .withMessage(errorcode.user.USER_INVALID_NAME),

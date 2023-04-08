@@ -9,7 +9,7 @@ const rawById = async (id: string): Promise<[User | null, Error | null]> => {
       await db
         .createQueryBuilder(User, "u")
         .select(["u"])
-        .where("u.id := id", { id })
+        .where("u.id = :id", { id })
         .getOne(),
       null,
     ];
@@ -33,7 +33,7 @@ const relsById = async (id: string): Promise<[User | null, Error | null]> => {
     q.select(["u", "p", "d", "w"]);
 
     // assign condition
-    q.where("u.id := userId", { userId: id });
+    q.where("u.id = :userId", { userId: id });
 
     return [await q.getOne(), null];
   } catch (e: unknown) {
@@ -42,7 +42,28 @@ const relsById = async (id: string): Promise<[User | null, Error | null]> => {
   }
 };
 
+const countByIdentity = async (
+  username: string,
+  phone: string
+): Promise<number> => {
+  const db = database.getDataSource();
+
+  try {
+    const q = db
+      .createQueryBuilder(User, "u")
+      .where("u.username = :username", { username })
+      .orWhere("u.phone = :phone", { phone });
+    return await q.getCount();
+  } catch (e: unknown) {
+    console.log(
+      `[Error] dao.user.find.countByIdentity ${(e as Error).message}`
+    );
+    return 0;
+  }
+};
+
 export default {
   rawById,
   relsById,
+  countByIdentity,
 };
