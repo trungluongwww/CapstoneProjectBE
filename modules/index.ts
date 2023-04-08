@@ -1,18 +1,18 @@
 import database from "./database";
-import {Express} from "express";
+import { Express } from "express";
 import config from "../external_node/config";
-import response from "../external_node/ultilities/response";
+import errorcode from "../internal/errorcode";
 
 export default {
-    initialize: async (e: Express) => {
-        const env = process.env;
+  initialize: async (e: Express) => {
+    const env = process.env;
 
-        config.init(env)
+    config.init(env);
 
-        const cfg = config.get()
+    const cfg = config.get();
 
-        await database.connect(cfg);
+    await database.connect(cfg);
 
-        response.init()
-    },
+    errorcode.init();
+  },
 };

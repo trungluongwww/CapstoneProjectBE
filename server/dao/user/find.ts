@@ -25,7 +25,7 @@ const relsById = async (id: string): Promise<[User | null, Error | null]> => {
   try {
     const q = db
       .createQueryBuilder(User, "u")
-      .leftJoinAndMapOne("u.province", "provinces", "p", "p.id = u.provinceId")
+      .leftJoinAndMapOne("u.location", "provinces", "p", "p.id = u.provinceId")
       .leftJoinAndMapOne("u.district", "districts", "d", "d.id = u.district_id")
       .leftJoinAndMapOne("u.ward", "wards", "w", "w.id = u.ward_id");
 
