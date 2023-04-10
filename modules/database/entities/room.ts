@@ -17,6 +17,30 @@ export default class Room extends BaseEntity {
   @Column({ nullable: true, name: "description", type: "text", default: "" })
   description: string;
 
+  @Column({
+    nullable: true,
+    name: "rent_per_month",
+    type: "integer",
+    default: 0,
+  })
+  rentPerMonth: number;
+
+  @Column({
+    nullable: true,
+    name: "deposit",
+    type: "integer",
+    default: 0,
+  })
+  deposit: number;
+
+  @Column({
+    nullable: true,
+    name: "square_metre",
+    type: "integer",
+    default: 0,
+  })
+  squareMetre: number;
+
   @Column({ name: "province_id", nullable: true, type: "text" })
   provinceId: string;
 

@@ -1,14 +1,15 @@
-import express, {Express, Router} from "express";
-import {Response, NextFunction} from "express";
-import {expressjwt, Request} from "express-jwt";
+import express, { Express, Router } from "express";
+import { Response, NextFunction } from "express";
+import { expressjwt, Request } from "express-jwt";
 import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
-import response from "../../external_node/ultilities/response";
+import response from "../../external_node/ultils/response";
 import common from "./common";
 import config from "../../external_node/config";
 import user from "./user";
 import migration from "./migration";
+import upload from "./upload";
 
 export default (app: Express) => {
   app.use(helmet());
@@ -18,16 +19,16 @@ export default (app: Express) => {
 
   // simple validate jwt
   app.use(
-      expressjwt({
-        secret: config.get().common.jwtSecretKey || "",
-        algorithms: ["HS256"],
-      }),
-      (err: Error, req: Request, res: Response, next: NextFunction) => {
-        if (err.name === "UnauthorizedError") {
-          req.auth = undefined;
-        }
-        next();
+    expressjwt({
+      secret: config.get().common.jwtSecretKey || "",
+      algorithms: ["HS256"],
+    }),
+    (err: Error, req: Request, res: Response, next: NextFunction) => {
+      if (err.name === "UnauthorizedError") {
+        req.auth = undefined;
       }
+      next();
+    }
   );
 
   const router = express.Router();
@@ -37,6 +38,7 @@ export default (app: Express) => {
   common(router);
   user(router);
   migration(router);
+  upload(router);
 
   app.use("*", (req: Request, res: Response) => {
     return response.r404(res, "The route not found");

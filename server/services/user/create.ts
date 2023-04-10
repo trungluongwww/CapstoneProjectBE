@@ -1,10 +1,10 @@
 import { User } from "../../../modules/database/entities";
-import pmongo from "../../../external_node/ultilities/pmongo";
-import ptoken from "../../../external_node/ultilities/ptoken";
+import pmongo from "../../../external_node/ultils/pmongo";
+import ptoken from "../../../external_node/ultils/ptoken";
 import dao from "../../dao";
 import { IUserCreatePayload } from "../../../internal/interfaces/user";
 import errorcode from "../../../internal/errorcode";
-import strings from "../../../external_node/ultilities/strings";
+import strings from "../../../external_node/ultils/strings";
 
 const fromClient = async (
   payload: IUserCreatePayload

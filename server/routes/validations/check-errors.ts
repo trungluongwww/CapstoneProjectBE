@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { param, body, validationResult } from "express-validator";
-import response from "../../../external_node/ultilities/response";
+import response from "../../../external_node/ultils/response";
 
 const paramId = (name: string = "id") => {
   return param(name).isUUID("all").withMessage("invalid id");
