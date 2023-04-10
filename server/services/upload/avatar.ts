@@ -2,7 +2,7 @@ import express from "express";
 import upload from "../../../external_node/upload";
 import path from "path";
 import constants from "../../../external_node/constants";
-import { IUploadAvatarResponse } from "../../../internal/interfaces/upload";
+import { IUploadSingleFileResponse } from "../../../internal/interfaces/upload";
 import s3 from "../../../external_node/s3";
 import errorcode from "../../../internal/errorcode";
 import * as util from "util";
@@ -10,7 +10,7 @@ import pfile from "../../../external_node/ultils/pfile";
 
 export default async (
   file: Express.Multer.File | null | undefined
-): Promise<[IUploadAvatarResponse | null, Error | null]> => {
+): Promise<[IUploadSingleFileResponse | null, Error | null]> => {
   if (!file) {
     return [null, Error(errorcode.upload.UPLOAD_INVALID_FILE)];
   }
@@ -43,7 +43,8 @@ export default async (
       originName: file.originalname,
       width: w,
       height: h,
-    } as IUploadAvatarResponse;
+      type: constants.upload.type.photo,
+    } as IUploadSingleFileResponse;
 
     // upload s3
     [result.url, err] = await s3.uploadObjectPublic(upload.getPathFileFromFolderUpload(resizeName), key, contentType);

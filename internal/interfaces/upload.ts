@@ -1,26 +1,20 @@
-interface IUploadAvatarResponse {
-  name: string;
-  originName: string;
-  width: number;
-  height: number;
-  url: string;
-}
-
 interface IUploadOthersResponse {
   link: string;
 }
 
-interface IUploadSinglePhotoResponse {
+interface IUploadSingleFileResponse {
   name: string;
   originName: string;
   width: number;
   height: number;
+  type: string;
   url: string;
   others: IUploadOthersResponse;
+  thumbnail?: IUploadThumbnailResponse;
 }
 
-interface IUploadMultiplePhotoResponse {
-  photos: Array<IUploadSinglePhotoResponse>;
+interface IUploadMultipleFileResponse {
+  photos: Array<IUploadSingleFileResponse>;
   total: number;
 }
 
@@ -32,10 +26,4 @@ interface IUploadThumbnailResponse {
   url: number;
 }
 
-export {
-  IUploadAvatarResponse,
-  IUploadThumbnailResponse,
-  IUploadSinglePhotoResponse,
-  IUploadMultiplePhotoResponse,
-  IUploadOthersResponse,
-};
+export { IUploadMultipleFileResponse, IUploadThumbnailResponse, IUploadOthersResponse, IUploadSingleFileResponse };
