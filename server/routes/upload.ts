@@ -11,4 +11,10 @@ export default (g: Router) => {
   r.post("/single-photo", middleware.upload.singlePhoto, controllers.upload.singlePhoto);
 
   r.post("/multiple-photo", middleware.upload.arrayPhoto, controllers.upload.multiplePhoto);
+
+  r.post("/single-photo-private", middleware.upload.singlePhoto, controllers.upload.singlePrivatePhoto);
+
+  r.post("/multiple-photo-private", middleware.upload.arrayPhoto, controllers.upload.multiplePrivatePhoto);
+
+  r.post("/file", middleware.upload.singleFile, controllers.upload.file);
 };

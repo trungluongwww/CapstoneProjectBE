@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
     cb(null, constants.upload.destination);
   },
   filename(req, file: Express.Multer.File, cb: (error: Error | null, filename: string) => void) {
-    cb(null, "photo" + random.randomCode() + "-" + file.originalname);
+    cb(null, "file" + random.randomCode() + "-" + file.originalname);
   },
 });
 
@@ -26,11 +26,6 @@ export default multer({
       return [null, Error(errorcode.upload.UPLOAD_INVALID_SIZE)];
     }
 
-    const ext = path.extname(file.originalname).replace(".", "").toLowerCase();
-    if (!constants.upload.extension.photo.includes(ext)) {
-      cb(null, false);
-      return cb(new Error(errorcode.upload.UPLOAD_INVALID_EXTENSION));
-    }
     cb(null, true);
   },
 });

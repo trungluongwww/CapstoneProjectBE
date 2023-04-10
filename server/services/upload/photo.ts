@@ -1,7 +1,7 @@
 import {
-  IUploadMultiplePhotoResponse,
+  IUploadSingleFileResponse,
   IUploadOthersResponse,
-  IUploadSinglePhotoResponse,
+  IUploadMultipleFileResponse,
 } from "../../../internal/interfaces/upload";
 import errorcode from "../../../internal/errorcode";
 import path from "path";
@@ -12,7 +12,7 @@ import s3 from "../../../external_node/s3";
 
 const single = async (
   file: Express.Multer.File | null | undefined
-): Promise<[IUploadSinglePhotoResponse | null, Error | null]> => {
+): Promise<[IUploadSingleFileResponse | null, Error | null]> => {
   if (!file) {
     return [null, Error(errorcode.upload.UPLOAD_INVALID_FILE)];
   }
@@ -45,7 +45,8 @@ const single = async (
       originName: file.originalname,
       width: w,
       height: h,
-    } as IUploadSinglePhotoResponse;
+      type: constants.upload.type.photo,
+    } as IUploadSingleFileResponse;
 
     // upload s3
     [result.url, err] = await s3.uploadObjectPublic(upload.getPathFileFromFolderUpload(resizeName), key, contentType);
@@ -63,7 +64,7 @@ const single = async (
 
 const multiple = async (
   files: Array<Express.Multer.File> | undefined | null
-): Promise<[IUploadMultiplePhotoResponse | null, Error | null]> => {
+): Promise<[IUploadMultipleFileResponse | null, Error | null]> => {
   if (!files) {
     return [null, Error(errorcode.upload.UPLOAD_INVALID_FILE)];
   }
@@ -71,7 +72,7 @@ const multiple = async (
   const result = {
     photos: [],
     total: 0,
-  } as IUploadMultiplePhotoResponse;
+  } as IUploadMultipleFileResponse;
 
   for (let file of files) {
     let [res, err] = await single(file);
@@ -88,7 +89,7 @@ const multiple = async (
 
 const singlePrivate = async (
   file: Express.Multer.File | null | undefined
-): Promise<[IUploadSinglePhotoResponse | null, Error | null]> => {
+): Promise<[IUploadSingleFileResponse | null, Error | null]> => {
   if (!file) {
     return [null, Error(errorcode.upload.UPLOAD_INVALID_FILE)];
   }
@@ -121,10 +122,11 @@ const singlePrivate = async (
       originName: file.originalname,
       width: w,
       height: h,
+      type: constants.upload.type.photo,
       others: {
         link: "",
       } as IUploadOthersResponse,
-    } as IUploadSinglePhotoResponse;
+    } as IUploadSingleFileResponse;
 
     // upload s3
     [result.others.link, err] = await s3.uploadObjectPrivate(
@@ -146,7 +148,7 @@ const singlePrivate = async (
 
 const multiplePrivate = async (
   files: Array<Express.Multer.File> | undefined | null
-): Promise<[IUploadMultiplePhotoResponse | null, Error | null]> => {
+): Promise<[IUploadMultipleFileResponse | null, Error | null]> => {
   if (!files) {
     return [null, Error(errorcode.upload.UPLOAD_INVALID_FILE)];
   }
@@ -154,7 +156,7 @@ const multiplePrivate = async (
   const result = {
     photos: [],
     total: 0,
-  } as IUploadMultiplePhotoResponse;
+  } as IUploadMultipleFileResponse;
 
   for (let file of files) {
     let [res, err] = await singlePrivate(file);

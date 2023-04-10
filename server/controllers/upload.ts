@@ -36,8 +36,44 @@ const multiplePhoto = async (req: Request, res: Response) => {
   return response.r200(res, rs);
 };
 
+const file = async (req: Request, res: Response) => {
+  let file = req.file;
+
+  const [rs, err] = await services.upload.file(file);
+  if (err) {
+    return response.r400(res, null, err.message);
+  }
+
+  return response.r200(res, rs);
+};
+
+const singlePrivatePhoto = async (req: Request, res: Response) => {
+  let file = req.file;
+
+  const [rs, err] = await services.upload.photo.singlePrivate(file);
+  if (err) {
+    return response.r400(res, null, err.message);
+  }
+
+  return response.r200(res, rs);
+};
+
+const multiplePrivatePhoto = async (req: Request, res: Response) => {
+  let files = req.files as Array<Express.Multer.File>;
+
+  const [rs, err] = await services.upload.photo.multiplePrivate(files);
+  if (err) {
+    return response.r400(res, null, err.message);
+  }
+
+  return response.r200(res, rs);
+};
+
 export default {
   avatar,
   singlePhoto,
   multiplePhoto,
+  file,
+  singlePrivatePhoto,
+  multiplePrivatePhoto,
 };
