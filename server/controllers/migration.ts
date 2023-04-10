@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { Request } from "express-jwt";
 import services from "../services";
-import response from "../../external_node/ultilities/response";
+import response from "../../external_node/ultils/response";
 
 const migrationLocation = async (req: Request, res: Response) => {
   await services.migration.migrationLocations().then();

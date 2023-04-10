@@ -19,6 +19,12 @@ export default class RoomFile extends BaseEntity {
   @Column({ name: "type", nullable: false, default: "", type: "text" })
   type: string;
 
+  @Column({ nullable: false, name: "width", type: "integer", default: 0 })
+  width: number;
+
+  @Column({ nullable: false, name: "height", type: "integer", default: 0 })
+  height: number;
+
   @ManyToOne(() => Room, (room) => room.id)
   room: Room;
 }

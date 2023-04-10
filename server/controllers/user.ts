@@ -2,7 +2,7 @@ import { Response } from "express";
 import { Request } from "express-jwt";
 import { IUserCreatePayload } from "../../internal/interfaces/user";
 import services from "../services";
-import response from "../../external_node/ultilities/response";
+import response from "../../external_node/ultils/response";
 
 const create = async (req: Request, res: Response) => {
   const payload = req.body as IUserCreatePayload;
