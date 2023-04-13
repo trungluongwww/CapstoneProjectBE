@@ -1,11 +1,12 @@
-import { User } from "../../../modules/database/entities";
+import { User, UserFavouriteRoom } from "../../../modules/database/entities";
 import pmongo from "../../../external_node/ultils/pmongo";
 import ptoken from "../../../external_node/ultils/ptoken";
 import dao from "../../dao";
-import { IUserCreatePayload } from "../../../internal/interfaces/user";
+import { IUserAddFavouriteRoom, IUserCreatePayload } from "../../../internal/interfaces/user";
 import errorcode from "../../../internal/errorcode";
 import strings from "../../../external_node/ultils/strings";
 import location from "../location";
+import services from "../index";
 
 const fromClient = async (payload: IUserCreatePayload): Promise<Error | null> => {
   // validate identity info
@@ -37,6 +38,33 @@ const fromClient = async (payload: IUserCreatePayload): Promise<Error | null> =>
   return await dao.user.create.one(user);
 };
 
+const addFavouriteRoom = async (id: string, payload: IUserAddFavouriteRoom): Promise<Error | null> => {
+  let user = await services.user.find.rawById(id);
+  if (!user) {
+    return Error(errorcode.user.USER_NOT_FOUND);
+  }
+
+  let room = await services.room.find.rawById(id);
+  if (!room) {
+    return Error(errorcode.room.ROOM_NOT_FOUND);
+  }
+
+  let [ufr] = await dao.userFavouriteRoom.find.byUserAndRoom(id, payload.roomId);
+  if (ufr) {
+    return null;
+  }
+
+  let newUfr = new UserFavouriteRoom();
+  newUfr.id = pmongo.newStringId();
+  newUfr.roomId = payload.roomId;
+  newUfr.userId = user.id;
+  newUfr.createdAt = new Date();
+  newUfr.updatedAt = new Date();
+
+  return await dao.userFavouriteRoom.create.one(newUfr);
+};
+
 export default {
   fromClient,
+  addFavouriteRoom,
 };

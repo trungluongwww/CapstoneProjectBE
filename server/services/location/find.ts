@@ -20,6 +20,9 @@ const isValidLocation = async (provinceId: string, districtId: string, wardId: s
 };
 
 const convertProvinceModelToResponse = (province: Province): IProvinceResponse => {
+  if (!province) {
+    return {} as IProvinceResponse;
+  }
   return {
     id: province.id,
     name: province.name,
@@ -30,6 +33,9 @@ const convertProvinceModelToResponse = (province: Province): IProvinceResponse =
 };
 
 const convertDistrictModelToResponse = (dist: District): IDistrictResponse => {
+  if (!dist) {
+    return {} as IDistrictResponse;
+  }
   return {
     id: dist.id,
     name: dist.name,
@@ -41,6 +47,9 @@ const convertDistrictModelToResponse = (dist: District): IDistrictResponse => {
 };
 
 const convertWardModelToResponse = (ward: Ward): IWardResponse => {
+  if (!ward) {
+    return {} as IWardResponse;
+  }
   return {
     id: ward.id,
     name: ward.name,

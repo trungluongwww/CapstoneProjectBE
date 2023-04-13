@@ -2,6 +2,7 @@ import { IUploadSingleFileRequest, IUploadSingleFileResponse } from "./upload";
 import { District, Province, Room, Ward } from "../../modules/database/entities";
 import { IDistrictResponse, IProvinceResponse, IWardResponse } from "./location";
 import { ICommonKeyValue } from "./common";
+import { IUserResponse } from "./user";
 
 interface IRoomCreatePayload {
   userId: string;
@@ -59,6 +60,7 @@ interface IRoomAllResponse {
 interface IRoomResponse {
   id: string;
   name: string;
+  owner: IUserResponse;
   description: string;
   rentPerMonth: number;
   deposit: number;

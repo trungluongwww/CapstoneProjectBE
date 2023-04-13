@@ -58,7 +58,7 @@ const changeStatus = () => {
 };
 
 const addComment = () => {
-  return [body("content").optional({ nullable: false }).withMessage(errorcode.comment.COMMENT_INVALID)];
+  return [body("content").isString().optional({ nullable: false }).withMessage(errorcode.comment.COMMENT_INVALID)];
 };
 
 const removeFile = () => {

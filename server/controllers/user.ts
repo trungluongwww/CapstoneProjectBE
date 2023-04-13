@@ -35,8 +35,19 @@ const login = async (req: Request, res: Response) => {
   return response.r200(res, rs);
 };
 
+const profile = async (req: Request, res: Response) => {
+  const { userId } = req.query;
+
+  const [rs, err] = await services.user.find.profile(userId as string);
+  if (err) {
+    return response.r400(res, null, err.message);
+  }
+  return response.r200(res, rs);
+};
+
 export default {
   create,
   update,
   login,
+  profile,
 };

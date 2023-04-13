@@ -1,4 +1,5 @@
 import { IDistrictResponse, IProvinceResponse, IWardResponse } from "./location";
+import dao from "../../server/dao";
 
 interface IUserCreatePayload {
   username: string;
@@ -41,8 +42,8 @@ interface IUserResponse {
   facebook: string;
   name: string;
   avatar: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   address: string;
   root: boolean;
   province: IProvinceResponse;
@@ -50,4 +51,15 @@ interface IUserResponse {
   ward: IWardResponse;
 }
 
-export { IUserCreatePayload, IUserLoginResponse, IUserLoginPayload, IUserUpdatePayload };
+interface IUserAddFavouriteRoom {
+  roomId: string;
+}
+
+export {
+  IUserAddFavouriteRoom,
+  IUserCreatePayload,
+  IUserLoginResponse,
+  IUserLoginPayload,
+  IUserUpdatePayload,
+  IUserResponse,
+};
