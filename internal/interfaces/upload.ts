@@ -13,6 +13,15 @@ interface IUploadSingleFileResponse {
   thumbnail?: IUploadThumbnailResponse;
 }
 
+interface IUploadSingleFileRequest {
+  name: string;
+  originName: string;
+  width: number;
+  height: number;
+  type: string;
+  url: string;
+}
+
 interface IUploadMultipleFileResponse {
   photos: Array<IUploadSingleFileResponse>;
   total: number;
@@ -26,4 +35,10 @@ interface IUploadThumbnailResponse {
   url: number;
 }
 
-export { IUploadMultipleFileResponse, IUploadThumbnailResponse, IUploadOthersResponse, IUploadSingleFileResponse };
+export {
+  IUploadSingleFileRequest,
+  IUploadMultipleFileResponse,
+  IUploadThumbnailResponse,
+  IUploadOthersResponse,
+  IUploadSingleFileResponse,
+};

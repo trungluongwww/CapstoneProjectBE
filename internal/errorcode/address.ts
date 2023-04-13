@@ -19,7 +19,7 @@ const list: Array<IResponseCode> = [
     key: ADDRESS_INVALID_WARD,
   },
   {
-    message: "địa chỉ hợp lệ ",
+    message: "địa chỉ không hợp lệ",
     key: ADDRESS_COMMON_INVALID,
   },
 ];

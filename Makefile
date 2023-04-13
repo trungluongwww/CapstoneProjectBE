@@ -1,5 +1,7 @@
 dev:
 		npm run dev
+run-debug:
+		DEBUG=1 npm run dev
 
 # make update-submodules branch=develop
 update-submodules:

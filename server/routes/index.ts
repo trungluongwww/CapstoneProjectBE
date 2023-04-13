@@ -10,6 +10,8 @@ import config from "../../external_node/config";
 import user from "./user";
 import migration from "./migration";
 import upload from "./upload";
+import room from "./room";
+import location from "./location";
 
 export default (app: Express) => {
   app.use(helmet());
@@ -35,10 +37,12 @@ export default (app: Express) => {
 
   app.use("/api", router);
 
+  location(router);
   common(router);
   user(router);
   migration(router);
   upload(router);
+  room(router);
 
   app.use("*", (req: Request, res: Response) => {
     return response.r404(res, "The route not found");
