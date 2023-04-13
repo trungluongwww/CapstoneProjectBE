@@ -13,6 +13,7 @@ import { IDistrictResponse, IProvinceResponse, IWardResponse } from "../../../in
 import { ICommonKeyValue } from "../../../internal/interfaces/common";
 import { IUploadSingleFileResponse } from "../../../internal/interfaces/upload";
 import services from "../index";
+import strings from "../../../external_node/ultils/strings";
 
 const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
   let page = 0;
@@ -34,6 +35,8 @@ const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
     orderField = query.orderField;
     orderValue = query.orderValue;
   }
+
+  query.keyword = strings.content.convertToLowerUsLang(query.keyword);
 
   let [rooms, total, err] = await dao.room.find.all(
     query.provinceId,
@@ -64,6 +67,9 @@ const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
 };
 
 const convertRoomModelToResponse = (room: Room): IRoomResponse => {
+  if (!room) {
+    return {} as IRoomResponse;
+  }
   return {
     id: room.id,
     name: room.name,
@@ -80,10 +86,14 @@ const convertRoomModelToResponse = (room: Room): IRoomResponse => {
     createdAt: room.createdAt,
     updatedAt: room.updatedAt,
     files: room.files.map((file) => convertRoomFileModelToResponse(file)),
+    owner: services.user.find.convertModelToResponse(room.user),
   } as IRoomResponse;
 };
 
 const convertRoomFileModelToResponse = (file: RoomFile): IRoomFileResponse => {
+  if (!file) {
+    return {} as IRoomFileResponse;
+  }
   return {
     id: file.id,
     info: file.info,
@@ -91,7 +101,18 @@ const convertRoomFileModelToResponse = (file: RoomFile): IRoomFileResponse => {
   } as IRoomFileResponse;
 };
 
+const rawById = async (id: string): Promise<Room | null> => {
+  let [room, err] = await dao.room.find.rawById(id);
+
+  if (!room) {
+    return null;
+  }
+
+  return room;
+};
+
 export default {
   all,
   convertRoomFileModelToResponse,
+  rawById,
 };

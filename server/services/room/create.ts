@@ -100,7 +100,7 @@ const addComment = async (id: string, payload: IRoomAddCommentPayload): Promise<
     return Error(errorcode.room.ROOM_NOT_FOUND);
   }
 
-  let [user] = await dao.user.find.rawById(payload.userId);
+  let user = await services.user.find.rawById(payload.userId);
   if (!user) {
     return Error(response.common.commonNoPermissionKey);
   }

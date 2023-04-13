@@ -1,6 +1,7 @@
 import { body, query } from "express-validator";
-import { checkErrors } from "../check-errors";
+import { checkErrors, paramId } from "../check-errors";
 import errorcode from "../../../../internal/errorcode";
+import response from "../../../../external_node/ultils/response";
 
 const create = () => {
   return [
@@ -38,8 +39,13 @@ const login = () => {
   ];
 };
 
+const profile = () => {
+  return [query("userId").isMongoId().notEmpty().withMessage(response.common.commonInvalidID)];
+};
+
 export default {
   create: [create(), checkErrors],
   update: [update(), checkErrors],
   login: [login(), checkErrors],
+  profile: [profile(), checkErrors],
 };

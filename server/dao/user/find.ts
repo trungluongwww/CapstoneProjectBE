@@ -23,7 +23,23 @@ const relsById = async (id: string): Promise<[User | null, Error | null]> => {
       .leftJoinAndMapOne("u.ward", "wards", "w", "w.id = u.wardId");
 
     // assign column
-    q.select(["u", "p", "d", "w"]);
+    q.select([
+      "u.id",
+      "u.createdAt",
+      "u.updatedAt",
+      "u.username",
+      "u.phone",
+      "u.email",
+      "u.zalo",
+      "u.facebook",
+      "u.name",
+      "u.avatar",
+      "u.address",
+      "u.root",
+      "p",
+      "d",
+      "w",
+    ]);
 
     // assign condition
     q.where("u.id = :userId", { userId: id });
