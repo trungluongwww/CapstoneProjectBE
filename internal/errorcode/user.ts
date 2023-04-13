@@ -7,6 +7,10 @@ const USER_INVALID_NAME = "USER_INVALID_NAME";
 const USER_INVALID_ADDRESS = "USER_INVALID_ADDRESS";
 const USER_ALREADY_EXITS = "USER_ALREADY_EXITS";
 const USER_NOT_FOUND = "USER_NOT_FOUND";
+const USER_INVALID_FACEBOOK = "USER_INVALID_FACEBOOK";
+const USER_INVALID_ZALO = "USER_INVALID_ZALO";
+const USER_LOGIN_FAILED = "USER_LOGIN_FAILED";
+
 const list: Array<IResponseCode> = [
   {
     message: "tài khoản người dùng không hợp lệ",
@@ -36,6 +40,18 @@ const list: Array<IResponseCode> = [
     message: " người dùng không tìm thấy",
     key: USER_NOT_FOUND,
   },
+  {
+    message: "dường dẫn facebook không hợp lệ",
+    key: USER_INVALID_FACEBOOK,
+  },
+  {
+    message: "dường dẫn zalo không hợp lệ",
+    key: USER_INVALID_ZALO,
+  },
+  {
+    message: "Tài khoản hoặc mật khẩu không đúng",
+    key: USER_LOGIN_FAILED,
+  },
 ];
 
 export default {
@@ -47,4 +63,7 @@ export default {
   USER_INVALID_ADDRESS,
   USER_ALREADY_EXITS,
   USER_NOT_FOUND,
+  USER_INVALID_FACEBOOK,
+  USER_INVALID_ZALO,
+  USER_LOGIN_FAILED,
 };

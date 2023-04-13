@@ -1,3 +1,5 @@
+import { IDistrictResponse, IProvinceResponse, IWardResponse } from "./location";
+
 interface IUserCreatePayload {
   username: string;
   password: string;
@@ -21,4 +23,31 @@ interface IUserUpdatePayload {
   email: string;
 }
 
-export { IUserCreatePayload, IUserUpdatePayload };
+interface IUserLoginPayload {
+  username: string;
+  password: string;
+}
+
+interface IUserLoginResponse {
+  token: string;
+}
+
+interface IUserResponse {
+  id: string;
+  username: string;
+  phone: string;
+  email: string;
+  zalo: string;
+  facebook: string;
+  name: string;
+  avatar: string;
+  createdAt: string;
+  updatedAt: string;
+  address: string;
+  root: boolean;
+  province: IProvinceResponse;
+  district: IDistrictResponse;
+  ward: IWardResponse;
+}
+
+export { IUserCreatePayload, IUserLoginResponse, IUserLoginPayload, IUserUpdatePayload };

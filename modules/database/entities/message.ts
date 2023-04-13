@@ -3,6 +3,7 @@ import BaseEntity from "./base";
 import Province from "./province";
 import { JoinColumn } from "typeorm";
 import { Conversation, User } from "./index";
+import { IUploadSingleFileResponse } from "../../../internal/interfaces/upload";
 
 @Entity({ name: "messages" })
 export default class Message extends BaseEntity {
@@ -22,7 +23,7 @@ export default class Message extends BaseEntity {
   type: string;
 
   @Column({ name: "file", type: "jsonb", nullable: true })
-  file?: object | null;
+  file: IUploadSingleFileResponse;
 
   @Column({ name: "room_id", nullable: false, type: "text" })
   roomId: string;

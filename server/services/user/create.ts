@@ -5,35 +5,17 @@ import dao from "../../dao";
 import { IUserCreatePayload } from "../../../internal/interfaces/user";
 import errorcode from "../../../internal/errorcode";
 import strings from "../../../external_node/ultils/strings";
+import location from "../location";
 
-const fromClient = async (
-  payload: IUserCreatePayload
-): Promise<Error | null> => {
+const fromClient = async (payload: IUserCreatePayload): Promise<Error | null> => {
   // validate identity info
-  if (
-    (await dao.user.find.countByIdentity(payload.username, payload.phone)) > 0
-  ) {
+  if ((await dao.user.find.countByIdentity(payload.username, payload.phone)) > 0) {
     return Error(errorcode.user.USER_ALREADY_EXITS);
   }
 
   // validate location info
-  const promiseP = dao.location.find.countProvinceById(payload.provinceId);
-  const promiseD = dao.location.find.countDistrictById(
-    payload.districtId,
-    payload.provinceId
-  );
-  const promiseW = dao.location.find.countWardById(
-    payload.wardId,
-    payload.districtId
-  );
 
-  const [countP, countD, countW] = await Promise.all([
-    promiseP,
-    promiseD,
-    promiseW,
-  ]);
-
-  if (!(countP && countD && countW)) {
+  if (!(await location.find.isValidLocation(payload.provinceId, payload.districtId, payload.wardId))) {
     return Error(errorcode.address.ADDRESS_COMMON_INVALID);
   }
 
@@ -50,9 +32,7 @@ const fromClient = async (
   user.wardId = payload.wardId;
   user.districtId = payload.districtId;
   user.address = payload.address;
-  user.searchText = strings.content.convertToLowerUsLang(
-    [user.name, user.username].join(" ")
-  );
+  user.searchText = strings.content.convertToLowerUsLang([user.name, user.username].join(" "));
 
   return await dao.user.create.one(user);
 };

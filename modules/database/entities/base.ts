@@ -1,10 +1,5 @@
-import {
-  BeforeInsert,
-  BeforeUpdate,
-  Column,
-  Entity,
-  PrimaryColumn,
-} from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryColumn } from "typeorm";
+import pmongo from "../../../external_node/ultils/pmongo";
 
 @Entity()
 export default class BaseEntity {
@@ -27,6 +22,9 @@ export default class BaseEntity {
 
   @BeforeInsert()
   setTime() {
+    if (!this.id) {
+      this.id = pmongo.newStringId();
+    }
     this.createdAt = new Date();
     this.updatedAt = new Date();
   }

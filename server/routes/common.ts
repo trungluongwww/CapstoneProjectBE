@@ -1,8 +1,10 @@
-import { Request, Response, Router } from "express";
+import { Response, Router } from "express";
+import { Request } from "express-jwt";
 import response from "../../external_node/ultils/response";
+import required from "./required";
 
 export default (r: Router) => {
-  r.get("/ping", (req: Request, res: Response) => {
-    return response.r404(res);
+  r.get("/ping", required.login, (req: Request, res: Response) => {
+    return response.r200(res, req.auth);
   });
 };

@@ -1,7 +1,7 @@
-import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import BaseEntity from "./base";
 import RoomFile from "./room-file";
-import { User } from "./index";
+import { District, Province, User, Ward } from "./index";
 
 @Entity({ name: "rooms" })
 export default class Room extends BaseEntity {
@@ -9,6 +9,7 @@ export default class Room extends BaseEntity {
   userId: string;
 
   @ManyToOne(() => User, (user) => user.id)
+  @JoinColumn({ name: "user_id" })
   user: User;
 
   @Column({ name: "name", nullable: false, default: "", type: "text" })
@@ -50,6 +51,18 @@ export default class Room extends BaseEntity {
   @Column({ name: "ward_id", nullable: true, type: "text" })
   wardId: string;
 
+  @ManyToOne(() => Province, (province) => province.id)
+  @JoinColumn({ name: "province_id" })
+  province: Province;
+
+  @ManyToOne(() => District, (district) => district.id)
+  @JoinColumn({ name: "district_id" })
+  district: District;
+
+  @ManyToOne(() => Ward, (ward) => ward.id)
+  @JoinColumn({ name: "ward_id" })
+  ward: Ward;
+
   @Column({ name: "address", nullable: false, default: "", type: "text" })
   address: string;
 
@@ -58,6 +71,9 @@ export default class Room extends BaseEntity {
 
   @Column({ name: "status", nullable: false, default: "", type: "text" })
   status: string;
+
+  @Column({ name: "type", nullable: false, default: "shared", type: "text" })
+  type: string;
 
   @Column({
     name: "recent_active_at",

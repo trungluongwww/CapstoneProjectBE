@@ -13,7 +13,7 @@ const connect = async (cfg: IConfig) => {
     password: cfg.postgres.password,
     database: cfg.postgres.name,
     synchronize: true,
-    logging: false,
+    logging: process.env.DEBUG ? true : false,
     entities: entities,
     migrations: [],
     subscribers: [],

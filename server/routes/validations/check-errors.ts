@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { param, body, validationResult } from "express-validator";
 import response from "../../../external_node/ultils/response";
+import errorcode from "../../../internal/errorcode";
 
 const paramId = (name: string = "id") => {
-  return param(name).isUUID("all").withMessage("invalid id");
+  return param(name).isMongoId().withMessage(response.common.commonInvalidID);
 };
 
 const bodyId = (name: string = "id") => {
