@@ -7,11 +7,11 @@ async function init() {
 
   dotenv.config();
 
-  await server(app)
+  const httpServer = await server(app);
 
   const port = process.env.PORT || 5000;
 
-  app.listen(port, () => {
+  httpServer.listen(port, () => {
     console.log("⚡ server listen on port: ", port);
   });
 }

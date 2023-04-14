@@ -3,6 +3,7 @@ import migration from "./migration";
 import upload from "./upload";
 import room from "./room";
 import location from "./location";
+import conversation from "./conversation";
 
 export default {
   migration,
@@ -10,4 +11,5 @@ export default {
   upload,
   room,
   location,
+  conversation,
 };

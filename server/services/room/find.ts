@@ -14,6 +14,7 @@ import { ICommonKeyValue } from "../../../internal/interfaces/common";
 import { IUploadSingleFileResponse } from "../../../internal/interfaces/upload";
 import services from "../index";
 import strings from "../../../external_node/ultils/strings";
+import times from "../../../external_node/ultils/times";
 
 const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
   let page = 0;
@@ -57,7 +58,7 @@ const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
     } as IRoomAllResponse;
   }
 
-  let pageToken = total < limit ? 0 : pagnigation.createPageToken(page + 1, null);
+  let pageToken = total < limit ? "" : pagnigation.createPageToken(page + 1, null);
 
   return {
     rooms: rooms.map((r) => convertRoomModelToResponse(r)),
@@ -83,8 +84,8 @@ const convertRoomModelToResponse = (room: Room): IRoomResponse => {
     address: room.address,
     type: inconstants.room.getObjectType(room.type),
     status: inconstants.room.getObjectStatus(room.status),
-    createdAt: room.createdAt,
-    updatedAt: room.updatedAt,
+    createdAt: times.newDateTimeUTC7(room.createdAt),
+    updatedAt: times.newDateTimeUTC7(room.updatedAt),
     files: room.files.map((file) => convertRoomFileModelToResponse(file)),
     owner: services.user.find.convertModelToResponse(room.user),
   } as IRoomResponse;
@@ -97,7 +98,7 @@ const convertRoomFileModelToResponse = (file: RoomFile): IRoomFileResponse => {
   return {
     id: file.id,
     info: file.info,
-    createdAt: file.createdAt,
+    createdAt: times.newDateTimeUTC7(file.createdAt),
   } as IRoomFileResponse;
 };
 

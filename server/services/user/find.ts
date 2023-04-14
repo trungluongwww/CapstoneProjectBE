@@ -7,6 +7,7 @@ import { IUserLoginPayload, IUserLoginResponse, IUserResponse } from "../../../i
 import { User } from "../../../modules/database/entities";
 import { IDistrictResponse, IProvinceResponse, IWardResponse } from "../../../internal/interfaces/location";
 import services from "../index";
+import times from "../../../external_node/ultils/times";
 
 const login = async (payload: IUserLoginPayload): Promise<[IUserLoginResponse | null, Error | null]> => {
   let [user, err] = await dao.user.find.rawByUsername(payload.username);
@@ -56,8 +57,8 @@ const convertModelToResponse = (user: User): IUserResponse => {
     facebook: user.facebook,
     name: user.name,
     avatar: user.avatar,
-    createdAt: user.createdAt,
-    updatedAt: user.updatedAt,
+    createdAt: times.newDateTimeUTC7(user.createdAt),
+    updatedAt: times.newDateTimeUTC7(user.updatedAt),
     address: user.address,
     root: user.root,
     province: services.location.find.convertProvinceModelToResponse(user.province),
@@ -76,9 +77,14 @@ const profile = async (id: string): Promise<[IUserResponse | null, Error | null]
   return [convertModelToResponse(user), null];
 };
 
+const checkUserIdExist = async (id: string): Promise<boolean> => {
+  return (await dao.user.find.countById(id)) > 0;
+};
+
 export default {
   login,
   rawById,
   convertModelToResponse,
   profile,
+  checkUserIdExist,
 };

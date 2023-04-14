@@ -4,9 +4,11 @@ import config from "../external_node/config";
 import errorCode from "../internal/error-code";
 import s3 from "../external_node/s3";
 import upload from "../external_node/upload";
+import socket from "./socket";
+import { Server } from "http";
 
 export default {
-  initialize: async (e: Express) => {
+  initialize: async (e: Express): Promise<Server> => {
     const env = process.env;
 
     config.init(env);
@@ -20,5 +22,7 @@ export default {
     upload.initFolderUpload();
 
     errorCode.init();
+
+    return await socket.socketIO(e)
   },
 };

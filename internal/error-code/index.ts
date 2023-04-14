@@ -4,6 +4,7 @@ import address from "./address";
 import upload from "./upload";
 import room from "./room";
 import comment from "./comment";
+import conversation from "./conversation";
 
 const init = () => {
   response.init();
@@ -17,6 +18,8 @@ const init = () => {
   response.addListCode(room.list);
 
   response.addListCode(comment.list);
+
+  response.addListCode(conversation.list);
 };
 
 export default {
@@ -26,4 +29,5 @@ export default {
   upload,
   room,
   comment,
+  conversation,
 };

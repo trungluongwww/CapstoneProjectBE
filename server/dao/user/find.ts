@@ -80,9 +80,21 @@ const rawByUsername = async (username: string): Promise<[User | null, Error | nu
   }
 };
 
+const countById = async (id: string): Promise<number> => {
+  const db = database.getDataSource();
+
+  try {
+    return await db.createQueryBuilder(User, "u").select(["u"]).where("u.id = :id", { id }).getCount();
+  } catch (e: unknown) {
+    console.log(`[Error] dao.user.find.rawById ${(e as Error).message}`);
+    return 0;
+  }
+};
+
 export default {
   rawById,
   relsById,
   countByIdentity,
   rawByUsername,
+  countById,
 };
