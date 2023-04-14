@@ -1,8 +1,6 @@
 import BaseEntity from "./base";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { District, Province, Ward } from "./index";
-import ConversationUser from "./conversation-user";
-import Message from "./message";
 
 @Entity({ name: "users" })
 export default class User extends BaseEntity {

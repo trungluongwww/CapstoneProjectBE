@@ -3,4 +3,11 @@ interface ICommonKeyValue {
   value: String;
 }
 
-export { ICommonKeyValue };
+interface IJwtUser {
+  id: string;
+  name: string;
+  type: string;
+  phone: string;
+}
+
+export { ICommonKeyValue, IJwtUser };

@@ -9,7 +9,7 @@ export default (g: Router) => {
 
   // get
   r.get("/profile", ...validations.user.profile, controllers.user.profile);
-  r.get("/me", ...validations.user.profile, controllers.user.profile);
+  r.get("/me", required.login, ...validations.user.profile, controllers.user.profile);
 
   // post
   r.post("/", ...validations.user.create, controllers.user.create);

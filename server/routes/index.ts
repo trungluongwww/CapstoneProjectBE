@@ -12,6 +12,7 @@ import migration from "./migration";
 import upload from "./upload";
 import room from "./room";
 import location from "./location";
+import conversation from "./conversation";
 
 export default (app: Express) => {
   app.use(helmet());
@@ -43,6 +44,7 @@ export default (app: Express) => {
   migration(router);
   upload(router);
   room(router);
+  conversation(router);
 
   app.use("*", (req: Request, res: Response) => {
     return response.r404(res, "The route not found");

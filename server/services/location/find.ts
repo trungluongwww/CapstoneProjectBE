@@ -8,6 +8,7 @@ import {
   IProvinceResponse,
   IWardResponse,
 } from "../../../internal/interfaces/location";
+import times from "../../../external_node/ultils/times";
 
 const isValidLocation = async (provinceId: string, districtId: string, wardId: string): Promise<boolean> => {
   const promiseP = dao.location.find.countProvinceById(provinceId);
@@ -27,8 +28,8 @@ const convertProvinceModelToResponse = (province: Province): IProvinceResponse =
     id: province.id,
     name: province.name,
     code: province.code,
-    createdAt: province.createdAt,
-    updatedAt: province.updatedAt,
+    createdAt: times.newDateTimeUTC7(province.createdAt),
+    updatedAt: times.newDateTimeUTC7(province.updatedAt),
   } as IProvinceResponse;
 };
 
@@ -41,8 +42,8 @@ const convertDistrictModelToResponse = (dist: District): IDistrictResponse => {
     name: dist.name,
     code: dist.code,
     provinceId: dist.provinceId,
-    createdAt: dist.createdAt,
-    updatedAt: dist.updatedAt,
+    createdAt: times.newDateTimeUTC7(dist.createdAt),
+    updatedAt: times.newDateTimeUTC7(dist.updatedAt),
   } as IDistrictResponse;
 };
 
@@ -55,8 +56,8 @@ const convertWardModelToResponse = (ward: Ward): IWardResponse => {
     name: ward.name,
     code: ward.code,
     districtId: ward.districtId,
-    createdAt: ward.createdAt,
-    updatedAt: ward.updatedAt,
+    createdAt: times.newDateTimeUTC7(ward.createdAt),
+    updatedAt: times.newDateTimeUTC7(ward.updatedAt),
   } as IWardResponse;
 };
 
