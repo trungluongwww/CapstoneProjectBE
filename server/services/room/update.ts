@@ -5,7 +5,7 @@ import {
   IRoomUpdatePayload,
 } from "../../../internal/interfaces/room";
 import dao from "../../dao";
-import errorcode from "../../../internal/errorcode";
+import errorCode from "../../../internal/error-code";
 import response from "../../../external_node/ultils/response";
 import services from "../index";
 import strings from "../../../external_node/ultils/strings";
@@ -23,7 +23,7 @@ import pmongo from "../../../external_node/ultils/pmongo";
 const fromClient = async (id: string, payload: IRoomUpdatePayload): Promise<Error | null> => {
   let [room, err] = await dao.room.find.rawById(id);
   if (!room || err) {
-    return Error(errorcode.room.ROOM_NOT_FOUND);
+    return Error(errorCode.room.ROOM_NOT_FOUND);
   }
 
   if (room.userId != payload.userId) {
@@ -31,7 +31,7 @@ const fromClient = async (id: string, payload: IRoomUpdatePayload): Promise<Erro
   }
 
   if (!(await services.location.find.isValidLocation(payload.provinceId, payload.districtId, payload.wardId))) {
-    return Error(errorcode.address.ADDRESS_COMMON_INVALID);
+    return Error(errorCode.address.ADDRESS_COMMON_INVALID);
   }
 
   // assign new value
@@ -53,7 +53,7 @@ const fromClient = async (id: string, payload: IRoomUpdatePayload): Promise<Erro
 const changeStatus = async (id: string, payload: IRoomChangeStatusPayload): Promise<Error | null> => {
   let [room, err] = await dao.room.find.rawById(id);
   if (!room || err) {
-    return Error(errorcode.room.ROOM_NOT_FOUND);
+    return Error(errorCode.room.ROOM_NOT_FOUND);
   }
 
   if (room.userId != payload.userId) {
@@ -61,7 +61,7 @@ const changeStatus = async (id: string, payload: IRoomChangeStatusPayload): Prom
   }
 
   if (!inconstants.room.status.all.includes(status)) {
-    return Error(errorcode.room.ROOM_INVALID_STATUS);
+    return Error(errorCode.room.ROOM_INVALID_STATUS);
   }
 
   room.status = payload.status;
@@ -80,7 +80,7 @@ const changeStatus = async (id: string, payload: IRoomChangeStatusPayload): Prom
 const removeFile = async (id: string, payload: IRoomDeleteFilePayload): Promise<Error | null> => {
   let [room, err] = await dao.room.find.rawById(id);
   if (!room || err) {
-    return Error(errorcode.room.ROOM_NOT_FOUND);
+    return Error(errorCode.room.ROOM_NOT_FOUND);
   }
 
   if (room.userId != payload.userId) {

@@ -1,14 +1,11 @@
 import dao from "../../dao";
-import errorcode from "../../../internal/errorcode";
+import errorCode from "../../../internal/error-code";
 import { IUserUpdatePayload } from "../../../internal/interfaces/user";
 
-const fromClient = async (
-  id: string,
-  payload: IUserUpdatePayload
-): Promise<Error | null> => {
+const fromClient = async (id: string, payload: IUserUpdatePayload): Promise<Error | null> => {
   const [user, err] = await dao.user.find.rawById(id);
   if (!user || err) {
-    return Error(errorcode.user.USER_NOT_FOUND);
+    return Error(errorCode.user.USER_NOT_FOUND);
   }
 
   user.name = payload.name;

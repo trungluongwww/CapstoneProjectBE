@@ -1,7 +1,7 @@
 import database from "./database";
-import {Express} from "express";
+import { Express } from "express";
 import config from "../external_node/config";
-import errorcode from "../internal/errorcode";
+import errorCode from "../internal/error-code";
 import s3 from "../external_node/s3";
 import upload from "../external_node/upload";
 
@@ -19,6 +19,6 @@ export default {
 
     upload.initFolderUpload();
 
-    errorcode.init();
+    errorCode.init();
   },
 };

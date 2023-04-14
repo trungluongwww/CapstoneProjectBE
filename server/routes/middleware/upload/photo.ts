@@ -2,7 +2,7 @@ import multer from "multer";
 import path from "path";
 import random from "../../../../external_node/ultils/strings/random";
 import constants from "../../../../external_node/constants";
-import errorcode from "../../../../internal/errorcode";
+import errorCode from "../../../../internal/error-code";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -23,13 +23,13 @@ export default multer({
 
     // validate size
     if (file.size > constants.upload.sizeFile.photo) {
-      return [null, Error(errorcode.upload.UPLOAD_INVALID_SIZE)];
+      return [null, Error(errorCode.upload.UPLOAD_INVALID_SIZE)];
     }
 
     const ext = path.extname(file.originalname).replace(".", "").toLowerCase();
     if (!constants.upload.extension.photo.includes(ext)) {
       cb(null, false);
-      return cb(new Error(errorcode.upload.UPLOAD_INVALID_EXTENSION));
+      return cb(new Error(errorCode.upload.UPLOAD_INVALID_EXTENSION));
     }
     cb(null, true);
   },

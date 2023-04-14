@@ -1,7 +1,5 @@
 import { body, query } from "express-validator";
-import errorcode from "../../../../internal/errorcode";
 import { checkErrors, paramId } from "../check-errors";
-import inconstants from "../../../../internal/inconstants";
 import response from "../../../../external_node/ultils/response";
 
 const allDistricts = () => {

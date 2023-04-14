@@ -1,5 +1,5 @@
 import dao from "../../dao";
-import errorcode from "../../../internal/errorcode";
+import errorCode from "../../../internal/error-code";
 import ptoken from "../../../external_node/ultils/ptoken";
 import jwt from "jsonwebtoken";
 import config from "../../../external_node/config";
@@ -11,11 +11,11 @@ import services from "../index";
 const login = async (payload: IUserLoginPayload): Promise<[IUserLoginResponse | null, Error | null]> => {
   let [user, err] = await dao.user.find.rawByUsername(payload.username);
   if (!user || err) {
-    return [null, Error(errorcode.user.USER_LOGIN_FAILED)];
+    return [null, Error(errorCode.user.USER_LOGIN_FAILED)];
   }
 
   if (!(await ptoken.comparePassword(payload.password, user.password))) {
-    return [null, Error(errorcode.user.USER_LOGIN_FAILED)];
+    return [null, Error(errorCode.user.USER_LOGIN_FAILED)];
   }
 
   let data = {
@@ -70,7 +70,7 @@ const profile = async (id: string): Promise<[IUserResponse | null, Error | null]
   let [user, err] = await dao.user.find.relsById(id);
 
   if (!user || err) {
-    return [null, Error(errorcode.user.USER_NOT_FOUND)];
+    return [null, Error(errorCode.user.USER_NOT_FOUND)];
   }
 
   return [convertModelToResponse(user), null];
