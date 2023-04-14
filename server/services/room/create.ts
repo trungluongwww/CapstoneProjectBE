@@ -3,7 +3,7 @@ import { Comment, Room, RoomFile } from "../../../modules/database/entities";
 import strings from "../../../external_node/ultils/strings";
 import inConstants from "../../../internal/inconstants";
 import location from "../location";
-import errorcode from "../../../internal/errorcode";
+import errorCode from "../../../internal/error-code";
 import pmongo from "../../../external_node/ultils/pmongo";
 import { IUploadSingleFileResponse } from "../../../internal/interfaces/upload";
 import constants from "../../../external_node/constants";
@@ -15,12 +15,12 @@ import response from "../../../external_node/ultils/response";
 const fromClient = async (payload: IRoomCreatePayload): Promise<Error | null> => {
   let user = await services.user.find.rawById(payload.userId);
   if (!user) {
-    return Error(errorcode.user.USER_NOT_FOUND);
+    return Error(errorCode.user.USER_NOT_FOUND);
   }
 
   // validate address
   if (!(await location.find.isValidLocation(payload.provinceId, payload.districtId, payload.wardId))) {
-    return Error(errorcode.address.ADDRESS_COMMON_INVALID);
+    return Error(errorCode.address.ADDRESS_COMMON_INVALID);
   }
 
   let room = new Room();
@@ -42,7 +42,7 @@ const fromClient = async (payload: IRoomCreatePayload): Promise<Error | null> =>
   let roomFiles: Array<RoomFile> = [];
   for (let file of payload.files) {
     if (!file.name || file.type != constants.upload.type.photo) {
-      return Error(errorcode.upload.UPLOAD_INVALID_FILE);
+      return Error(errorCode.upload.UPLOAD_INVALID_FILE);
     }
     let roomFile = new RoomFile();
     roomFile.id = pmongo.newStringId();
@@ -64,7 +64,7 @@ const fromClient = async (payload: IRoomCreatePayload): Promise<Error | null> =>
 const addFile = async (id: string, payload: IRoomAddFilePayload): Promise<Error | null> => {
   let [room, err] = await dao.room.find.rawById(id);
   if (!room) {
-    return Error(errorcode.room.ROOM_NOT_FOUND);
+    return Error(errorCode.room.ROOM_NOT_FOUND);
   }
 
   if (room.userId != payload.userId) {
@@ -72,7 +72,7 @@ const addFile = async (id: string, payload: IRoomAddFilePayload): Promise<Error 
   }
 
   if (!payload.file.name) {
-    return Error(errorcode.upload.UPLOAD_INVALID_FILE);
+    return Error(errorCode.upload.UPLOAD_INVALID_FILE);
   }
 
   let doc = new RoomFile();
@@ -97,7 +97,7 @@ const addFile = async (id: string, payload: IRoomAddFilePayload): Promise<Error 
 const addComment = async (id: string, payload: IRoomAddCommentPayload): Promise<Error | null> => {
   let [room] = await dao.room.find.rawById(id);
   if (!room) {
-    return Error(errorcode.room.ROOM_NOT_FOUND);
+    return Error(errorCode.room.ROOM_NOT_FOUND);
   }
 
   let user = await services.user.find.rawById(payload.userId);

@@ -1,18 +1,16 @@
-import express from "express";
 import upload from "../../../external_node/upload";
 import path from "path";
 import constants from "../../../external_node/constants";
 import { IUploadSingleFileResponse } from "../../../internal/interfaces/upload";
 import s3 from "../../../external_node/s3";
-import errorcode from "../../../internal/errorcode";
-import * as util from "util";
+import errorCode from "../../../internal/error-code";
 import pfile from "../../../external_node/ultils/pfile";
 
 export default async (
   file: Express.Multer.File | null | undefined
 ): Promise<[IUploadSingleFileResponse | null, Error | null]> => {
   if (!file) {
-    return [null, Error(errorcode.upload.UPLOAD_INVALID_FILE)];
+    return [null, Error(errorCode.upload.UPLOAD_INVALID_FILE)];
   }
 
   // file info

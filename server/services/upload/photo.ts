@@ -3,7 +3,7 @@ import {
   IUploadOthersResponse,
   IUploadMultipleFileResponse,
 } from "../../../internal/interfaces/upload";
-import errorcode from "../../../internal/errorcode";
+import errorCode from "../../../internal/error-code";
 import path from "path";
 import constants from "../../../external_node/constants";
 import upload from "../../../external_node/upload";
@@ -14,7 +14,7 @@ const single = async (
   file: Express.Multer.File | null | undefined
 ): Promise<[IUploadSingleFileResponse | null, Error | null]> => {
   if (!file) {
-    return [null, Error(errorcode.upload.UPLOAD_INVALID_FILE)];
+    return [null, Error(errorCode.upload.UPLOAD_INVALID_FILE)];
   }
 
   // file info
@@ -66,7 +66,7 @@ const multiple = async (
   files: Array<Express.Multer.File> | undefined | null
 ): Promise<[IUploadMultipleFileResponse | null, Error | null]> => {
   if (!files) {
-    return [null, Error(errorcode.upload.UPLOAD_INVALID_FILE)];
+    return [null, Error(errorCode.upload.UPLOAD_INVALID_FILE)];
   }
 
   const result = {
@@ -91,7 +91,7 @@ const singlePrivate = async (
   file: Express.Multer.File | null | undefined
 ): Promise<[IUploadSingleFileResponse | null, Error | null]> => {
   if (!file) {
-    return [null, Error(errorcode.upload.UPLOAD_INVALID_FILE)];
+    return [null, Error(errorCode.upload.UPLOAD_INVALID_FILE)];
   }
 
   // file info
@@ -150,7 +150,7 @@ const multiplePrivate = async (
   files: Array<Express.Multer.File> | undefined | null
 ): Promise<[IUploadMultipleFileResponse | null, Error | null]> => {
   if (!files) {
-    return [null, Error(errorcode.upload.UPLOAD_INVALID_FILE)];
+    return [null, Error(errorCode.upload.UPLOAD_INVALID_FILE)];
   }
 
   const result = {

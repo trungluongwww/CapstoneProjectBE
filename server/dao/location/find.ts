@@ -1,6 +1,5 @@
 import database from "../../../modules/database";
 import { District, Province, Ward } from "../../../modules/database/entities";
-import errorcode from "../../../internal/errorcode";
 
 const countWardById = async (id: string, districtId: string = ""): Promise<number> => {
   const db = database.getDataSource();

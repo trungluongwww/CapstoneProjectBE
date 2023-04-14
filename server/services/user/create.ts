@@ -3,7 +3,7 @@ import pmongo from "../../../external_node/ultils/pmongo";
 import ptoken from "../../../external_node/ultils/ptoken";
 import dao from "../../dao";
 import { IUserAddFavouriteRoom, IUserCreatePayload } from "../../../internal/interfaces/user";
-import errorcode from "../../../internal/errorcode";
+import errorCode from "../../../internal/error-code";
 import strings from "../../../external_node/ultils/strings";
 import location from "../location";
 import services from "../index";
@@ -11,13 +11,13 @@ import services from "../index";
 const fromClient = async (payload: IUserCreatePayload): Promise<Error | null> => {
   // validate identity info
   if ((await dao.user.find.countByIdentity(payload.username, payload.phone)) > 0) {
-    return Error(errorcode.user.USER_ALREADY_EXITS);
+    return Error(errorCode.user.USER_ALREADY_EXITS);
   }
 
   // validate location info
 
   if (!(await location.find.isValidLocation(payload.provinceId, payload.districtId, payload.wardId))) {
-    return Error(errorcode.address.ADDRESS_COMMON_INVALID);
+    return Error(errorCode.address.ADDRESS_COMMON_INVALID);
   }
 
   // create model
@@ -41,12 +41,12 @@ const fromClient = async (payload: IUserCreatePayload): Promise<Error | null> =>
 const addFavouriteRoom = async (id: string, payload: IUserAddFavouriteRoom): Promise<Error | null> => {
   let user = await services.user.find.rawById(id);
   if (!user) {
-    return Error(errorcode.user.USER_NOT_FOUND);
+    return Error(errorCode.user.USER_NOT_FOUND);
   }
 
   let room = await services.room.find.rawById(id);
   if (!room) {
-    return Error(errorcode.room.ROOM_NOT_FOUND);
+    return Error(errorCode.room.ROOM_NOT_FOUND);
   }
 
   let [ufr] = await dao.userFavouriteRoom.find.byUserAndRoom(id, payload.roomId);
