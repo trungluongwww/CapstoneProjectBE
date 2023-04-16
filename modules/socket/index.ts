@@ -6,6 +6,7 @@ import response from "../../external_node/ultils/response";
 import jwt from "jsonwebtoken";
 import config from "../../external_node/config";
 import { IJwtUser } from "../../internal/interfaces/common";
+import connection from "./event/connection";
 
 let io: Server;
 
@@ -44,9 +45,16 @@ const socketIO = async (e: Express): Promise<HTTPServer> => {
     }
   });
 
+  connection(io);
+
   return httpServer;
+};
+
+const getInstance = (): Server => {
+  return io;
 };
 
 export default {
   socketIO,
+  getInstance,
 };

@@ -7,6 +7,7 @@ import pmongo from "../../../external_node/ultils/pmongo";
 import { IUploadSingleFileResponse } from "../../../internal/interfaces/upload";
 import inconstants from "../../../internal/inconstants";
 import dao from "../../dao";
+import restrict from "./restrict";
 
 const createFromClient = async (
   conversationId: string,
@@ -64,7 +65,7 @@ const createFromClient = async (
 
   let err = await dao.message.create.one(msg);
   if (!err) {
-    // TODO: socket and update unread here
+    restrict.afterInsert(msg, conv).then();
   }
 
   return err;
