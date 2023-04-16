@@ -4,6 +4,7 @@ import Province from "./province";
 import { JoinColumn } from "typeorm";
 import { Conversation, User } from "./index";
 import { IUploadSingleFileResponse } from "../../../internal/interfaces/upload";
+import Room from "./room";
 
 @Entity({ name: "messages" })
 export default class Message extends BaseEntity {
@@ -25,8 +26,14 @@ export default class Message extends BaseEntity {
   @Column({ name: "file", type: "jsonb", nullable: true })
   file: IUploadSingleFileResponse;
 
-  @Column({ name: "room_id", nullable: false, type: "text" })
+  @Column({ name: "room_id", nullable: true, type: "text" })
   roomId: string;
+
+  @ManyToOne(() => Room, (room) => room.id, {
+    nullable: false,
+  })
+  @JoinColumn({ name: "room_id" })
+  room: Room;
 
   @ManyToOne(() => Conversation, (conversation) => conversation.id, {
     nullable: false,

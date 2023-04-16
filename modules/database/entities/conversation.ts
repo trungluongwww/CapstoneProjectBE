@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, VirtualColumn } from "typeorm";
 import BaseEntity from "./base";
 import { User } from "./index";
+import Message from "./message";
 
 @Entity({ name: "conversations" })
 export default class Conversation extends BaseEntity {
@@ -23,4 +24,13 @@ export default class Conversation extends BaseEntity {
 
   @Column({ name: "unread", nullable: false, default: 0, type: "integer" })
   unread: number;
+
+  @VirtualColumn({
+    query: (alias) => `select json_build_object('id', m.id, 'content', m.content, 'type', m.type, 'createdAt',
+                                                m.created_at, 'updatedAt', m.updated_at, 'authorId', m.author_id)
+                       from messages m
+                       where m.conversation_id = ${alias}.id
+                       order by m.created_at desc limit 1`,
+  })
+  lastMessage: Message;
 }

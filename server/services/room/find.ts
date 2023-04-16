@@ -8,6 +8,7 @@ import {
   IRoomDeleteFilePayload,
   IRoomFileResponse,
   IRoomResponse,
+  IRoomShortResponse,
 } from "../../../internal/interfaces/room";
 import { IDistrictResponse, IProvinceResponse, IWardResponse } from "../../../internal/interfaces/location";
 import { ICommonKeyValue } from "../../../internal/interfaces/common";
@@ -58,12 +59,10 @@ const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
     } as IRoomAllResponse;
   }
 
-  let pageToken = total < limit ? "" : pagnigation.createPageToken(page + 1, null);
-
   return {
     rooms: rooms.map((r) => convertRoomModelToResponse(r)),
     total: total,
-    pageToken: pageToken,
+    pageToken: rooms.length == limit ? pagnigation.createPageToken(page + 1, null) : "",
   } as IRoomAllResponse;
 };
 
@@ -91,6 +90,31 @@ const convertRoomModelToResponse = (room: Room): IRoomResponse => {
   } as IRoomResponse;
 };
 
+const convertModelToShortResponse = (room: Room): IRoomShortResponse => {
+  if (!room) {
+    return {} as IRoomShortResponse;
+  }
+
+  let rs = {
+    id: room.id,
+    name: room.name,
+    description: room.description,
+    rentPerMonth: room.rentPerMonth,
+    deposit: room.deposit,
+    avatar: "",
+    type: inconstants.room.getObjectType(room.type),
+    status: inconstants.room.getObjectStatus(room.status),
+    createdAt: times.newDateTimeUTC7(room.createdAt),
+    updatedAt: times.newDateTimeUTC7(room.updatedAt),
+  } as IRoomShortResponse;
+
+  if (room.avatar) {
+    rs.avatar = room.avatar.info.url;
+  }
+
+  return rs;
+};
+
 const convertRoomFileModelToResponse = (file: RoomFile): IRoomFileResponse => {
   if (!file) {
     return {} as IRoomFileResponse;
@@ -112,8 +136,14 @@ const rawById = async (id: string): Promise<Room | null> => {
   return room;
 };
 
+const checkExistById = async (id: string): Promise<boolean> => {
+  return (await dao.room.find.countById(id)) > 0;
+};
+
 export default {
   all,
   convertRoomFileModelToResponse,
+  convertModelToShortResponse,
   rawById,
+  checkExistById,
 };

@@ -4,4 +4,9 @@ export default {
     desc: "DESC",
     all: ["ASC", "DESC"],
   },
+  pagination: {
+    limit: {
+      default: 20,
+    },
+  },
 };

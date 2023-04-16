@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, ViewColumn, VirtualColumn } from "typeorm";
 import BaseEntity from "./base";
 import RoomFile from "./room-file";
 import { District, Province, User, Ward } from "./index";
@@ -85,4 +85,13 @@ export default class Room extends BaseEntity {
 
   @OneToMany(() => RoomFile, (roomFile) => roomFile.room)
   files: RoomFile[];
+
+  /*** VIRTUAL COLUMNS ***/
+  @VirtualColumn({
+    query: (alias) => `SELECT json_build_object('id', "rf"."id", 'info', "rf"."info")
+                       FROM "room_files" "rf"
+                       WHERE "rf"."room_id" = ${alias}.id
+                       ORDER BY "rf"."created_at" DESC LIMIT 1`,
+  })
+  avatar: RoomFile;
 }

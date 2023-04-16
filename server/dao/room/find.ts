@@ -89,7 +89,19 @@ const rawById = async (id: string): Promise<[Room | null, Error | null]> => {
   }
 };
 
+const countById = async (id: string): Promise<number> => {
+  const db = database.getDataSource();
+
+  try {
+    return await db.createQueryBuilder(Room, "r").where("r.id = :id", { id }).getCount();
+  } catch (e: unknown) {
+    console.log(`[Error] dao.room.find.countById ${(e as Error).message}`);
+    return 0;
+  }
+};
+
 export default {
   all,
   rawById,
+  countById,
 };
