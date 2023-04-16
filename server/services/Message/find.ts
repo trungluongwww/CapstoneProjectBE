@@ -61,6 +61,15 @@ const allByConversationID = async (
   return [result, null];
 };
 
+const detailById = async (id: string): Promise<IMessageResponse | null> => {
+  let [msg] = await dao.message.find.byId(id);
+  if (!msg) {
+    return null;
+  }
+
+  return await convertModelToResponse(msg);
+};
+
 const convertModelToResponse = async (msg: Message): Promise<IMessageResponse> => {
   let rs = {
     id: msg.id,
@@ -83,7 +92,7 @@ const convertModelToResponse = async (msg: Message): Promise<IMessageResponse> =
 
 const convertModelToShortResponse = (msg: Message): IMessageShortResponse => {
   if (!msg) {
-    return {} as IMessageShortResponse
+    return {} as IMessageShortResponse;
   }
 
   let rs = {
@@ -105,4 +114,5 @@ const convertModelToShortResponse = (msg: Message): IMessageShortResponse => {
 export default {
   allByConversationID,
   convertModelToShortResponse,
+  detailById,
 };
