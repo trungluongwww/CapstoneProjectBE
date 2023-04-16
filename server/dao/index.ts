@@ -5,10 +5,12 @@ import roomFile from "./room-file";
 import comment from "./comment";
 import userFavouriteRoom from "./user-favourite-room";
 import conversation from "./conversation";
+import message from "./message";
 
 export default {
   location,
   user,
+  message,
   comment,
   userFavouriteRoom,
   room,

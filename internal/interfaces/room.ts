@@ -102,6 +102,19 @@ interface IRoomAddCommentPayload {
   content: string;
 }
 
+interface IRoomShortResponse {
+  id: string;
+  name: string;
+  description: string;
+  rentPerMonth: number;
+  deposit: number;
+  avatar: string;
+  type: ICommonKeyValue;
+  status: ICommonKeyValue;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export {
   IRoomCreatePayload,
   IRoomAllQuery,
@@ -113,4 +126,5 @@ export {
   IRoomFileResponse,
   IRoomAddFilePayload,
   IRoomAddCommentPayload,
+  IRoomShortResponse,
 };
