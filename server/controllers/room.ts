@@ -31,6 +31,12 @@ const all = async (req: Request, res: Response) => {
   return response.r200(res, rs);
 };
 
+const allRecommend = async (req: Request, res: Response) => {
+  const rs = await services.room.find.allRecommend(req.auth?.id);
+
+  return response.r200(res, rs);
+};
+
 const update = async (req: Request, res: Response) => {
   const payload = req.body as IRoomUpdatePayload;
   payload.userId = req.auth?.id;
@@ -103,4 +109,5 @@ export default {
   removeFile,
   addFile,
   addComment,
+  allRecommend,
 };

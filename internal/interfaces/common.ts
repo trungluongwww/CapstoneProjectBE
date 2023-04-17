@@ -10,4 +10,9 @@ interface IJwtUser {
   phone: string;
 }
 
-export { ICommonKeyValue, IJwtUser };
+interface ISortObject {
+  column: string;
+  value: "ASC" | "DESC";
+}
+
+export { ICommonKeyValue, IJwtUser, ISortObject };

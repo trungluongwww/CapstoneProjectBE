@@ -1,6 +1,7 @@
 import database from "../../../modules/database";
 import { Room, User } from "../../../modules/database/entities";
 import inconstants from "../../../internal/inconstants";
+import { ISortObject } from "../../../internal/interfaces/common";
 
 const all = async (
   provinceId: string,
@@ -9,8 +10,7 @@ const all = async (
   keyword: string,
   limit: number,
   offset: number,
-  orderField: string,
-  orderValue: "ASC" | "DESC"
+  orders: Array<ISortObject>
 ): Promise<[Room[], number, Error | null]> => {
   const db = database.getDataSource();
 
@@ -44,13 +44,14 @@ const all = async (
         "u.name",
         "u.avatar",
       ]);
+    q.where("r.status = :status", { status: inconstants.room.status.active });
 
     if (wardId) {
-      q.where("r.wardId = :wardId", { wardId });
+      q.andWhere("r.wardId = :wardId", { wardId });
     } else if (districtId) {
-      q.where("r.districtId = :districtId", { districtId });
+      q.andWhere("r.districtId = :districtId", { districtId });
     } else if (provinceId) {
-      q.where("r.provinceId = :provinceId", { provinceId });
+      q.andWhere("r.provinceId = :provinceId", { provinceId });
     }
 
     if (keyword) {
@@ -60,12 +61,14 @@ const all = async (
     q.limit(limit);
     q.skip(offset);
 
-    if (orderField == inconstants.room.sortField.price) {
-      q.addOrderBy("r.rentPerMonth", orderValue);
-    }
+    for (let order of orders) {
+      if (order.column == inconstants.room.sortField.price) {
+        q.addOrderBy("r.rentPerMonth", order.value);
+      }
 
-    if (orderField == inconstants.room.sortField.createdAt) {
-      q.addOrderBy("r.createdAt", orderValue);
+      if (order.column == inconstants.room.sortField.createdAt) {
+        q.addOrderBy("r.createdAt", order.value);
+      }
     }
 
     let docs = await q.getMany();

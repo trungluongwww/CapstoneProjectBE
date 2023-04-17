@@ -10,6 +10,7 @@ export default (g: Router) => {
 
   // get
   r.get("/", required.login, ...validations.room.all, controllers.room.all);
+  r.get("/recommends", required.login, controllers.room.allRecommend);
 
   // post
   r.post("/", required.login, ...validations.room.create, controllers.room.create);
