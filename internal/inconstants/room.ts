@@ -13,9 +13,10 @@ export default {
     all: ["createdAt", "price"],
   },
   type: {
-    full: "full",
-    shared: "shared",
-    all: ["full", "shared"],
+    apartment: "apartment",
+    house: "house",
+    room: "room",
+    all: ["apartment", "house", "room"],
   },
   getObjectStatus: (status: string): ICommonKeyValue => {
     let value: string;
@@ -42,11 +43,14 @@ export default {
   getObjectType: (type: string): ICommonKeyValue => {
     let value: string;
     switch (type) {
-      case "full":
-        value = "Nguyên căn hộ";
+      case "apartment":
+        value = "căn hộ";
         break;
-      case "shared":
-        value = "Phòng trọ";
+      case "house":
+        value = "nhà ở";
+        break;
+      case "room":
+        value = "phòng trọ";
         break;
       default:
         value = "";

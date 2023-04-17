@@ -11,7 +11,7 @@ import {
   IRoomShortResponse,
 } from "../../../internal/interfaces/room";
 import { IDistrictResponse, IProvinceResponse, IWardResponse } from "../../../internal/interfaces/location";
-import { ICommonKeyValue } from "../../../internal/interfaces/common";
+import { ICommonKeyValue, ISortObject } from "../../../internal/interfaces/common";
 import { IUploadSingleFileResponse } from "../../../internal/interfaces/upload";
 import services from "../index";
 import strings from "../../../external_node/ultils/strings";
@@ -27,15 +27,14 @@ const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
 
   let [limit, offset] = pagnigation.getLimitOffset(query.limit, page);
 
-  let orderField: string;
-  let orderValue: "ASC" | "DESC";
+  let order = {} as ISortObject;
 
   if (!query.orderValue || !query.orderField) {
-    orderField = inconstants.room.sortField.createdAt;
-    orderValue = "DESC";
+    order.column = inconstants.room.sortField.createdAt;
+    order.value = "DESC";
   } else {
-    orderField = query.orderField;
-    orderValue = query.orderValue;
+    order.column = query.orderField;
+    order.value = query.orderValue;
   }
 
   query.keyword = strings.content.convertToLowerUsLang(query.keyword);
@@ -47,8 +46,7 @@ const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
     query.keyword,
     limit,
     offset,
-    orderField,
-    orderValue
+    [order]
   );
 
   if (err) {
@@ -63,6 +61,52 @@ const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
     rooms: rooms.map((r) => convertRoomModelToResponse(r)),
     total: total,
     pageToken: rooms.length == limit ? pagnigation.createPageToken(page + 1, null) : "",
+  } as IRoomAllResponse;
+};
+
+const allRecommend = async (userId: string): Promise<IRoomAllResponse> => {
+  let user = await services.user.find.rawById(userId);
+  if (!user || (!user.provinceId && !user.districtId && !user.wardId)) {
+    return {
+      rooms: [],
+      pageToken: "",
+      total: 0,
+    } as IRoomAllResponse;
+  }
+  let [limit, offset] = pagnigation.getLimitOffset(20, 0);
+
+  let sorts = [
+    {
+      value: inconstants.room.sortField.createdAt,
+      column: "DESC",
+    },
+    {
+      value: inconstants.room.sortField.createdAt,
+      column: "DESC",
+    },
+  ] as Array<ISortObject>;
+
+  let [rooms, total, err] = await dao.room.find.all(
+    user.provinceId,
+    user.districtId,
+    user.wardId,
+    "",
+    limit,
+    offset,
+    sorts
+  );
+
+  if (err) {
+    return {
+      rooms: [],
+      pageToken: "",
+      total: 0,
+    } as IRoomAllResponse;
+  }
+
+  return {
+    rooms: rooms.map((r) => convertRoomModelToResponse(r)),
+    total: total,
   } as IRoomAllResponse;
 };
 
@@ -127,7 +171,7 @@ const convertRoomFileModelToResponse = (file: RoomFile): IRoomFileResponse => {
 };
 
 const rawById = async (id: string): Promise<Room | null> => {
-  let [room, err] = await dao.room.find.rawById(id);
+  let [room] = await dao.room.find.rawById(id);
 
   if (!room) {
     return null;
@@ -146,4 +190,5 @@ export default {
   convertModelToShortResponse,
   rawById,
   checkExistById,
+  allRecommend,
 };
