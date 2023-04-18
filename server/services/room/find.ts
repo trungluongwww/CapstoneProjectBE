@@ -3,6 +3,7 @@ import pagnigation from "../../../external_node/ultils/pagnigation";
 import dao from "../../dao";
 import inconstants from "../../../internal/inconstants";
 import {
+  IRoomAllByUserQuery,
   IRoomAllQuery,
   IRoomAllResponse,
   IRoomDeleteFilePayload,
@@ -16,6 +17,7 @@ import { IUploadSingleFileResponse } from "../../../internal/interfaces/upload";
 import services from "../index";
 import strings from "../../../external_node/ultils/strings";
 import times from "../../../external_node/ultils/times";
+import errorCode from "../../../internal/error-code";
 
 const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
   let page = 0;
@@ -46,7 +48,8 @@ const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
     query.keyword,
     limit,
     offset,
-    [order]
+    [order],
+    inconstants.room.status.active
   );
 
   if (err) {
@@ -93,7 +96,8 @@ const allRecommend = async (userId: string): Promise<IRoomAllResponse> => {
     "",
     limit,
     offset,
-    sorts
+    sorts,
+    inconstants.room.status.active
   );
 
   if (err) {
@@ -108,6 +112,52 @@ const allRecommend = async (userId: string): Promise<IRoomAllResponse> => {
     rooms: rooms.map((r) => convertRoomModelToResponse(r)),
     total: total,
   } as IRoomAllResponse;
+};
+
+const allByUserId = async (
+  id: string,
+  query: IRoomAllByUserQuery
+): Promise<[IRoomAllResponse | null, Error | null]> => {
+  let user = await services.user.find.rawById(id);
+  if (!user) {
+    return [null, Error(errorCode.user.USER_NOT_FOUND)];
+  }
+
+  let page = 0;
+
+  let enCodePage = pagnigation.getDataFromToken(query.pageToken);
+  if (enCodePage.page) {
+    page = enCodePage.page;
+  }
+
+  let [limit, offset] = pagnigation.getLimitOffset(query.limit, page);
+
+  let sorts = [
+    {
+      value: inconstants.room.sortField.createdAt,
+      column: "DESC",
+    },
+  ] as Array<ISortObject>;
+
+  let [rooms, total, err] = await dao.room.find.all(null, null, null, "", limit, offset, sorts, query.status, user.id);
+  if (err) {
+    return [
+      {
+        rooms: [],
+        pageToken: "",
+        total: 0,
+      } as IRoomAllResponse,
+      null,
+    ];
+  }
+
+  let rs = {
+    rooms: rooms.map((r) => convertRoomModelToResponse(r)),
+    total: total,
+    pageToken: rooms.length == limit ? pagnigation.createPageToken(page + 1, null) : "",
+  } as IRoomAllResponse;
+
+  return [rs, null];
 };
 
 const convertRoomModelToResponse = (room: Room): IRoomResponse => {
@@ -191,4 +241,5 @@ export default {
   rawById,
   checkExistById,
   allRecommend,
+  allByUserId,
 };

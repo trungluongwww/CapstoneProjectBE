@@ -3,6 +3,7 @@ import { Request } from "express-jwt";
 import { IUserCreatePayload, IUserLoginPayload, IUserUpdatePayload } from "../../internal/interfaces/user";
 import services from "../services";
 import response from "../../external_node/ultils/response";
+import { IRoomAllByUserQuery } from "../../internal/interfaces/room";
 
 const create = async (req: Request, res: Response) => {
   const payload = req.body as IUserCreatePayload;
@@ -45,9 +46,32 @@ const profile = async (req: Request, res: Response) => {
   return response.r200(res, rs);
 };
 
+const me = async (req: Request, res: Response) => {
+  const id = req.auth?.id;
+
+  const [rs, err] = await services.user.find.profile(id);
+  if (err) {
+    return response.r400(res, null, err.message);
+  }
+  return response.r200(res, rs);
+};
+
+const allRoom = async (req: Request, res: Response) => {
+  const id = req.auth?.id;
+  const query: IRoomAllByUserQuery = req.query as never;
+
+  const [rs, err] = await services.room.find.allByUserId(id, query);
+  if (err) {
+    return response.r400(res, null, err.message);
+  }
+  return response.r200(res, rs);
+};
+
 export default {
   create,
   update,
   login,
   profile,
+  me,
+  allRoom,
 };
