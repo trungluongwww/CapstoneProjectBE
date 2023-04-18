@@ -115,6 +115,12 @@ interface IRoomShortResponse {
   updatedAt: Date;
 }
 
+interface IRoomAllByUserQuery {
+  pageToken: string;
+  limit: number;
+  status: string;
+}
+
 export {
   IRoomCreatePayload,
   IRoomAllQuery,
@@ -127,4 +133,5 @@ export {
   IRoomAddFilePayload,
   IRoomAddCommentPayload,
   IRoomShortResponse,
+  IRoomAllByUserQuery,
 };

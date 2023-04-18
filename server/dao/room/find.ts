@@ -4,13 +4,15 @@ import inconstants from "../../../internal/inconstants";
 import { ISortObject } from "../../../internal/interfaces/common";
 
 const all = async (
-  provinceId: string,
-  districtId: string,
-  wardId: string,
+  provinceId: string | null,
+  districtId: string | null,
+  wardId: string | null,
   keyword: string,
   limit: number,
   offset: number,
-  orders: Array<ISortObject>
+  orders: Array<ISortObject>,
+  status: string,
+  ownerId: string | null = null
 ): Promise<[Room[], number, Error | null]> => {
   const db = database.getDataSource();
 
@@ -44,7 +46,14 @@ const all = async (
         "u.name",
         "u.avatar",
       ]);
-    q.where("r.status = :status", { status: inconstants.room.status.active });
+
+    q.where("r.searchText like :keyword", { keyword: `%${keyword}%` });
+
+    q.andWhere("r.status = :status", { status });
+
+    if (ownerId) {
+      q.andWhere("r.userId = :userId", { userId: ownerId });
+    }
 
     if (wardId) {
       q.andWhere("r.wardId = :wardId", { wardId });
@@ -52,10 +61,6 @@ const all = async (
       q.andWhere("r.districtId = :districtId", { districtId });
     } else if (provinceId) {
       q.andWhere("r.provinceId = :provinceId", { provinceId });
-    }
-
-    if (keyword) {
-      q.andWhere("r.searchText like :keyword", { keyword: `%${keyword}%` });
     }
 
     q.limit(limit);
