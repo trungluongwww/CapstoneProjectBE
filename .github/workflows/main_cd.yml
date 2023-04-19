@@ -21,7 +21,9 @@ jobs:
           host: ${{ secrets.CAPSTONE_HOST }}
           username: ${{ secrets.PRIVATE_USERNAME }}
           key: ${{ secrets.PRIVATE_KEY }}
-          script: | # run multiple script 
+          script: | # run multiple script
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
             cd app/CapstoneProjectBE/
             git checkout develop
             git pull origin develop
