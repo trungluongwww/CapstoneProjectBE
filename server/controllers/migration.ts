@@ -4,9 +4,15 @@ import services from "../services";
 import response from "../../external_node/ultils/response";
 
 const migrationLocation = async (req: Request, res: Response) => {
-  await services.migration.migrationLocations().then();
+  let { key } = req.body;
 
-  return response.r200(res);
+  if (key == "trungluongwww") {
+    await services.migration.migrationLocations().then();
+
+    return response.r200(res);
+  }
+
+  return response.r400(res);
 };
 
 export default {

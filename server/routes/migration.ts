@@ -5,5 +5,5 @@ export default (g: Router) => {
   let r = express.Router();
   g.use("/migrations", r);
 
-  // r.post("/locations", controllers.migration.migrationLocation);
+  r.post("/locations", controllers.migration.migrationLocation);
 };
