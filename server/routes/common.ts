@@ -5,6 +5,6 @@ import required from "./required";
 
 export default (r: Router) => {
   r.get("/ping", required.login, (req: Request, res: Response) => {
-    return response.r200(res, req.auth);
+    return response.r200(res, { user: req.auth, ping: "pong" });
   });
 };

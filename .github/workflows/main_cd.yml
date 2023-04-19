@@ -15,7 +15,7 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: executing remote ssh commands using password
+      - name: executing remote ssh
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.CAPSTONE_HOST }}
@@ -31,5 +31,4 @@ jobs:
             npm install
             cd external_node/
             npm install
-            cd ..
-            npx ts-node index.ts
+            pm2 start ecosystem.config.js
