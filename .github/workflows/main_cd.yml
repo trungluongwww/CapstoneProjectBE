@@ -33,4 +33,4 @@ jobs:
             npm install
             cd external_node/
             npm install
-            pm2 reload ecosystem.config.js
+            pm2 reload API
