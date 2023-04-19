@@ -28,4 +28,8 @@ jobs:
             git submodule update --init --recursive && \
             git submodule foreach git checkout develop && \
             git submodule foreach git pull origin develop
+            npm install
+            cd external_node/
+            npm install
+            cd ..
             npx ts-node index.ts
