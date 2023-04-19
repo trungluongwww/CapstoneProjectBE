@@ -22,7 +22,7 @@ jobs:
           username: ${{ secrets.PRIVATE_USERNAME }}
           key: ${{ secrets.PRIVATE_KEY }}
           script: | # run multiple script 
-            cd /app/${GITHUB_REPOSITORY#*/}
+            cd app/CapstoneProjectBE/
             git checkout develop
             git pull origin develop
             git submodule update --init --recursive && \
