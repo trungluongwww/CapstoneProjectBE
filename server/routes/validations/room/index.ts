@@ -45,6 +45,10 @@ const all = () => {
       .isIn(inconstants.common.sortValue.all)
       .optional({ nullable: true })
       .withMessage(response.common.commonInvalidOrderBy),
+    query("type")
+      .optional({ nullable: true })
+      .isIn(inconstants.room.type.all)
+      .withMessage(errorCode.room.ROOM_INVALID_TYPE),
   ];
 };
 
