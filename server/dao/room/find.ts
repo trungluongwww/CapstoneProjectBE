@@ -12,7 +12,8 @@ const all = async (
   offset: number,
   orders: Array<ISortObject>,
   status: string,
-  ownerId: string | null = null
+  ownerId: string | null = null,
+  type: string | null = null
 ): Promise<[Room[], number, Error | null]> => {
   const db = database.getDataSource();
 
@@ -61,6 +62,10 @@ const all = async (
       q.andWhere("r.districtId = :districtId", { districtId });
     } else if (provinceId) {
       q.andWhere("r.provinceId = :provinceId", { provinceId });
+    }
+
+    if (type) {
+      q.andWhere("r.type = :type", { type });
     }
 
     q.limit(limit);

@@ -8,6 +8,7 @@ const ROOM_INVALID_SQUARE_METRE = "ROOM_INVALID_SQUARE_METRE";
 const ROOM_INVALID_ADDRESS = "ROOM_INVALID_ADDRESS";
 const ROOM_NOT_FOUND = "ROOM_NOT_FOUND";
 const ROOM_INVALID_STATUS = "ROOM_INVALID_STATUS";
+const ROOM_INVALID_TYPE = "ROOM_INVALID_TYPE";
 
 const list: Array<IResponseCode> = [
   {
@@ -42,6 +43,10 @@ const list: Array<IResponseCode> = [
     message: "trạng thái không hợp lệ",
     key: ROOM_INVALID_STATUS,
   },
+  {
+    message: "loại phòng không hợp lệ",
+    key: ROOM_INVALID_TYPE,
+  },
 ];
 
 export default {
@@ -54,4 +59,5 @@ export default {
   ROOM_INVALID_ADDRESS,
   ROOM_NOT_FOUND,
   ROOM_INVALID_STATUS,
+  ROOM_INVALID_TYPE,
 };

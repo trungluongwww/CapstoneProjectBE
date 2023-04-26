@@ -49,6 +49,7 @@ interface IRoomAllQuery {
   keyword: string;
   orderField: string;
   orderValue: "ASC" | "DESC";
+  type: string;
 }
 
 interface IRoomAllResponse {
