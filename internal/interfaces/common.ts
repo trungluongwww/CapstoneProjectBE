@@ -1,6 +1,8 @@
 interface ICommonKeyValue {
   key: string;
-  value: String;
+  value: string;
+  option?: string;
+  isDefault?: boolean;
 }
 
 interface IJwtUser {
