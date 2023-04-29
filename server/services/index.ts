@@ -5,10 +5,12 @@ import room from "./room";
 import location from "./location";
 import conversation from "./conversation";
 import message from "./Message";
+import common from "./common";
 
 export default {
   message,
   conversation,
+  common,
   user,
   migration,
   room,
