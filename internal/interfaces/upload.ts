@@ -32,7 +32,7 @@ interface IUploadThumbnailResponse {
   originName: string;
   width: number;
   height: number;
-  url: number;
+  url: string;
 }
 
 export {

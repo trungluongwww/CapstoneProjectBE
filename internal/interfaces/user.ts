@@ -46,17 +46,17 @@ interface IUserResponse {
   updatedAt: Date;
   address: string;
   root: boolean;
-  province: IProvinceResponse;
-  district: IDistrictResponse;
-  ward: IWardResponse;
+  province?: IProvinceResponse;
+  district?: IDistrictResponse;
+  ward?: IWardResponse;
 }
 
-interface IUserAddFavouriteRoom {
+interface IUserAddFavouriteRoomPayload {
   roomId: string;
 }
 
 export {
-  IUserAddFavouriteRoom,
+  IUserAddFavouriteRoomPayload,
   IUserCreatePayload,
   IUserLoginResponse,
   IUserLoginPayload,

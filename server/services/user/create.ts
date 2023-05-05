@@ -2,7 +2,7 @@ import { User, UserFavouriteRoom } from "../../../modules/database/entities";
 import pmongo from "../../../external_node/ultils/pmongo";
 import ptoken from "../../../external_node/ultils/ptoken";
 import dao from "../../dao";
-import { IUserAddFavouriteRoom, IUserCreatePayload } from "../../../internal/interfaces/user";
+import { IUserAddFavouriteRoomPayload, IUserCreatePayload } from "../../../internal/interfaces/user";
 import errorCode from "../../../internal/error-code";
 import strings from "../../../external_node/ultils/strings";
 import location from "../location";
@@ -38,7 +38,7 @@ const fromClient = async (payload: IUserCreatePayload): Promise<Error | null> =>
   return await dao.user.create.one(user);
 };
 
-const addFavouriteRoom = async (id: string, payload: IUserAddFavouriteRoom): Promise<Error | null> => {
+const addFavouriteRoom = async (id: string, payload: IUserAddFavouriteRoomPayload): Promise<Error | null> => {
   let user = await services.user.find.rawById(id);
   if (!user) {
     return Error(errorCode.user.USER_NOT_FOUND);

@@ -8,13 +8,14 @@ export default (g: Router) => {
   g.use("/users", r);
 
   // get
-  r.get("/profile", ...validations.user.profile, controllers.user.profile);
+  r.get("/profile", required.login, ...validations.user.profile, controllers.user.profile);
   r.get("/me", required.login, controllers.user.me);
   r.get("/rooms", required.login, ...validations.user.allRoom, controllers.user.allRoom);
 
   // post
   r.post("/register", ...validations.user.create, controllers.user.create);
   r.post("/login", ...validations.user.login, controllers.user.login);
+  r.post("/favourite-room", required.login, controllers.user.addFavouriteRoom);
 
   // put
   r.put("/", required.login, ...validations.user.update, controllers.user.update);

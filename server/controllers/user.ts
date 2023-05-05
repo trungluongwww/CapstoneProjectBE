@@ -1,6 +1,11 @@
 import { Response } from "express";
 import { Request } from "express-jwt";
-import { IUserCreatePayload, IUserLoginPayload, IUserUpdatePayload } from "../../internal/interfaces/user";
+import {
+  IUserAddFavouriteRoomPayload,
+  IUserCreatePayload,
+  IUserLoginPayload,
+  IUserUpdatePayload,
+} from "../../internal/interfaces/user";
 import services from "../services";
 import response from "../../external_node/ultils/response";
 import { IRoomAllByUserQuery } from "../../internal/interfaces/room";
@@ -67,6 +72,16 @@ const allRoom = async (req: Request, res: Response) => {
   return response.r200(res, rs);
 };
 
+const addFavouriteRoom = async (req: Request, res: Response) => {
+  const id = req.auth?.id;
+  const payload: IUserAddFavouriteRoomPayload = req.body as IUserAddFavouriteRoomPayload;
+
+  const err = await services.user.create.addFavouriteRoom(id, payload);
+  if (err) {
+    return response.r400(res, null, err.message);
+  }
+  return response.r200(res);
+};
 export default {
   create,
   update,
@@ -74,4 +89,5 @@ export default {
   profile,
   me,
   allRoom,
+  addFavouriteRoom,
 };

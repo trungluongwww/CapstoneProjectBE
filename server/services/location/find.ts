@@ -20,9 +20,9 @@ const isValidLocation = async (provinceId: string, districtId: string, wardId: s
   return countP > 0 && countD > 0 && countW > 0;
 };
 
-const convertProvinceModelToResponse = (province: Province): IProvinceResponse => {
+const convertProvinceModelToResponse = (province: Province): IProvinceResponse | undefined => {
   if (!province) {
-    return {} as IProvinceResponse;
+    return;
   }
   return {
     id: province.id,
@@ -33,9 +33,9 @@ const convertProvinceModelToResponse = (province: Province): IProvinceResponse =
   } as IProvinceResponse;
 };
 
-const convertDistrictModelToResponse = (dist: District): IDistrictResponse => {
+const convertDistrictModelToResponse = (dist: District): IDistrictResponse | undefined => {
   if (!dist) {
-    return {} as IDistrictResponse;
+    return;
   }
   return {
     id: dist.id,
@@ -47,9 +47,9 @@ const convertDistrictModelToResponse = (dist: District): IDistrictResponse => {
   } as IDistrictResponse;
 };
 
-const convertWardModelToResponse = (ward: Ward): IWardResponse => {
+const convertWardModelToResponse = (ward: Ward): IWardResponse | undefined => {
   if (!ward) {
-    return {} as IWardResponse;
+    return;
   }
   return {
     id: ward.id,
