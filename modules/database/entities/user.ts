@@ -4,9 +4,6 @@ import { District, Province, Ward } from "./index";
 
 @Entity({ name: "users" })
 export default class User extends BaseEntity {
-  @Column({ name: "username", type: "text", nullable: false, default: "" })
-  username: string;
-
   @Column({ name: "password", type: "text", nullable: false, default: "" })
   password: string;
 

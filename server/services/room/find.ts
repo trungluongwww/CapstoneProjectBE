@@ -7,6 +7,7 @@ import {
   IRoomAllQuery,
   IRoomAllResponse,
   IRoomDeleteFilePayload,
+  IRoomDetailResponse,
   IRoomFileResponse,
   IRoomResponse,
   IRoomShortResponse,
@@ -43,13 +44,14 @@ const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
 
   let [rooms, total, err] = await dao.room.find.all(
     query.provinceId,
-    query.districtsId,
+    query.districtId,
     query.wardId,
     query.keyword,
     limit,
     offset,
     [order],
-    inconstants.room.status.active
+    inconstants.room.status.active,
+    query.type
   );
 
   if (err) {
@@ -65,6 +67,21 @@ const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
     total: total,
     pageToken: rooms.length == limit ? pagnigation.createPageToken(page + 1, null) : "",
   } as IRoomAllResponse;
+};
+
+const detailById = async (id: string): Promise<[IRoomDetailResponse | null, Error | null]> => {
+  let [doc, err] = await dao.room.find.detailById(id);
+
+  if (err || !doc) {
+    return [null, Error(errorCode.room.ROOM_NOT_FOUND)];
+  }
+
+  return [
+    {
+      room: convertRoomModelToResponse(doc),
+    } as IRoomDetailResponse,
+    null,
+  ];
 };
 
 const allRecommend = async (userId: string): Promise<IRoomAllResponse> => {
@@ -242,4 +259,5 @@ export default {
   checkExistById,
   allRecommend,
   allByUserId,
+  detailById,
 };

@@ -20,7 +20,6 @@ wards:
 	updated_at timestamp with time zone default now() not null
 users :
 	id text PK
-	username text
 	password text
 	// contacts
 	phone text

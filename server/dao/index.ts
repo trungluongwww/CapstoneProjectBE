@@ -6,6 +6,7 @@ import comment from "./comment";
 import userFavouriteRoom from "./user-favourite-room";
 import conversation from "./conversation";
 import message from "./message";
+import convenience from "./convenience";
 
 export default {
   location,
@@ -16,4 +17,5 @@ export default {
   room,
   conversation,
   roomFile,
+  convenience,
 };

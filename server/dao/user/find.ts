@@ -27,7 +27,6 @@ const relsById = async (id: string): Promise<[User | null, Error | null]> => {
       "u.id",
       "u.createdAt",
       "u.updatedAt",
-      "u.username",
       "u.phone",
       "u.email",
       "u.zalo",
@@ -51,13 +50,13 @@ const relsById = async (id: string): Promise<[User | null, Error | null]> => {
   }
 };
 
-const countByIdentity = async (username: string, phone: string): Promise<number> => {
+const countByIdentity = async (email: string, phone: string): Promise<number> => {
   const db = database.getDataSource();
 
   try {
     const q = db
       .createQueryBuilder(User, "u")
-      .where("u.username = :username", { username })
+      .where("u.email = :email", { email })
       .orWhere("u.phone = :phone", { phone });
     return await q.getCount();
   } catch (e: unknown) {
@@ -66,14 +65,11 @@ const countByIdentity = async (username: string, phone: string): Promise<number>
   }
 };
 
-const rawByUsername = async (username: string): Promise<[User | null, Error | null]> => {
+const rawByUsername = async (email: string): Promise<[User | null, Error | null]> => {
   const db = database.getDataSource();
 
   try {
-    return [
-      await db.createQueryBuilder(User, "u").select(["u"]).where("u.username = :username", { username }).getOne(),
-      null,
-    ];
+    return [await db.createQueryBuilder(User, "u").select(["u"]).where("u.email = :email", { email }).getOne(), null];
   } catch (e: unknown) {
     console.log(`[Error] dao.user.find.rawById ${(e as Error).message}`);
     return [null, e as Error];

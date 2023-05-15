@@ -101,6 +101,16 @@ const addComment = async (req: Request, res: Response) => {
   return response.r200(res);
 };
 
+const detailById = async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const [rs, err] = await services.room.find.detailById(id);
+  if (err) {
+    return response.r400(res, null, err.message);
+  }
+  return response.r200(res, rs);
+};
+
 export default {
   create,
   all,
@@ -110,4 +120,5 @@ export default {
   addFile,
   addComment,
   allRecommend,
+  detailById,
 };

@@ -9,6 +9,8 @@ import pfile from "../../../external_node/ultils/pfile";
 export default async (
   file: Express.Multer.File | null | undefined
 ): Promise<[IUploadSingleFileResponse | null, Error | null]> => {
+  console.log(file);
+
   if (!file) {
     return [null, Error(errorCode.upload.UPLOAD_INVALID_FILE)];
   }

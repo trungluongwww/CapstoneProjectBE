@@ -3,6 +3,29 @@ import { Room, User } from "../../../modules/database/entities";
 import inconstants from "../../../internal/inconstants";
 import { ISortObject } from "../../../internal/interfaces/common";
 
+const selectDetailColumn = (): Array<string> => [
+  "r.id",
+  "r.name",
+  "r.description",
+  "r.rentPerMonth",
+  "r.deposit",
+  "r.squareMetre",
+  "r.address",
+  "r.status",
+  "r.type",
+  "r.createdAt",
+  "r.updatedAt",
+  "rf.id",
+  "rf.info",
+  "rf.createdAt",
+  "p",
+  "w",
+  "d",
+  "u.id",
+  "u.name",
+  "u.avatar",
+];
+
 const all = async (
   provinceId: string | null,
   districtId: string | null,
@@ -12,8 +35,8 @@ const all = async (
   offset: number,
   orders: Array<ISortObject>,
   status: string,
-  ownerId: string | null = null,
-  type: string | null = null
+  type: string | null = null,
+  ownerId: string | null = null
 ): Promise<[Room[], number, Error | null]> => {
   const db = database.getDataSource();
 
@@ -25,28 +48,7 @@ const all = async (
       .leftJoinAndMapOne("r.province", "provinces", "p", "r.provinceId = p.id")
       .leftJoinAndMapOne("r.ward", "wards", "w", "r.wardId = w.id")
       .leftJoinAndMapOne("r.district", "districts", "d", "r.districtId = d.id")
-      .select([
-        "r.id",
-        "r.name",
-        "r.description",
-        "r.rentPerMonth",
-        "r.deposit",
-        "r.squareMetre",
-        "r.address",
-        "r.status",
-        "r.type",
-        "r.createdAt",
-        "r.updatedAt",
-        "rf.id",
-        "rf.info",
-        "rf.createdAt",
-        "p",
-        "w",
-        "d",
-        "u.id",
-        "u.name",
-        "u.avatar",
-      ]);
+      .select(selectDetailColumn());
 
     q.where("r.searchText like :keyword", { keyword: `%${keyword}%` });
 
@@ -68,8 +70,8 @@ const all = async (
       q.andWhere("r.type = :type", { type });
     }
 
-    q.limit(limit);
     q.skip(offset);
+    q.take(limit);
 
     for (let order of orders) {
       if (order.column == inconstants.room.sortField.price) {
@@ -88,6 +90,32 @@ const all = async (
   } catch (e: unknown) {
     console.log(`[Error] dao.room.find.all ${(e as Error).message}`);
     return [[], 0, e as Error];
+  }
+};
+
+const detailById = async (id: string): Promise<[Room | null, Error | null]> => {
+  const db = database.getDataSource();
+
+  try {
+    const q = db
+      .createQueryBuilder(Room, "r")
+      .leftJoinAndMapOne("r.user", "users", "u", "r.userId = u.id")
+      .leftJoinAndMapMany("r.files", "room_files", "rf", "r.id = rf.room_id")
+      .leftJoinAndMapOne("r.province", "provinces", "p", "r.provinceId = p.id")
+      .leftJoinAndMapOne("r.ward", "wards", "w", "r.wardId = w.id")
+      .leftJoinAndMapOne("r.district", "districts", "d", "r.districtId = d.id")
+      .leftJoinAndMapMany("r.conveniences", "room_conveniences", "rc", "r.id = rc.room_id")
+      .leftJoinAndMapOne("rc.convenience", "conveniences", "c", "rc.convenience_id = c.id")
+      .select([...selectDetailColumn(), "rc", "c"]);
+
+    q.where("r.id = :id", { id });
+
+    let rs = await q.getOne()
+    console.log(rs?.conveniences)
+    return [rs, null];
+  } catch (e: unknown) {
+    console.log(`[Error] dao.room.find.all ${(e as Error).message}`);
+    return [null, e as Error];
   }
 };
 
@@ -117,4 +145,5 @@ export default {
   all,
   rawById,
   countById,
+  detailById,
 };

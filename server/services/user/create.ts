@@ -2,22 +2,28 @@ import { User, UserFavouriteRoom } from "../../../modules/database/entities";
 import pmongo from "../../../external_node/ultils/pmongo";
 import ptoken from "../../../external_node/ultils/ptoken";
 import dao from "../../dao";
-import { IUserAddFavouriteRoomPayload, IUserCreatePayload } from "../../../internal/interfaces/user";
+import {
+  IUserAddFavouriteRoomPayload,
+  IUserCreatePayload,
+  IUserLoginResponse,
+} from "../../../internal/interfaces/user";
 import errorCode from "../../../internal/error-code";
 import strings from "../../../external_node/ultils/strings";
 import location from "../location";
 import services from "../index";
+import jwt from "jsonwebtoken";
+import config from "../../../external_node/config";
 
-const fromClient = async (payload: IUserCreatePayload): Promise<Error | null> => {
+const register = async (payload: IUserCreatePayload): Promise<[IUserLoginResponse | null, Error | null]> => {
   // validate identity info
-  if ((await dao.user.find.countByIdentity(payload.username, payload.phone)) > 0) {
-    return Error(errorCode.user.USER_ALREADY_EXITS);
+  if ((await dao.user.find.countByIdentity(payload.email, payload.phone)) > 0) {
+    return [null, Error(errorCode.user.USER_ALREADY_EXITS)];
   }
 
   // validate location info
 
   if (!(await location.find.isValidLocation(payload.provinceId, payload.districtId, payload.wardId))) {
-    return Error(errorCode.address.ADDRESS_COMMON_INVALID);
+    return [null, Error(errorCode.address.ADDRESS_COMMON_INVALID)];
   }
 
   // create model
@@ -25,7 +31,7 @@ const fromClient = async (payload: IUserCreatePayload): Promise<Error | null> =>
 
   const user = new User();
   user.id = pmongo.newStringId();
-  user.username = payload.username;
+  user.email = payload.email;
   user.password = hashPw;
   user.phone = payload.phone;
   user.name = payload.name;
@@ -33,9 +39,29 @@ const fromClient = async (payload: IUserCreatePayload): Promise<Error | null> =>
   user.wardId = payload.wardId;
   user.districtId = payload.districtId;
   user.address = payload.address;
-  user.searchText = strings.content.convertToLowerUsLang([user.name, user.username].join(" "));
+  user.searchText = strings.content.convertToLowerUsLang([user.name, user.phone].join(" "));
 
-  return await dao.user.create.one(user);
+  let err = await dao.user.create.one(user);
+  if (err) {
+    return [null, err];
+  }
+
+  let token = jwt.sign(
+    {
+      id: user.id,
+      name: user.name,
+      phone: user.phone,
+      email: user.email,
+    },
+    config.get().common.jwtSecretKey,
+    { expiresIn: "200d" }
+  );
+
+  let rs = {
+    token: token,
+  } as IUserLoginResponse;
+
+  return [rs, null];
 };
 
 const addFavouriteRoom = async (id: string, payload: IUserAddFavouriteRoomPayload): Promise<Error | null> => {
@@ -65,6 +91,6 @@ const addFavouriteRoom = async (id: string, payload: IUserAddFavouriteRoomPayloa
 };
 
 export default {
-  fromClient,
+  register,
   addFavouriteRoom,
 };

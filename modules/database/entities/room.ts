@@ -2,6 +2,9 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, ViewColumn, VirtualCo
 import BaseEntity from "./base";
 import RoomFile from "./room-file";
 import { District, Province, User, Ward } from "./index";
+import inconstants from "../../../internal/inconstants";
+import RoomConvenience from "./room-convenience";
+import Convenience from "./convenience";
 
 @Entity({ name: "rooms" })
 export default class Room extends BaseEntity {
@@ -72,7 +75,7 @@ export default class Room extends BaseEntity {
   @Column({ name: "status", nullable: false, default: "", type: "text" })
   status: string;
 
-  @Column({ name: "type", nullable: false, default: "shared", type: "text" })
+  @Column({ name: "type", nullable: false, default: inconstants.room.type.room, type: "text" })
   type: string;
 
   @Column({
@@ -85,6 +88,9 @@ export default class Room extends BaseEntity {
 
   @OneToMany(() => RoomFile, (roomFile) => roomFile.room)
   files: RoomFile[];
+
+  @OneToMany(() => RoomConvenience, (conv) => conv.room)
+  conveniences: RoomConvenience[];
 
   /*** VIRTUAL COLUMNS ***/
   @VirtualColumn({

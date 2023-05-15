@@ -6,7 +6,7 @@ import inconstants from "../../../../internal/inconstants";
 
 const create = () => {
   return [
-    body("username").isString().notEmpty().isLength({ min: 5 }).withMessage(errorCode.user.USER_INVALID_USERNAME),
+    body("email").isEmail().notEmpty().isLength({ min: 8 }).withMessage(errorCode.user.USER_INVALID_EMAIL),
     body("password").isString().notEmpty().isLength({ min: 6 }).withMessage(errorCode.user.USER_INVALID_PASSWORD),
     body("phone").isString().notEmpty().isLength({ min: 10 }).withMessage(errorCode.user.USER_INVALID_PHONE),
     body("name").isString().notEmpty().isLength({ min: 10 }).withMessage(errorCode.user.USER_INVALID_NAME),
@@ -35,7 +35,7 @@ const update = () => {
 
 const login = () => {
   return [
-    body("username").isString().notEmpty().isLength({ min: 5 }).withMessage(errorCode.user.USER_INVALID_USERNAME),
+    body("email").isString().notEmpty().isLength({ min: 8 }).withMessage(errorCode.user.USER_INVALID_EMAIL),
     body("password").notEmpty().withMessage(errorCode.user.USER_INVALID_PASSWORD),
   ];
 };

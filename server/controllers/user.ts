@@ -10,14 +10,14 @@ import services from "../services";
 import response from "../../external_node/ultils/response";
 import { IRoomAllByUserQuery } from "../../internal/interfaces/room";
 
-const create = async (req: Request, res: Response) => {
+const register = async (req: Request, res: Response) => {
   const payload = req.body as IUserCreatePayload;
 
-  const err = await services.user.create.fromClient(payload);
+  const [rs, err] = await services.user.create.register(payload);
   if (err) {
     return response.r400(res, null, err.message);
   }
-  return response.r200(res);
+  return response.r200(res, rs);
 };
 
 const update = async (req: Request, res: Response) => {
@@ -33,6 +33,8 @@ const update = async (req: Request, res: Response) => {
 
 const login = async (req: Request, res: Response) => {
   const payload = req.body as IUserLoginPayload;
+
+  console.log(payload.email, payload.password);
 
   const [rs, err] = await services.user.find.login(payload);
   if (err) {
@@ -83,7 +85,7 @@ const addFavouriteRoom = async (req: Request, res: Response) => {
   return response.r200(res);
 };
 export default {
-  create,
+  register,
   update,
   login,
   profile,
