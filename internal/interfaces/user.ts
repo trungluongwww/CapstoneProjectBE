@@ -2,7 +2,7 @@ import { IDistrictResponse, IProvinceResponse, IWardResponse } from "./location"
 import dao from "../../server/dao";
 
 interface IUserCreatePayload {
-  username: string;
+  email: string;
   password: string;
   phone: string;
   name: string;
@@ -25,7 +25,7 @@ interface IUserUpdatePayload {
 }
 
 interface IUserLoginPayload {
-  username: string;
+  email: string;
   password: string;
 }
 
@@ -35,7 +35,6 @@ interface IUserLoginResponse {
 
 interface IUserResponse {
   id: string;
-  username: string;
   phone: string;
   email: string;
   zalo: string;

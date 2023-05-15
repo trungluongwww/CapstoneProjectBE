@@ -11,6 +11,7 @@ export default (g: Router) => {
   // get
   r.get("/", ...validations.room.all, controllers.room.all);
   r.get("/recommends", required.login, controllers.room.allRecommend);
+  r.get("/:id", ...validations.room.detailById, controllers.room.detailById);
 
   // post
   r.post("/", required.login, ...validations.room.create, controllers.room.create);

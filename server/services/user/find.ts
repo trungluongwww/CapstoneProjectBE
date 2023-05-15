@@ -10,7 +10,7 @@ import services from "../index";
 import times from "../../../external_node/ultils/times";
 
 const login = async (payload: IUserLoginPayload): Promise<[IUserLoginResponse | null, Error | null]> => {
-  let [user, err] = await dao.user.find.rawByUsername(payload.username);
+  let [user, err] = await dao.user.find.rawByUsername(payload.email);
   if (!user || err) {
     return [null, Error(errorCode.user.USER_LOGIN_FAILED)];
   }
@@ -23,6 +23,7 @@ const login = async (payload: IUserLoginPayload): Promise<[IUserLoginResponse | 
     id: user.id,
     name: user.name,
     phone: user.phone,
+    email: user.email,
   };
 
   let token = jwt.sign(data, config.get().common.jwtSecretKey, { expiresIn: "200d" });
@@ -50,7 +51,6 @@ const convertModelToResponse = (user: User): IUserResponse => {
 
   return {
     id: user.id,
-    username: user.username,
     phone: user.phone,
     email: user.email,
     zalo: user.zalo,

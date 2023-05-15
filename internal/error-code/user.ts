@@ -1,6 +1,6 @@
 import { IResponseCode } from "../../external_node/interfaces/response";
 
-const USER_INVALID_USERNAME = "USER_INVALID_USERNAME";
+const USER_INVALID_EMAIL = "USER_INVALID_EMAIL";
 const USER_INVALID_PASSWORD = "USER_INVALID_PASSWORD";
 const USER_INVALID_PHONE = "USER_INVALID_PHONE";
 const USER_INVALID_NAME = "USER_INVALID_NAME";
@@ -13,8 +13,8 @@ const USER_LOGIN_FAILED = "USER_LOGIN_FAILED";
 
 const list: Array<IResponseCode> = [
   {
-    message: "tài khoản người dùng không hợp lệ",
-    key: USER_INVALID_USERNAME,
+    message: "thông tin email không hợp lệ",
+    key: USER_INVALID_EMAIL,
   },
   {
     message: "mật khẩu không hợp lệ",
@@ -56,7 +56,7 @@ const list: Array<IResponseCode> = [
 
 export default {
   list,
-  USER_INVALID_USERNAME,
+  USER_INVALID_EMAIL,
   USER_INVALID_PASSWORD,
   USER_INVALID_PHONE,
   USER_INVALID_NAME,

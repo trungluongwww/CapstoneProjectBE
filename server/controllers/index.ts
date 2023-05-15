@@ -5,6 +5,7 @@ import room from "./room";
 import location from "./location";
 import conversation from "./conversation";
 import common from "./common";
+import convenience from "./convenience";
 
 export default {
   migration,
@@ -14,4 +15,5 @@ export default {
   room,
   location,
   conversation,
+  convenience,
 };

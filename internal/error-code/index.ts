@@ -5,6 +5,7 @@ import upload from "./upload";
 import room from "./room";
 import comment from "./comment";
 import conversation from "./conversation";
+import convenience from "./convenience";
 
 const init = () => {
   response.init();
@@ -20,6 +21,8 @@ const init = () => {
   response.addListCode(comment.list);
 
   response.addListCode(conversation.list);
+
+  response.addListCode(convenience.list);
 };
 
 export default {
@@ -30,4 +33,5 @@ export default {
   room,
   comment,
   conversation,
+  convenience,
 };

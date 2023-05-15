@@ -42,7 +42,7 @@ interface IRoomFindAllQuery {
 
 interface IRoomAllQuery {
   provinceId: string;
-  districtsId: string;
+  districtId: string;
   wardId: string;
   limit: number;
   pageToken: string;
@@ -56,6 +56,10 @@ interface IRoomAllResponse {
   rooms: Array<IRoomResponse>;
   total: number;
   pageToken: string;
+}
+
+interface IRoomDetailResponse {
+  room: IRoomResponse;
 }
 
 interface IRoomResponse {
@@ -135,4 +139,5 @@ export {
   IRoomAddCommentPayload,
   IRoomShortResponse,
   IRoomAllByUserQuery,
+  IRoomDetailResponse,
 };

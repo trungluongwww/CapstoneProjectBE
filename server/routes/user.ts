@@ -13,7 +13,7 @@ export default (g: Router) => {
   r.get("/rooms", required.login, ...validations.user.allRoom, controllers.user.allRoom);
 
   // post
-  r.post("/register", ...validations.user.create, controllers.user.create);
+  r.post("/register", ...validations.user.create, controllers.user.register);
   r.post("/login", ...validations.user.login, controllers.user.login);
   r.post("/favourite-room", required.login, controllers.user.addFavouriteRoom);
 

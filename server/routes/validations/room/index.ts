@@ -82,4 +82,5 @@ export default {
   removeFile: [removeFile(), paramId(), checkErrors],
   addFile: [paramId(), checkErrors],
   addComment: [addComment(), paramId(), checkErrors],
+  detailById: [paramId(), checkErrors],
 };

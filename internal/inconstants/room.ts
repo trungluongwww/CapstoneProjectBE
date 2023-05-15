@@ -16,19 +16,20 @@ export default {
     apartment: "apartment",
     house: "house",
     room: "room",
-    all: ["apartment", "house", "room"],
+    share: "share",
+    all: ["apartment", "house", "room", "share"],
   },
   getObjectStatus: (status: string): ICommonKeyValue => {
     let value: string;
     switch (status) {
       case "banned":
-        value = "Đã bị admin khóa";
+        value = "Đã bị admin khóa" + "" + "";
         break;
       case "active":
-        value = "Đang cho thuê";
+        value = "Đang tìm người thuê";
         break;
       case "inactive":
-        value = "Tạm ngưng";
+        value = "Đã có người thuê";
         break;
       default:
         value = "";
@@ -44,14 +45,16 @@ export default {
     let value: string;
     switch (type) {
       case "apartment":
-        value = "căn hộ";
+        value = "Căn hộ";
         break;
       case "house":
-        value = "nhà ở";
+        value = "Toàn bộ nhà ở";
         break;
       case "room":
-        value = "phòng trọ";
+        value = "Phòng trọ";
         break;
+      case "share":
+        value = "Tìm người ở ghép";
       default:
         value = "";
         break;

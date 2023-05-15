@@ -53,6 +53,8 @@ const allProvinces = async (): Promise<[Array<Province> | null, Error | null]> =
   try {
     const q = db.createQueryBuilder(Province, "p").select("p");
 
+    q.orderBy("p.code", "ASC");
+
     return [await q.getMany(), null];
   } catch (e: unknown) {
     console.log(`[Error] dao.location.find.allProvinces ${(e as Error).message}`);
@@ -65,6 +67,8 @@ const allDistrictByProvinceId = async (provinceId: string): Promise<[Array<Distr
   try {
     const q = db.createQueryBuilder(District, "d").select("d").where("d.provinceId = :provinceId", { provinceId });
 
+    q.orderBy("d.code", "ASC");
+
     return [await q.getMany(), null];
   } catch (e: unknown) {
     console.log(`[Error] dao.location.find.allDistrictByProvinceId ${(e as Error).message}`);
@@ -76,6 +80,8 @@ const allWardByDistrictId = async (districtId: string): Promise<[Array<Ward> | n
   const db = database.getDataSource();
   try {
     const q = db.createQueryBuilder(Ward, "w").select("w").where("w.districtId = :districtId", { districtId });
+
+    q.orderBy("w.code", "ASC");
 
     return [await q.getMany(), null];
   } catch (e: unknown) {
