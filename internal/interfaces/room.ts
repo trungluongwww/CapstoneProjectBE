@@ -3,8 +3,10 @@ import { District, Province, Room, Ward } from "../../modules/database/entities"
 import { IDistrictResponse, IProvinceResponse, IWardResponse } from "./location";
 import { ICommonKeyValue } from "./common";
 import { IUserResponse } from "./user";
+import { IConvenienceResponse } from "./convenience";
 
 interface IRoomCreatePayload {
+  type: string;
   userId: string;
   name: string;
   description: string;
@@ -15,6 +17,7 @@ interface IRoomCreatePayload {
   districtId: string;
   wardId: string;
   address: string;
+  convenienceIds: Array<string>;
   files: Array<IUploadSingleFileRequest>;
 }
 
@@ -29,6 +32,7 @@ interface IRoomUpdatePayload {
   districtId: string;
   wardId: string;
   address: string;
+  type: string;
 }
 
 interface IRoomFindAllQuery {
@@ -79,6 +83,8 @@ interface IRoomResponse {
   createdAt: Date;
   updatedAt: Date;
   files: Array<IRoomFileResponse>;
+
+  conveniences: Array<IConvenienceResponse>;
 }
 
 interface IRoomFileResponse {

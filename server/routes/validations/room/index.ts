@@ -26,6 +26,7 @@ const create = () => {
     body("provinceId").isMongoId().notEmpty().withMessage(errorCode.address.ADDRESS_INVALID_PROVINCE),
     body("districtId").isMongoId().notEmpty().withMessage(errorCode.address.ADDRESS_INVALID_DISTRICT),
     body("wardId").isMongoId().notEmpty().withMessage(errorCode.address.ADDRESS_INVALID_WARD),
+    body("type").isIn(inconstants.room.type.all).notEmpty().withMessage(errorCode.room.ROOM_INVALID_TYPE),
     body("address").isString().isLength({ max: 999 }).notEmpty().withMessage(errorCode.room.ROOM_INVALID_ADDRESS),
   ];
 };

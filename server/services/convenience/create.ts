@@ -3,7 +3,7 @@ import pmongo from "../../../external_node/ultils/pmongo";
 import dao from "../../dao";
 import { IConvenienceCreatePayload } from "../../../internal/interfaces/convenience";
 
-const createFromClient = async (payload: IConvenienceCreatePayload): Promise<Error | null> => {
+const fromClient = async (payload: IConvenienceCreatePayload): Promise<Error | null> => {
   const doc = new Convenience();
   doc.id = pmongo.newStringId();
   doc.code = payload.code;
@@ -16,5 +16,5 @@ const createFromClient = async (payload: IConvenienceCreatePayload): Promise<Err
 };
 
 export default {
-  createFromClient,
+  fromClient,
 };

@@ -110,8 +110,7 @@ const detailById = async (id: string): Promise<[Room | null, Error | null]> => {
 
     q.where("r.id = :id", { id });
 
-    let rs = await q.getOne()
-    console.log(rs?.conveniences)
+    let rs = await q.getOne();
     return [rs, null];
   } catch (e: unknown) {
     console.log(`[Error] dao.room.find.all ${(e as Error).message}`);

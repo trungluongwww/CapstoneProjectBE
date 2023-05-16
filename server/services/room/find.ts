@@ -72,6 +72,8 @@ const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
 const detailById = async (id: string): Promise<[IRoomDetailResponse | null, Error | null]> => {
   let [doc, err] = await dao.room.find.detailById(id);
 
+  console.log(doc?.conveniences)
+
   if (err || !doc) {
     return [null, Error(errorCode.room.ROOM_NOT_FOUND)];
   }
@@ -198,6 +200,9 @@ const convertRoomModelToResponse = (room: Room): IRoomResponse => {
     updatedAt: times.newDateTimeUTC7(room.updatedAt),
     files: room.files.map((file) => convertRoomFileModelToResponse(file)),
     owner: services.user.find.convertModelToResponse(room.user),
+    conveniences: room.conveniences
+      ? room.conveniences.map((conv) => services.convenience.find.convertToResponse(conv.convenience))
+      : [],
   } as IRoomResponse;
 };
 
