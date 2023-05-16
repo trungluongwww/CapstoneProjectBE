@@ -29,6 +29,12 @@ const convertToResponse = (doc: Convenience): IConvenienceResponse => {
   } as IConvenienceResponse;
 };
 
+const countByCondition = async (ids: Array<string>): Promise<number> => {
+  return await dao.convenience.find.countByCondition(ids);
+};
+
 export default {
   all,
+  convertToResponse,
+  countByCondition,
 };

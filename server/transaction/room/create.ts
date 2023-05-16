@@ -1,7 +1,7 @@
-import { Room, RoomFile } from "../../../modules/database/entities";
+import { Room, RoomConvenience, RoomFile } from "../../../modules/database/entities";
 import database from "../../../modules/database";
 
-export default async (room: Room, files: Array<RoomFile>): Promise<Error | null> => {
+export default async (room: Room, files: Array<RoomFile>, conveniences: Array<RoomConvenience>): Promise<Error | null> => {
   const db = database.getDataSource();
   const queryRunner = db.createQueryRunner();
 
@@ -12,6 +12,10 @@ export default async (room: Room, files: Array<RoomFile>): Promise<Error | null>
     await queryRunner.manager.save(room);
     if (files.length) {
       await queryRunner.manager.save(files);
+    }
+
+    if (conveniences.length) {
+      await queryRunner.manager.save(conveniences);
     }
 
     // commit transaction

@@ -28,7 +28,23 @@ const rawById = async (id: string): Promise<[Convenience | null, Error | null]> 
   }
 };
 
+const countByCondition = async (ids: Array<string>): Promise<number> => {
+  const db = database.getDataSource();
+
+  try {
+    const q = db.createQueryBuilder(Convenience, "c").where("c.id IN (:...ids)", { ids: ids });
+
+    let rs = await q.getCount();
+    console.log(rs);
+    return rs;
+  } catch (e: unknown) {
+    console.log(`[Error] dao.convenience.find.countByCondition ${(e as Error).message}`);
+    return 0;
+  }
+};
+
 export default {
   all,
   rawById,
+  countByCondition,
 };

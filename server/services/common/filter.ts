@@ -55,6 +55,11 @@ const all = (): IFilterAll => {
           value: "Nhà",
           isDefault: false,
         },
+        {
+          key: inconstants.room.type.share,
+          value: "Ở ghép",
+          isDefault: false,
+        },
       ],
     },
   } as IFilterAll;

@@ -1,5 +1,5 @@
 import { IRoomAddCommentPayload, IRoomAddFilePayload, IRoomCreatePayload } from "../../../internal/interfaces/room";
-import { Comment, Room, RoomFile } from "../../../modules/database/entities";
+import { Comment, Convenience, Room, RoomConvenience, RoomFile } from "../../../modules/database/entities";
 import strings from "../../../external_node/ultils/strings";
 import inConstants from "../../../internal/inconstants";
 import location from "../location";
@@ -32,6 +32,7 @@ const fromClient = async (payload: IRoomCreatePayload): Promise<Error | null> =>
   room.deposit = payload.deposit;
   room.squareMetre = payload.squareMetre;
   room.provinceId = payload.provinceId;
+  room.type = payload.type;
   room.districtId = payload.districtId;
   room.wardId = payload.wardId;
   room.address = payload.address;
@@ -58,7 +59,27 @@ const fromClient = async (payload: IRoomCreatePayload): Promise<Error | null> =>
     roomFiles.push(roomFile);
   }
 
-  return await transaction.room.create(room, roomFiles);
+  let conveniences: Array<RoomConvenience> = [];
+
+  // validate conveniences
+  if (payload.convenienceIds && payload.convenienceIds.length > 0) {
+    const count = await services.convenience.find.countByCondition(payload.convenienceIds);
+    if (count != payload.convenienceIds.length) {
+      return Error(errorCode.convenience.convenience_invalid);
+    }
+
+    payload.convenienceIds.forEach((item) => {
+      let doc = new RoomConvenience();
+      doc.id = pmongo.newStringId();
+      doc.roomId = room.id;
+      doc.createdAt = new Date();
+      doc.convenienceId = item;
+      doc.updatedAt = new Date();
+      conveniences.push(doc);
+    });
+  }
+
+  return await transaction.room.create(room, roomFiles, conveniences);
 };
 
 const addFile = async (id: string, payload: IRoomAddFilePayload): Promise<Error | null> => {

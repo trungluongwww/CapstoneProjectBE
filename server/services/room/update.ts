@@ -11,14 +11,6 @@ import services from "../index";
 import strings from "../../../external_node/ultils/strings";
 import inconstants from "../../../internal/inconstants";
 import s3 from "../../../external_node/s3";
-import roomFile from "../../dao/room-file";
-import {
-  IUploadOthersResponse,
-  IUploadSingleFileRequest,
-  IUploadSingleFileResponse,
-} from "../../../internal/interfaces/upload";
-import { RoomFile } from "../../../modules/database/entities";
-import pmongo from "../../../external_node/ultils/pmongo";
 
 const fromClient = async (id: string, payload: IRoomUpdatePayload): Promise<Error | null> => {
   let [room, err] = await dao.room.find.rawById(id);
@@ -36,6 +28,7 @@ const fromClient = async (id: string, payload: IRoomUpdatePayload): Promise<Erro
 
   // assign new value
   room.name = payload.name;
+  room.type = payload.type;
   room.description = payload.description;
   room.rentPerMonth = payload.rentPerMonth;
   room.deposit = payload.deposit;

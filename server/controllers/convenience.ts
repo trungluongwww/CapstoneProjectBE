@@ -12,7 +12,7 @@ const all = async (req: Request, res: Response) => {
 
 const create = async (req: Request, res: Response) => {
   let payload = req.body as IConvenienceCreatePayload;
-  const err = await services.convenience.create.createFromClient(payload);
+  const err = await services.convenience.create.fromClient(payload);
   if (err) {
     return response.r400(res, null, err.message);
   }
@@ -23,7 +23,7 @@ const create = async (req: Request, res: Response) => {
 const update = async (req: Request, res: Response) => {
   let id = req.params.id;
   let payload = req.body as IConvenienceUpdatePayload;
-  const err = await services.convenience.update.updateFromClient(id, payload);
+  const err = await services.convenience.update.fromClient(id, payload);
   if (err) {
     return response.r400(res, null, err.message);
   }
