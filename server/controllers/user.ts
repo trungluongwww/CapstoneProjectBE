@@ -34,8 +34,6 @@ const update = async (req: Request, res: Response) => {
 const login = async (req: Request, res: Response) => {
   const payload = req.body as IUserLoginPayload;
 
-  console.log(payload.email, payload.password);
-
   const [rs, err] = await services.user.find.login(payload);
   if (err) {
     return response.r400(res, null, err.message);
