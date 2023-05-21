@@ -72,8 +72,6 @@ const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
 const detailById = async (id: string): Promise<[IRoomDetailResponse | null, Error | null]> => {
   let [doc, err] = await dao.room.find.detailById(id);
 
-  console.log(doc?.conveniences)
-
   if (err || !doc) {
     return [null, Error(errorCode.room.ROOM_NOT_FOUND)];
   }
