@@ -4,7 +4,7 @@ import controllers from "../controllers";
 
 export default (g: Router) => {
   let r = express.Router();
-  g.use("/upload", r);
+  g.use("/uploads", r);
 
   r.post("/avatar", middleware.upload.singlePhoto, controllers.upload.avatar);
 
