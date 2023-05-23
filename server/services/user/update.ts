@@ -13,10 +13,6 @@ const fromClient = async (id: string, payload: IUserUpdatePayload): Promise<Erro
   user.districtId = payload.districtId;
   user.wardId = payload.wardId;
   user.address = payload.address;
-  user.facebook = payload.facebook;
-  user.zalo = payload.zalo;
-  user.avatar = payload.avatar;
-  user.email = payload.email;
 
   return await dao.user.update.one(user);
 };

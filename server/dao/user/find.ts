@@ -29,8 +29,6 @@ const relsById = async (id: string): Promise<[User | null, Error | null]> => {
       "u.updatedAt",
       "u.phone",
       "u.email",
-      "u.zalo",
-      "u.facebook",
       "u.name",
       "u.avatar",
       "u.address",

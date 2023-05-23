@@ -62,14 +62,12 @@ create table users
 
 create table contact_users
 (
-    id            text                                   not null
+    id         text                                   not null
         constraint contact_users_pk
             primary key,
-    phone         text                     default ''    not null,
-    facebook_link text                     default ''    not null,
-    zalo_link     text                     default ''    not null,
-    created_at    timestamp with time zone default now() not null,
-    updated_at    timestamp with time zone default now() not null
+    phone      text                     default ''    not null,
+    created_at timestamp with time zone default now() not null,
+    updated_at timestamp with time zone default now() not null
 );
 
 create table room

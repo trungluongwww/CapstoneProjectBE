@@ -28,8 +28,6 @@ const update = () => {
     body("provinceId").isMongoId().notEmpty().withMessage(errorCode.address.ADDRESS_INVALID_PROVINCE),
     body("districtId").isMongoId().notEmpty().withMessage(errorCode.address.ADDRESS_INVALID_DISTRICT),
     body("wardId").isMongoId().notEmpty().withMessage(errorCode.address.ADDRESS_INVALID_WARD),
-    body("facebook").isURL().withMessage(errorCode.user.USER_INVALID_FACEBOOK),
-    body("zalo").isString().withMessage(errorCode.user.USER_INVALID_ZALO),
   ];
 };
 

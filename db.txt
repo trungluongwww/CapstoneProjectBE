@@ -24,8 +24,6 @@ users :
 	// contacts
 	phone text
 	email text
-	zalo text
-	facebook text
 	// info
 	name text
 	avatar text

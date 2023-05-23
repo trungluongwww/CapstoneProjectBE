@@ -53,8 +53,6 @@ const convertModelToResponse = (user: User): IUserResponse => {
     id: user.id,
     phone: user.phone,
     email: user.email,
-    zalo: user.zalo,
-    facebook: user.facebook,
     name: user.name,
     avatar: user.avatar,
     createdAt: times.newDateTimeUTC7(user.createdAt),

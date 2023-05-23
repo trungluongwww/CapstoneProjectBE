@@ -18,10 +18,6 @@ interface IUserUpdatePayload {
   districtId: string;
   wardId: string;
   address: string;
-  facebook: string;
-  zalo: string;
-  avatar: string;
-  email: string;
 }
 
 interface IUserLoginPayload {
@@ -37,8 +33,6 @@ interface IUserResponse {
   id: string;
   phone: string;
   email: string;
-  zalo: string;
-  facebook: string;
   name: string;
   avatar: string;
   createdAt: Date;
