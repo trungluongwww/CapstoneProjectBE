@@ -41,14 +41,6 @@ const list: Array<IResponseCode> = [
     key: USER_NOT_FOUND,
   },
   {
-    message: "dường dẫn facebook không hợp lệ",
-    key: USER_INVALID_FACEBOOK,
-  },
-  {
-    message: "dường dẫn zalo không hợp lệ",
-    key: USER_INVALID_ZALO,
-  },
-  {
     message: "Tài khoản hoặc mật khẩu không đúng",
     key: USER_LOGIN_FAILED,
   },
