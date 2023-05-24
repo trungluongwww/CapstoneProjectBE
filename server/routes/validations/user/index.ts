@@ -52,9 +52,22 @@ const allRoom = () => {
   ];
 };
 
+const changeAvatar = () => {
+  return [body("avatar").isString().notEmpty().withMessage(errorCode.user.USER_INVALID_AVATAR)];
+};
+
+const changePassword = () => {
+  return [
+    body("currentPassword").isString().isLength({ min: 6 }).withMessage(errorCode.user.USER_INVALID_PASSWORD),
+    body("newPassword").isString().isLength({ min: 6 }).withMessage(errorCode.user.USER_INVALID_PASSWORD),
+  ];
+};
+
 export default {
   create: [create(), checkErrors],
   update: [update(), checkErrors],
+  changeAvatar: [changeAvatar(), checkErrors],
+  changePassword: [changePassword(), checkErrors],
   login: [login(), checkErrors],
   profile: [profile(), checkErrors],
   allRoom: [allRoom(), checkErrors],

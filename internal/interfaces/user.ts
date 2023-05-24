@@ -48,6 +48,15 @@ interface IUserAddFavouriteRoomPayload {
   roomId: string;
 }
 
+interface IUserChangeAvatarPayload {
+  avatar: string;
+}
+
+interface IUserChangePasswordPayload {
+  currentPassword: string;
+  newPassword: string;
+}
+
 export {
   IUserAddFavouriteRoomPayload,
   IUserCreatePayload,
@@ -55,4 +64,6 @@ export {
   IUserLoginPayload,
   IUserUpdatePayload,
   IUserResponse,
+  IUserChangePasswordPayload,
+  IUserChangeAvatarPayload,
 };

@@ -10,6 +10,8 @@ const USER_NOT_FOUND = "USER_NOT_FOUND";
 const USER_INVALID_FACEBOOK = "USER_INVALID_FACEBOOK";
 const USER_INVALID_ZALO = "USER_INVALID_ZALO";
 const USER_LOGIN_FAILED = "USER_LOGIN_FAILED";
+const USER_INVALID_AVATAR = "USER_INVALID_AVATAR";
+const OLD_PASSWORD_INCORRECT = "OLD_PASSWORD_INCORRECT";
 
 const list: Array<IResponseCode> = [
   {
@@ -44,6 +46,14 @@ const list: Array<IResponseCode> = [
     message: "Tài khoản hoặc mật khẩu không đúng",
     key: USER_LOGIN_FAILED,
   },
+  {
+    message: "Avatar người dùng không hợp lệ",
+    key: USER_INVALID_AVATAR,
+  },
+  {
+    message: "Mật khẩu cũ không chính xác",
+    key: OLD_PASSWORD_INCORRECT,
+  },
 ];
 
 export default {
@@ -58,4 +68,6 @@ export default {
   USER_INVALID_FACEBOOK,
   USER_INVALID_ZALO,
   USER_LOGIN_FAILED,
+  USER_INVALID_AVATAR,
+  OLD_PASSWORD_INCORRECT,
 };

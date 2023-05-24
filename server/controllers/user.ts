@@ -2,6 +2,8 @@ import { Response } from "express";
 import { Request } from "express-jwt";
 import {
   IUserAddFavouriteRoomPayload,
+  IUserChangeAvatarPayload,
+  IUserChangePasswordPayload,
   IUserCreatePayload,
   IUserLoginPayload,
   IUserUpdatePayload,
@@ -82,6 +84,29 @@ const addFavouriteRoom = async (req: Request, res: Response) => {
   }
   return response.r200(res);
 };
+
+const changeAvatar = async (req: Request, res: Response) => {
+  const payload = req.body as IUserChangeAvatarPayload;
+  const userId = req.auth?.id as string;
+
+  const err = await services.user.update.changeAvatar(userId, payload);
+  if (err) {
+    return response.r400(res, null, err.message);
+  }
+  return response.r200(res);
+};
+
+const changePassword = async (req: Request, res: Response) => {
+  const payload = req.body as IUserChangePasswordPayload;
+  const userId = req.auth?.id as string;
+
+  const err = await services.user.update.changePassword(userId, payload);
+  if (err) {
+    return response.r400(res, null, err.message);
+  }
+  return response.r200(res);
+};
+
 export default {
   register,
   update,
@@ -90,4 +115,6 @@ export default {
   me,
   allRoom,
   addFavouriteRoom,
+  changeAvatar,
+  changePassword,
 };
