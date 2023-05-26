@@ -2,6 +2,7 @@ import database from "../../../modules/database";
 import { Room, User } from "../../../modules/database/entities";
 import inconstants from "../../../internal/inconstants";
 import { ISortObject } from "../../../internal/interfaces/common";
+import { IRoomQueryCondition } from "../../../internal/interfaces/room";
 
 const selectDetailColumn = (): Array<string> => [
   "r.id",
@@ -26,18 +27,7 @@ const selectDetailColumn = (): Array<string> => [
   "u.avatar",
 ];
 
-const all = async (
-  provinceId: string | null,
-  districtId: string | null,
-  wardId: string | null,
-  keyword: string,
-  limit: number,
-  offset: number,
-  orders: Array<ISortObject>,
-  status: string,
-  type: string | null = null,
-  ownerId: string | null = null
-): Promise<[Room[], number, Error | null]> => {
+const all = async (cond: IRoomQueryCondition): Promise<[Room[], number, Error | null]> => {
   const db = database.getDataSource();
 
   try {
@@ -50,30 +40,34 @@ const all = async (
       .leftJoinAndMapOne("r.district", "districts", "d", "r.districtId = d.id")
       .select(selectDetailColumn());
 
-    q.where("r.searchText like :keyword", { keyword: `%${keyword}%` });
-
-    q.andWhere("r.status = :status", { status });
-
-    if (ownerId) {
-      q.andWhere("r.userId = :userId", { userId: ownerId });
+    if (cond.keyword) {
+      q.andWhere("r.searchText like :keyword", { keyword: `%${cond.keyword}%` });
     }
 
-    if (wardId) {
-      q.andWhere("r.wardId = :wardId", { wardId });
-    } else if (districtId) {
-      q.andWhere("r.districtId = :districtId", { districtId });
-    } else if (provinceId) {
-      q.andWhere("r.provinceId = :provinceId", { provinceId });
+    if (cond.status) {
+      q.andWhere("r.status = :status", { status: cond.status });
     }
 
-    if (type) {
-      q.andWhere("r.type = :type", { type });
+    if (cond.ownerId) {
+      q.andWhere("r.userId = :userId", { userId: cond.ownerId });
     }
 
-    q.skip(offset);
-    q.take(limit);
+    if (cond.wardId) {
+      q.andWhere("r.wardId = :wardId", { wardId: cond.wardId });
+    } else if (cond.districtId) {
+      q.andWhere("r.districtId = :districtId", { districtId: cond.districtId });
+    } else if (cond.provinceId) {
+      q.andWhere("r.provinceId = :provinceId", { provinceId: cond.provinceId });
+    }
 
-    for (let order of orders) {
+    if (cond.type) {
+      q.andWhere("r.type = :type", { type: cond.type });
+    }
+
+    q.skip(cond.offset);
+    q.take(cond.limit);
+
+    for (let order of cond.orders) {
       if (order.column == inconstants.room.sortField.price) {
         q.addOrderBy("r.rentPerMonth", order.value);
       }

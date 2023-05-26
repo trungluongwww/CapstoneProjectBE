@@ -1,7 +1,7 @@
 import { IUploadSingleFileRequest, IUploadSingleFileResponse } from "./upload";
 import { District, Province, Room, Ward } from "../../modules/database/entities";
 import { IDistrictResponse, IProvinceResponse, IWardResponse } from "./location";
-import { ICommonKeyValue } from "./common";
+import { ICommonKeyValue, ISortObject } from "./common";
 import { IUserResponse } from "./user";
 import { IConvenienceResponse } from "./convenience";
 
@@ -132,6 +132,19 @@ interface IRoomAllByUserQuery {
   status: string;
 }
 
+interface IRoomQueryCondition {
+  provinceId: string | null;
+  districtId: string | null;
+  wardId: string | null;
+  keyword: string;
+  limit: number;
+  offset: number;
+  orders: Array<ISortObject>;
+  status: string;
+  type: string | null;
+  ownerId: string | null;
+}
+
 export {
   IRoomCreatePayload,
   IRoomAllQuery,
@@ -146,4 +159,5 @@ export {
   IRoomShortResponse,
   IRoomAllByUserQuery,
   IRoomDetailResponse,
+  IRoomQueryCondition,
 };

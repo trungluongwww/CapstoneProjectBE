@@ -44,9 +44,8 @@ const profile = () => {
 
 const allRoom = () => {
   return [
-    query("limit").isInt().notEmpty().withMessage(response.common.commonInvalidPagination),
     query("status")
-      .optional({ nullable: false })
+      .optional({ nullable: true })
       .isIn(inconstants.room.status.all)
       .withMessage(errorCode.room.ROOM_INVALID_STATUS),
   ];
