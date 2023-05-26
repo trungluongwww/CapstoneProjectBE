@@ -9,6 +9,7 @@ import {
   IRoomDeleteFilePayload,
   IRoomDetailResponse,
   IRoomFileResponse,
+  IRoomQueryCondition,
   IRoomResponse,
   IRoomShortResponse,
 } from "../../../internal/interfaces/room";
@@ -42,17 +43,17 @@ const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
 
   query.keyword = strings.content.convertToLowerUsLang(query.keyword);
 
-  let [rooms, total, err] = await dao.room.find.all(
-    query.provinceId,
-    query.districtId,
-    query.wardId,
-    query.keyword,
-    limit,
-    offset,
-    [order],
-    inconstants.room.status.active,
-    query.type
-  );
+  let [rooms, total, err] = await dao.room.find.all({
+    provinceId: query.provinceId,
+    districtId: query.districtId,
+    wardId: query.wardId,
+    keyword: query.keyword,
+    limit: limit,
+    offset: offset,
+    orders: [order],
+    status: inconstants.room.status.active,
+    type: query.type,
+  } as IRoomQueryCondition);
 
   if (err) {
     return {
@@ -106,16 +107,15 @@ const allRecommend = async (userId: string): Promise<IRoomAllResponse> => {
     },
   ] as Array<ISortObject>;
 
-  let [rooms, total, err] = await dao.room.find.all(
-    user.provinceId,
-    user.districtId,
-    user.wardId,
-    "",
-    limit,
-    offset,
-    sorts,
-    inconstants.room.status.active
-  );
+  let [rooms, total, err] = await dao.room.find.all({
+    provinceId: user.provinceId,
+    districtId: user.districtId,
+    wardId: user.wardId,
+    limit: limit,
+    offset: offset,
+    orders: sorts,
+    status: inconstants.room.status.active,
+  } as IRoomQueryCondition);
 
   if (err) {
     return {
@@ -151,12 +151,18 @@ const allByUserId = async (
 
   let sorts = [
     {
-      value: inconstants.room.sortField.createdAt,
-      column: "DESC",
+      value: "DESC",
+      column: inconstants.room.sortField.createdAt,
     },
   ] as Array<ISortObject>;
 
-  let [rooms, total, err] = await dao.room.find.all(null, null, null, "", limit, offset, sorts, query.status, user.id);
+  let [rooms, total, err] = await dao.room.find.all({
+    limit: limit,
+    offset: offset,
+    orders: sorts,
+    status: query.status,
+    ownerId: user.id,
+  } as IRoomQueryCondition);
   if (err) {
     return [
       {
