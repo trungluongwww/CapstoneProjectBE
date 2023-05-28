@@ -9,7 +9,7 @@ import {
   IRoomChangeStatusPayload,
   IRoomCreatePayload,
   IRoomDeleteFilePayload,
-  IRoomUpdatePayload,
+  IRoomUpdatePayload, IUploadSingleFileRequest
 } from "../../internal/interfaces/room";
 
 const create = async (req: Request, res: Response) => {
@@ -76,16 +76,20 @@ const removeFile = async (req: Request, res: Response) => {
   return response.r200(res);
 };
 const addFile = async (req: Request, res: Response) => {
-  const payload = req.body as IRoomAddFilePayload;
-  payload.userId = req.auth?.id;
+  const payload = req.body as IUploadSingleFileRequest;
+  const userId = req.auth?.id;
 
   const id = req.params.id;
 
-  const err = await services.room.create.addFile(id, payload);
+  const [rs, err] = await services.room.create.addFile(id, {
+    file: payload,
+    userId: userId
+  } as IRoomAddFilePayload);
+
   if (err) {
     return response.r400(res, null, err.message);
   }
-  return response.r200(res);
+  return response.r200(res, rs);
 };
 
 const addComment = async (req: Request, res: Response) => {

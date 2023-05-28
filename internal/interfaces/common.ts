@@ -17,4 +17,8 @@ interface ISortObject {
   value: "ASC" | "DESC";
 }
 
-export { ICommonKeyValue, IJwtUser, ISortObject };
+interface ICommonUpsertResponse {
+  id: string;
+}
+
+export { ICommonKeyValue, IJwtUser, ISortObject, ICommonUpsertResponse };

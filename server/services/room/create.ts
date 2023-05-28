@@ -11,6 +11,7 @@ import transaction from "../../transaction";
 import services from "../index";
 import dao from "../../dao";
 import response from "../../../external_node/ultils/response";
+import { ICommonUpsertResponse } from "../../../internal/interfaces/common";
 
 const fromClient = async (payload: IRoomCreatePayload): Promise<Error | null> => {
   let user = await services.user.find.rawById(payload.userId);
@@ -82,18 +83,21 @@ const fromClient = async (payload: IRoomCreatePayload): Promise<Error | null> =>
   return await transaction.room.create(room, roomFiles, conveniences);
 };
 
-const addFile = async (id: string, payload: IRoomAddFilePayload): Promise<Error | null> => {
-  let [room, err] = await dao.room.find.rawById(id);
+const addFile = async (
+  id: string,
+  payload: IRoomAddFilePayload
+): Promise<[ICommonUpsertResponse | null, Error | null]> => {
+  let [room] = await dao.room.find.rawById(id);
   if (!room) {
-    return Error(errorCode.room.ROOM_NOT_FOUND);
+    return [null, Error(errorCode.room.ROOM_NOT_FOUND)];
   }
 
   if (room.userId != payload.userId) {
-    return Error(response.common.commonNoPermissionKey);
+    return [null, Error(response.common.commonNoPermissionKey)];
   }
 
   if (!payload.file.name) {
-    return Error(errorCode.upload.UPLOAD_INVALID_FILE);
+    return [null, Error(errorCode.upload.UPLOAD_INVALID_FILE)];
   }
 
   let doc = new RoomFile();
@@ -110,9 +114,17 @@ const addFile = async (id: string, payload: IRoomAddFilePayload): Promise<Error 
     url: payload.file.url,
   } as IUploadSingleFileResponse;
 
-  return await dao.roomFile.create.one(doc);
+  const err = await dao.roomFile.create.one(doc);
+  if (err) {
+    return [null, err];
+  }
 
-  return null;
+  return [
+    {
+      id: doc.id,
+    } as ICommonUpsertResponse,
+    null,
+  ];
 };
 
 const addComment = async (id: string, payload: IRoomAddCommentPayload): Promise<Error | null> => {

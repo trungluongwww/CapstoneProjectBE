@@ -160,4 +160,5 @@ export {
   IRoomAllByUserQuery,
   IRoomDetailResponse,
   IRoomQueryCondition,
+  IUploadSingleFileRequest,
 };
