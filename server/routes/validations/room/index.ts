@@ -67,12 +67,7 @@ const addComment = () => {
 };
 
 const removeFile = () => {
-  return [
-    body("fileId")
-      .isIn(inconstants.room.status.all)
-      .optional({ nullable: false })
-      .withMessage(response.common.commonInvalidID),
-  ];
+  return [body("fileId").optional({ nullable: false }).isMongoId().withMessage(response.common.commonInvalidID)];
 };
 
 export default {

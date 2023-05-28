@@ -15,7 +15,7 @@ export default (g: Router) => {
 
   // post
   r.post("/", required.login, ...validations.room.create, controllers.room.create);
-  r.post("/:id/file", required.login, ...validations.room.addFile, controllers.room.addFile);
+  r.post("/:id/photo", required.login, ...validations.room.addFile, controllers.room.addFile);
   r.post("/:id/comment", required.login, ...validations.room.addComment, controllers.room.addComment);
 
   // put
@@ -25,5 +25,5 @@ export default (g: Router) => {
   r.patch("/:id/status", required.login, ...validations.room.changeStatus, controllers.room.changeStatus);
 
   // delete
-  r.delete("/:id/file", required.login, ...validations.room.removeFile, controllers.room.removeFile);
+  r.delete("/:id/photo", required.login, ...validations.room.removeFile, controllers.room.removeFile);
 };
