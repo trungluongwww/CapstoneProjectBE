@@ -17,6 +17,9 @@ import inconstants from "../../../internal/inconstants";
 const detailByQuery = async (
   query: IConversationDetailQuery
 ): Promise<[IConversationDetailResponse | null, Error | null]> => {
+  if (query.userId == query.targetId) {
+    return [null, Error(errorCode.conversation.CONVERSATION_INVALID)];
+  }
   let [conv] = await dao.conversation.find.byMemberIds(query.userId, query.targetId);
   if (conv) {
     return [{ conversation: convertModelToResponse(conv) } as IConversationDetailResponse, null];

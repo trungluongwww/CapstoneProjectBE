@@ -53,7 +53,7 @@ const changeStatus = async (id: string, payload: IRoomChangeStatusPayload): Prom
     return Error(response.common.commonNoPermissionKey);
   }
 
-  if (!inconstants.room.status.all.includes(status)) {
+  if (!inconstants.room.status.all.includes(payload.status)) {
     return Error(errorCode.room.ROOM_INVALID_STATUS);
   }
 

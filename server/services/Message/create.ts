@@ -35,7 +35,6 @@ const createFromClient = async (
       console.log("[Message] message type text but content is empty");
       return Error(errorCode.conversation.CONVERSATION_MESSAGE_TYPE_INVALID);
     }
-    msg.content = payload.content;
   }
 
   if (inconstants.message.type.allFile.includes(payload.type)) {
@@ -62,6 +61,8 @@ const createFromClient = async (
 
     msg.roomId = payload.roomId;
   }
+
+  msg.content = payload.content || "";
 
   let err = await dao.message.create.one(msg);
   if (!err) {

@@ -29,7 +29,7 @@ interface IConversationResponse {
   unread: number;
   createdAt: Date;
   updatedAt: Date;
-  lastMessage: IMessageShortResponse;
+  lastMessage: IMessageShortResponse | null;
 }
 
 interface IConversationAddMessagePayload {

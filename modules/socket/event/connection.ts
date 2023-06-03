@@ -9,5 +9,10 @@ export default (io: Server) => {
     connect(socket);
 
     conversationSeen(io, socket);
+
+    // tracking disconnect
+    socket.on('disconnect', () => {
+      console.log(`[socket] Disconnected userID: '${socket.data.id}'`);
+    })
   });
 };
