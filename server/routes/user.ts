@@ -21,4 +21,7 @@ export default (g: Router) => {
   r.put("/", required.login, ...validations.user.update, controllers.user.update);
   r.patch("/avatar", required.login, ...validations.user.changeAvatar, controllers.user.changeAvatar);
   r.patch("/password", required.login, ...validations.user.changePassword, controllers.user.changePassword);
+
+  // del
+  r.delete('/favourite-room', required.login, controllers.user.removeFavouriteRoom);
 };

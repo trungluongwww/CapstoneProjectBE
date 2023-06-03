@@ -55,7 +55,7 @@ const allByConversationID = async (
   }
 
   if (result.messages.length == limit) {
-    result.pageToken = pagnigation.createPageToken(null, docs[0].createdAt);
+    result.pageToken = pagnigation.createPageToken(null, docs[docs.length - 1].createdAt);
   }
 
   return [result, null];
@@ -90,9 +90,9 @@ const convertModelToResponse = async (msg: Message): Promise<IMessageResponse> =
   return rs;
 };
 
-const convertModelToShortResponse = (msg: Message): IMessageShortResponse => {
+const convertModelToShortResponse = (msg: Message): IMessageShortResponse | null => {
   if (!msg) {
-    return {} as IMessageShortResponse;
+    return null;
   }
 
   let rs = {

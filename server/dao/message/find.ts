@@ -27,7 +27,9 @@ const all = async (
         "r.avatar",
       ]);
 
-    q.where("m.conversationId = :convId", { convId: conversationId }).where("m.createdAt < :createdAt", { createdAt });
+    q.where("m.conversationId = :convId", { convId: conversationId }).andWhere("m.createdAt < :createdAt", {
+      createdAt,
+    });
 
     // pagination
     q.orderBy("m.createdAt", "DESC");

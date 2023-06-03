@@ -70,7 +70,7 @@ const addFavouriteRoom = async (id: string, payload: IUserAddFavouriteRoomPayloa
     return Error(errorCode.user.USER_NOT_FOUND);
   }
 
-  let room = await services.room.find.rawById(id);
+  let room = await services.room.find.rawById(payload.roomId);
   if (!room) {
     return Error(errorCode.room.ROOM_NOT_FOUND);
   }

@@ -85,6 +85,17 @@ const addFavouriteRoom = async (req: Request, res: Response) => {
   return response.r200(res);
 };
 
+const removeFavouriteRoom = async (req: Request, res: Response) => {
+  const id = req.auth?.id;
+  const payload: IUserAddFavouriteRoomPayload = req.body as IUserAddFavouriteRoomPayload;
+
+  const err = await services.user.del.removeFavouriteRoom(id, payload);
+  if (err) {
+    return response.r400(res, null, err.message);
+  }
+  return response.r200(res);
+};
+
 const changeAvatar = async (req: Request, res: Response) => {
   const payload = req.body as IUserChangeAvatarPayload;
   const userId = req.auth?.id as string;
@@ -117,4 +128,5 @@ export default {
   addFavouriteRoom,
   changeAvatar,
   changePassword,
+  removeFavouriteRoom,
 };
