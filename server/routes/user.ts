@@ -15,13 +15,14 @@ export default (g: Router) => {
   // post
   r.post("/register", ...validations.user.create, controllers.user.register);
   r.post("/login", ...validations.user.login, controllers.user.login);
-  r.post("/favourite-room", required.login, controllers.user.addFavouriteRoom);
 
   // put
   r.put("/", required.login, ...validations.user.update, controllers.user.update);
   r.patch("/avatar", required.login, ...validations.user.changeAvatar, controllers.user.changeAvatar);
   r.patch("/password", required.login, ...validations.user.changePassword, controllers.user.changePassword);
 
-  // del
-  r.delete('/favourite-room', required.login, controllers.user.removeFavouriteRoom);
+  // favourite room
+  r.get("/favourite-room", required.login, controllers.user.allFavouriteRoom);
+  r.post("/favourite-room", required.login, controllers.user.addFavouriteRoom);
+  r.delete("/favourite-room", required.login, controllers.user.removeFavouriteRoom);
 };
