@@ -27,6 +27,41 @@ const selectDetailColumn = (): Array<string> => [
   "u.avatar",
 ];
 
+const findRecommendIds = async (cond: IRoomQueryCondition): Promise<[Array<Room>, Error | null]> => {
+  const db = database.getDataSource();
+
+  try {
+    const q = db.createQueryBuilder(Room, "r");
+
+    if (cond.wardId) {
+      q.orWhere("r.wardId = :wardId", { wardId: cond.wardId });
+    }
+
+    if (cond.districtId) {
+      q.orWhere("r.districtId = :districtId", { districtId: cond.districtId });
+    }
+
+    if (cond.provinceId) {
+      q.orWhere("r.provinceId = :provinceId", { provinceId: cond.provinceId });
+    }
+
+    if (cond.status) {
+      q.andWhere("r.status = :status", { status: cond.status });
+    }
+
+    q.select(["r.id", "(select count(*) from user_favourite_rooms ur where ur.room_id = r.id) as total"]);
+
+    q.groupBy("r.id");
+
+    q.orderBy("total", "DESC");
+
+    return [await q.getMany(), null];
+  } catch (e) {
+    console.log(`[Error] dao.room.find.findRecommendIds ${(e as Error).message}`);
+    return [[], e as Error];
+  }
+};
+
 const all = async (cond: IRoomQueryCondition): Promise<[Room[], number, Error | null]> => {
   const db = database.getDataSource();
 
@@ -39,6 +74,10 @@ const all = async (cond: IRoomQueryCondition): Promise<[Room[], number, Error | 
       .leftJoinAndMapOne("r.ward", "wards", "w", "r.wardId = w.id")
       .leftJoinAndMapOne("r.district", "districts", "d", "r.districtId = d.id")
       .select(selectDetailColumn());
+
+    if (cond.ids?.length) {
+      q.andWhere("r.id IN (:...ids)", { ids: cond.ids });
+    }
 
     if (cond.keyword) {
       q.andWhere("r.searchText like :keyword", { keyword: `%${cond.keyword}%` });
@@ -139,4 +178,5 @@ export default {
   rawById,
   countById,
   detailById,
+  findRecommendIds,
 };

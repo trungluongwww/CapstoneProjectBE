@@ -133,6 +133,7 @@ interface IRoomAllByUserQuery {
 }
 
 interface IRoomQueryCondition {
+  ids: Array<string>;
   provinceId: string | null;
   districtId: string | null;
   wardId: string | null;

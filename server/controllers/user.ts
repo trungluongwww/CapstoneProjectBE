@@ -118,6 +118,15 @@ const changePassword = async (req: Request, res: Response) => {
   return response.r200(res);
 };
 
+const allFavouriteRoom = async (req: Request, res: Response) => {
+  const id = req.auth?.id;
+  const { pageToken } = req.query;
+
+  const rs = await services.room.find.allFavouritesByUserId(id, pageToken as string);
+
+  return response.r200(res, rs);
+};
+
 export default {
   register,
   update,
@@ -129,4 +138,5 @@ export default {
   changeAvatar,
   changePassword,
   removeFavouriteRoom,
+  allFavouriteRoom,
 };
