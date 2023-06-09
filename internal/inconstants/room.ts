@@ -23,7 +23,7 @@ export default {
     let value: string;
     switch (status) {
       case "banned":
-        value = "Đã bị admin khóa" + "" + "";
+        value = "Đã bị admin khóa";
         break;
       case "active":
         value = "Đang tìm người thuê";
