@@ -19,7 +19,7 @@ const fromClient = async (payload: IRoomCreatePayload): Promise<Error | null> =>
     return Error(errorCode.user.USER_NOT_FOUND);
   }
 
-  // validate address
+  // validations address
   if (!(await location.find.isValidLocation(payload.provinceId, payload.districtId, payload.wardId))) {
     return Error(errorCode.address.ADDRESS_COMMON_INVALID);
   }
@@ -62,7 +62,7 @@ const fromClient = async (payload: IRoomCreatePayload): Promise<Error | null> =>
 
   let conveniences: Array<RoomConvenience> = [];
 
-  // validate conveniences
+  // validations conveniences
   if (payload.convenienceIds && payload.convenienceIds.length > 0) {
     const count = await services.convenience.find.countByCondition(payload.convenienceIds);
     if (count != payload.convenienceIds.length) {

@@ -57,6 +57,12 @@ interface IUserChangePasswordPayload {
   newPassword: string;
 }
 
+interface IUserQueryCondition {
+  email: string;
+  phone: string;
+  id: string;
+}
+
 export {
   IUserAddFavouriteRoomPayload,
   IUserCreatePayload,
@@ -66,4 +72,5 @@ export {
   IUserResponse,
   IUserChangePasswordPayload,
   IUserChangeAvatarPayload,
+  IUserQueryCondition,
 };

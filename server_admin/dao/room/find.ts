@@ -1,6 +1,7 @@
 import database from "../../../modules/database";
 import { Room, User } from "../../../modules/database/entities";
 import inconstants from "../../../internal/inconstants";
+import { ISortObject } from "../../../internal/interfaces/common";
 import { IRoomQueryCondition } from "../../../internal/interfaces/room";
 
 const selectDetailColumn = (): Array<string> => [
@@ -26,40 +27,6 @@ const selectDetailColumn = (): Array<string> => [
   "u.avatar",
 ];
 
-const findRecommendIds = async (cond: IRoomQueryCondition): Promise<[Array<Room>, Error | null]> => {
-  const db = database.getDataSource();
-
-  try {
-    const q = db.createQueryBuilder(Room, "r");
-
-    if (cond.wardId) {
-      q.orWhere("r.wardId = :wardId", { wardId: cond.wardId });
-    }
-
-    if (cond.districtId) {
-      q.orWhere("r.districtId = :districtId", { districtId: cond.districtId });
-    }
-
-    if (cond.provinceId) {
-      q.orWhere("r.provinceId = :provinceId", { provinceId: cond.provinceId });
-    }
-
-    if (cond.status) {
-      q.andWhere("r.status = :status", { status: cond.status });
-    }
-
-    q.select(["r.id", "(select count(*) from user_favourite_rooms ur where ur.room_id = r.id) as total"]);
-
-    q.groupBy("r.id");
-
-    q.orderBy("total", "DESC");
-
-    return [await q.getMany(), null];
-  } catch (e) {
-    console.log(`[Error] dao.room.find.findRecommendIds ${(e as Error).message}`);
-    return [[], e as Error];
-  }
-};
 
 const all = async (cond: IRoomQueryCondition): Promise<[Room[], number, Error | null]> => {
   const db = database.getDataSource();
@@ -74,9 +41,6 @@ const all = async (cond: IRoomQueryCondition): Promise<[Room[], number, Error | 
       .leftJoinAndMapOne("r.district", "districts", "d", "r.districtId = d.id")
       .select(selectDetailColumn());
 
-    if (cond.ids?.length) {
-      q.andWhere("r.id IN (:...ids)", { ids: cond.ids });
-    }
 
     if (cond.keyword) {
       q.andWhere("r.searchText like :keyword", { keyword: `%${cond.keyword}%` });
@@ -84,14 +48,6 @@ const all = async (cond: IRoomQueryCondition): Promise<[Room[], number, Error | 
 
     if (cond.status) {
       q.andWhere("r.status = :status", { status: cond.status });
-    }
-
-    if (cond.ownerId) {
-      q.andWhere("r.userId = :userId", { userId: cond.ownerId });
-    }
-
-    if (cond.maxPrice) {
-      q.andWhere("r.rentPerMonth < :maxPrice", { maxPrice: cond.maxPrice })
     }
 
     if (cond.wardId) {
@@ -124,7 +80,7 @@ const all = async (cond: IRoomQueryCondition): Promise<[Room[], number, Error | 
 
     return [docs, total, null];
   } catch (e: unknown) {
-    console.log(`[Error] dao.room.find.all ${(e as Error).message}`);
+    console.log(`[Error admin] dao.room.find.all ${(e as Error).message}`);
     return [[], 0, e as Error];
   }
 };
@@ -154,32 +110,7 @@ const detailById = async (id: string): Promise<[Room | null, Error | null]> => {
   }
 };
 
-const rawById = async (id: string): Promise<[Room | null, Error | null]> => {
-  const db = database.getDataSource();
-
-  try {
-    return [await db.createQueryBuilder(Room, "r").select(["r"]).where("r.id = :id", { id }).getOne(), null];
-  } catch (e: unknown) {
-    console.log(`[Error] dao.room.find.rawById ${(e as Error).message}`);
-    return [null, e as Error];
-  }
-};
-
-const countById = async (id: string): Promise<number> => {
-  const db = database.getDataSource();
-
-  try {
-    return await db.createQueryBuilder(Room, "r").where("r.id = :id", { id }).getCount();
-  } catch (e: unknown) {
-    console.log(`[Error] dao.room.find.countById ${(e as Error).message}`);
-    return 0;
-  }
-};
-
 export default {
   all,
-  rawById,
-  countById,
   detailById,
-  findRecommendIds,
 };

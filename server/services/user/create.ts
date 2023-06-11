@@ -15,12 +15,12 @@ import jwt from "jsonwebtoken";
 import config from "../../../external_node/config";
 
 const register = async (payload: IUserCreatePayload): Promise<[IUserLoginResponse | null, Error | null]> => {
-  // validate identity info
+  // validations identity info
   if ((await dao.user.find.countByIdentity(payload.email, payload.phone)) > 0) {
     return [null, Error(errorCode.user.USER_ALREADY_EXITS)];
   }
 
-  // validate location info
+  // validations location info
 
   if (!(await location.find.isValidLocation(payload.provinceId, payload.districtId, payload.wardId))) {
     return [null, Error(errorCode.address.ADDRESS_COMMON_INVALID)];

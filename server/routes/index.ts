@@ -16,13 +16,12 @@ import conversation from "./conversation";
 import convenience from "./convenience";
 
 export default (app: Express) => {
-  app.use(helmet());
-  app.use(cors());
-  app.use(express.json());
-  app.use(morgan("tiny"));
+  const router = express.Router();
 
-  // simple validate jwt
-  app.use(
+  app.use("/api", router);
+
+  // simple validations jwt
+  router.use(
     expressjwt({
       secret: config.get().common.jwtSecretKey || "",
       algorithms: ["HS256"],
@@ -35,10 +34,6 @@ export default (app: Express) => {
     }
   );
 
-  const router = express.Router();
-
-  app.use("/api", router);
-
   location(router);
   common(router);
   user(router);
@@ -47,8 +42,4 @@ export default (app: Express) => {
   room(router);
   conversation(router);
   convenience(router);
-
-  app.use("*", (req: Request, res: Response) => {
-    return response.r404(res, "The route not found");
-  });
 };
