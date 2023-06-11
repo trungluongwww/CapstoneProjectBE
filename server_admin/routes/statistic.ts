@@ -1,12 +1,11 @@
 import express, { Router } from "express";
 import required from "./required";
-import controllers from "../controllers";
 import validations from "./validations";
+import controllers from "../controllers";
 
 export default (g: Router) => {
   let r = express.Router();
-  g.use("/conveniences", r);
+  g.use("/statistics", r);
 
-  // get
-  r.get("/", required.login, controllers.convenience.all);
+  r.get("", required.loginAdmin, ...validations.statistic.all, controllers.statistic.all);
 };

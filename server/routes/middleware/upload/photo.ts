@@ -21,7 +21,7 @@ export default multer({
       return cb(new Error("file not found"));
     }
 
-    // validate size
+    // validations size
     if (file.size > constants.upload.sizeFile.photo) {
       return [null, Error(errorCode.upload.UPLOAD_INVALID_SIZE)];
     }

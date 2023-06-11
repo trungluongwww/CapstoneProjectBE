@@ -8,7 +8,7 @@ export default (io: Server, socket: Socket) => {
   socket.on(inconstants.socket.event.conversation.seen, (payload: ISocketConversationSeenPayload) => {
     payload.userId = socket.data.id;
 
-    // validate
+    // validations
     if (!pmongo.isValidMongoId(payload.conversationId)) {
       socket.emit(inconstants.socket.event.error.common, {
         message: "invalid conversation id",

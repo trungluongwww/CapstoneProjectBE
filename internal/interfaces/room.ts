@@ -144,6 +144,7 @@ interface IRoomQueryCondition {
   status: string;
   type: string | null;
   ownerId: string | null;
+  maxPrice: number;
 }
 
 export {
