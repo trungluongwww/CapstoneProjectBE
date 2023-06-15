@@ -1,5 +1,5 @@
 import { IDistrictResponse, IProvinceResponse, IWardResponse } from "./location";
-import dao from "../../server/dao";
+import dao from "../../server_app/dao";
 
 interface IUserCreatePayload {
   email: string;

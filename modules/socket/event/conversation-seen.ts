@@ -2,7 +2,7 @@ import { Server, Socket } from "socket.io";
 import inconstants from "../../../internal/inconstants";
 import { ISocketConversationSeenPayload, ISocketEventFailedResponse } from "../../../internal/interfaces/socket";
 import pmongo from "../../../external_node/ultils/pmongo";
-import services from "../../../server/services";
+import services from "../../../server_app/services";
 
 export default (io: Server, socket: Socket) => {
   socket.on(inconstants.socket.event.conversation.seen, (payload: ISocketConversationSeenPayload) => {

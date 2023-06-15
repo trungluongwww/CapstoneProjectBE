@@ -4,6 +4,7 @@ const convenience_invalid_name = "convenience_invalid_name";
 const convenience_invalid_code = "convenience_invalid_code";
 const convenience_invalid_order = "convenience_invalid_order";
 const convenience_invalid = "convenience_invalid";
+const convenience_already_exist = "convenience_already_exist";
 
 const list: Array<IResponseCode> = [
   {
@@ -22,6 +23,10 @@ const list: Array<IResponseCode> = [
     message: "tiện ích không hợp lệ",
     key: convenience_invalid,
   },
+  {
+    message: "mã của tiện ích đã tồn tại",
+    key: convenience_already_exist,
+  },
 ];
 export default {
   list,
@@ -29,4 +34,5 @@ export default {
   convenience_invalid_code,
   convenience_invalid_order,
   convenience_invalid,
+  convenience_already_exist,
 };
