@@ -27,7 +27,6 @@ const selectDetailColumn = (): Array<string> => [
   "u.avatar",
 ];
 
-
 const all = async (cond: IRoomQueryCondition): Promise<[Room[], number, Error | null]> => {
   const db = database.getDataSource();
 
@@ -40,7 +39,6 @@ const all = async (cond: IRoomQueryCondition): Promise<[Room[], number, Error | 
       .leftJoinAndMapOne("r.ward", "wards", "w", "r.wardId = w.id")
       .leftJoinAndMapOne("r.district", "districts", "d", "r.districtId = d.id")
       .select(selectDetailColumn());
-
 
     if (cond.keyword) {
       q.andWhere("r.searchText like :keyword", { keyword: `%${cond.keyword}%` });
@@ -110,7 +108,30 @@ const detailById = async (id: string): Promise<[Room | null, Error | null]> => {
   }
 };
 
+const rawById = async (id: string): Promise<[Room | null, Error | null]> => {
+  const db = database.getDataSource();
+
+  try {
+    return [await db.createQueryBuilder(Room, "r").select(["r"]).where("r.id = :id", { id }).getOne(), null];
+  } catch (e: unknown) {
+    console.log(`[Error] dao.room.find.rawById ${(e as Error).message}`);
+    return [null, e as Error];
+  }
+};
+
+const countById = async (id: string): Promise<number> => {
+  const db = database.getDataSource();
+
+  try {
+    return await db.createQueryBuilder(Room, "r").where("r.id = :id", { id }).getCount();
+  } catch (e: unknown) {
+    console.log(`[Error] dao.room.find.countById ${(e as Error).message}`);
+    return 0;
+  }
+};
+
 export default {
   all,
   detailById,
+  rawById,
 };

@@ -28,17 +28,19 @@ const rawById = async (id: string): Promise<[Convenience | null, Error | null]> 
   }
 };
 
-const countByCondition = async (ids: Array<string>): Promise<number> => {
+const countByCode = async (code: string): Promise<number> => {
   const db = database.getDataSource();
 
   try {
-    const q = db.createQueryBuilder(Convenience, "c").where("c.id IN (:...ids)", { ids: ids });
+    const q = db.createQueryBuilder(Convenience, "c").where("c.code = :code", { code });
+
+    q.select(['c'])
 
     let rs = await q.getCount();
     console.log(rs);
     return rs;
   } catch (e: unknown) {
-    console.log(`[Error] dao.convenience.find.countByCondition ${(e as Error).message}`);
+    console.log(`[Error] dao.convenience.find.countByCode ${(e as Error).message}`);
     return 0;
   }
 };
@@ -46,5 +48,5 @@ const countByCondition = async (ids: Array<string>): Promise<number> => {
 export default {
   all,
   rawById,
-  countByCondition,
+  countByCode,
 };

@@ -1,6 +1,6 @@
 import express, { Response } from "express";
 import dotenv from "dotenv";
-import server from "./server";
+import serverApp from "./server_app";
 import modules from "./modules";
 import helmet from "helmet";
 import cors from "cors";
@@ -21,7 +21,7 @@ async function init() {
 
   let httpServer = await modules.initialize(app);
 
-  await server(app);
+  await serverApp(app);
   await serverAdmin(app);
 
   app.use("*", (req: Request, res: Response) => {
@@ -31,7 +31,7 @@ async function init() {
   const port = process.env.PORT || 5000;
 
   httpServer.listen(port, () => {
-    console.log("⚡ server listen on port: ", port);
+    console.log("⚡ server_app listen on port: ", port);
   });
 }
 

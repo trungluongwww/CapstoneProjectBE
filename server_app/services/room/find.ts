@@ -1,5 +1,5 @@
 import { District, Province, Room, RoomFile, Ward } from "../../../modules/database/entities";
-import pagnigation from "../../../external_node/ultils/pagnigation";
+import pagnigation from "../../../external_node/ultils/pagigation";
 import dao from "../../dao";
 import inconstants from "../../../internal/inconstants";
 import {
@@ -54,6 +54,7 @@ const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
     orders: [order],
     status: inconstants.room.status.active,
     type: query.type,
+    maxPrice: query.maxPrice,
   } as IRoomQueryCondition);
 
   if (err) {

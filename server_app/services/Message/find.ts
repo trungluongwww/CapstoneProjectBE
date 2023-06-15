@@ -6,7 +6,7 @@ import dao from "../../dao";
 import services from "../index";
 import errorCode from "../../../internal/error-code";
 import response from "../../../external_node/ultils/response";
-import pagnigation from "../../../external_node/ultils/pagnigation";
+import pagnigation from "../../../external_node/ultils/pagigation";
 import inconstants from "../../../internal/inconstants";
 import { IMessageResponse, IMessageShortResponse } from "../../../internal/interfaces/message";
 import { Message } from "../../../modules/database/entities";

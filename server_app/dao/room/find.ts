@@ -91,7 +91,7 @@ const all = async (cond: IRoomQueryCondition): Promise<[Room[], number, Error | 
     }
 
     if (cond.maxPrice) {
-      q.andWhere("r.rentPerMonth < :maxPrice", { maxPrice: cond.maxPrice })
+      q.andWhere("r.rentPerMonth <= :maxPrice", { maxPrice: cond.maxPrice });
     }
 
     if (cond.wardId) {

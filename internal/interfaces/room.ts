@@ -54,6 +54,7 @@ interface IRoomAllQuery {
   orderField: string;
   orderValue: "ASC" | "DESC";
   type: string;
+  maxPrice: number;
 }
 
 interface IRoomAllResponse {
