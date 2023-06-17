@@ -21,6 +21,7 @@ import strings from "../../../external_node/ultils/strings";
 import times from "../../../external_node/ultils/times";
 import errorCode from "../../../internal/error-code";
 import constants from "../../../external_node/constants";
+import recommend from "./recommend";
 
 const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
   let page = 0;
@@ -134,55 +135,60 @@ const detailById = async (id: string): Promise<[IRoomDetailResponse | null, Erro
 };
 
 const allRecommend = async (userId: string): Promise<IRoomAllResponse> => {
-  let user = await services.user.find.rawById(userId);
-  if (!user || (!user.provinceId && !user.districtId && !user.wardId)) {
-    return {
-      rooms: [],
-      pageToken: "",
-      total: 0,
-    } as IRoomAllResponse;
-  }
-  let [limit, offset] = pagnigation.getLimitOffset(8, 0);
-
-  let sorts = [
-    {
-      value: inconstants.room.sortField.createdAt,
-      column: "DESC",
-    },
-  ] as Array<ISortObject>;
-
-  // condition
-  const cond = {
-    limit: limit,
-    offset: offset,
-    orders: sorts,
-    status: inconstants.room.status.active,
-    wardId: user.wardId,
-    districtId: user.districtId,
-    provinceId: user.provinceId,
-  } as IRoomQueryCondition;
-
-  let [ids] = await dao.room.find.findRecommendIds(cond);
-
-  let [rooms, total, err] = await dao.room.find.all({
-    limit: limit,
-    offset: 0,
-    orders: [] as Array<ISortObject>,
-    ids: ids.map<string>((e) => e.id),
-  } as IRoomQueryCondition);
-
-  if (err) {
-    return {
-      rooms: [],
-      pageToken: "",
-      total: 0,
-    } as IRoomAllResponse;
-  }
-
-  return {
-    rooms: rooms.map((r) => convertRoomModelToResponse(r)),
-    total: total,
-  } as IRoomAllResponse;
+  let actionRecent = await services.userRoomHistory.findRoomActionRecentByUser(userId);
+  // if (actionRecent.length) {
+  return recommend.main(actionRecent);
+  // }
+  //
+  // let user = await services.user.find.rawById(userId);
+  // if (!user || (!user.provinceId && !user.districtId && !user.wardId)) {
+  //   return {
+  //     rooms: [],
+  //     pageToken: "",
+  //     total: 0,
+  //   } as IRoomAllResponse;
+  // }
+  // let [limit, offset] = pagnigation.getLimitOffset(8, 0);
+  //
+  // let sorts = [
+  //   {
+  //     value: inconstants.room.sortField.createdAt,
+  //     column: "DESC",
+  //   },
+  // ] as Array<ISortObject>;
+  //
+  // // condition
+  // const cond = {
+  //   limit: limit,
+  //   offset: offset,
+  //   orders: sorts,
+  //   status: inconstants.room.status.active,
+  //   wardId: user.wardId,
+  //   districtId: user.districtId,
+  //   provinceId: user.provinceId,
+  // } as IRoomQueryCondition;
+  //
+  // let [ids] = await dao.room.find.findRecommendIds(cond);
+  //
+  // let [rooms, total, err] = await dao.room.find.all({
+  //   limit: limit,
+  //   offset: 0,
+  //   orders: [] as Array<ISortObject>,
+  //   ids: ids.map<string>((e) => e.id),
+  // } as IRoomQueryCondition);
+  //
+  // if (err) {
+  //   return {
+  //     rooms: [],
+  //     pageToken: "",
+  //     total: 0,
+  //   } as IRoomAllResponse;
+  // }
+  //
+  // return {
+  //   rooms: rooms.map((r) => convertRoomModelToResponse(r)),
+  //   total: total,
+  // } as IRoomAllResponse;
 };
 
 const allByUserId = async (
