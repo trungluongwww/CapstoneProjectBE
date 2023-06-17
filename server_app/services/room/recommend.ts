@@ -21,10 +21,10 @@ const main = async (roomRecent: Array<IRoomSupportRecommend>): Promise<IRoomAllR
 
     return {
       id: e.id,
-      price: recommendation.helper.normalize(e.price, 0, 100000000),
+      price: recommendation.helper.normalize(e.price, 0, inconstants.room.maxRentPerMonth),
       type: typeIndex,
       province: provinceCode,
-      squareMeter: recommendation.helper.normalize(e.squareMeter, 0, 1000),
+      squareMeter: recommendation.helper.normalize(e.squareMeter, 0, inconstants.room.maxSquareMeter),
     } as IRoomRecommendData;
   });
 
