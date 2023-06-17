@@ -19,6 +19,10 @@ const fromClient = async (payload: IRoomCreatePayload): Promise<Error | null> =>
     return Error(errorCode.user.USER_NOT_FOUND);
   }
 
+  if (await dao.room.find.countByUserId(user.id) >= inConstants.room.freeAccountMaxNumOfRoom) {
+    return Error(errorCode.room.MAX_ROOM_OF_FREE_ACCOUNT)
+  }
+
   // validations address
   if (!(await location.find.isValidLocation(payload.provinceId, payload.districtId, payload.wardId))) {
     return Error(errorCode.address.ADDRESS_COMMON_INVALID);

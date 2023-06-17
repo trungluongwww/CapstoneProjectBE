@@ -9,6 +9,7 @@ const ROOM_INVALID_ADDRESS = "ROOM_INVALID_ADDRESS";
 const ROOM_NOT_FOUND = "ROOM_NOT_FOUND";
 const ROOM_INVALID_STATUS = "ROOM_INVALID_STATUS";
 const ROOM_INVALID_TYPE = "ROOM_INVALID_TYPE";
+const MAX_ROOM_OF_FREE_ACCOUNT = "MAX_ROOM_OF_FREE_ACCOUNT";
 
 const list: Array<IResponseCode> = [
   {
@@ -47,6 +48,10 @@ const list: Array<IResponseCode> = [
     message: "loại phòng không hợp lệ",
     key: ROOM_INVALID_TYPE,
   },
+  {
+    message: "hiện tại tài khoản đã đạt số lượng phòng tối đa",
+    key: MAX_ROOM_OF_FREE_ACCOUNT,
+  },
 ];
 
 export default {
@@ -60,4 +65,5 @@ export default {
   ROOM_NOT_FOUND,
   ROOM_INVALID_STATUS,
   ROOM_INVALID_TYPE,
+  MAX_ROOM_OF_FREE_ACCOUNT,
 };

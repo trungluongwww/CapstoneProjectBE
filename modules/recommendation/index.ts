@@ -11,14 +11,17 @@ class KNN {
   }
 
   calculateDistance(room1: IRoomRecommendData, room2: IRoomRecommendData): number {
-    const typeDiff = room1.type - room2.type;
+    if (room1.id === room2.id) {
+      return 1;
+    }
+    const typeDiff = room1.type == room2.type ? 0 : 1;
     const priceDiff = room1.price - room2.price;
     const provinceDiff = room1.province - room2.province;
     const squareMeterDiff = room1.squareMeter - room2.squareMeter;
 
-    const sum = typeDiff + priceDiff + provinceDiff + squareMeterDiff;
-
-    const distance = Math.sqrt(typeDiff ** 2 + priceDiff ** 2 + provinceDiff ** 2 + squareMeterDiff ** 2);
+    const distance = Math.sqrt(
+      (typeDiff * 0.15) ** 2 + (priceDiff * 0.2) ** 2 + (provinceDiff * 0.45) ** 2 + (squareMeterDiff * 0.2) ** 2
+    );
 
     return distance;
   }
@@ -60,7 +63,6 @@ const testInstance = () => {
 };
 
 const getRecommend = (rooms: Array<IRoomRecommendData>): Array<string> => {
-  console.log(rooms);
   return instance.predict(rooms);
 };
 
