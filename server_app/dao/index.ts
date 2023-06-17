@@ -7,8 +7,10 @@ import userFavouriteRoom from "./user-favourite-room";
 import conversation from "./conversation";
 import message from "./message";
 import convenience from "./convenience";
+import UserRoomHistory from "./user-room-history";
 
 export default {
+  UserRoomHistory,
   location,
   user,
   message,

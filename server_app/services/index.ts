@@ -7,9 +7,11 @@ import conversation from "./conversation";
 import message from "./Message";
 import common from "./common";
 import convenience from "./convenience";
+import userRoomHistory from "./user-room-history";
 
 export default {
   convenience,
+  userRoomHistory,
   message,
   conversation,
   common,

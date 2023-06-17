@@ -26,6 +26,15 @@ const selectDetailColumn = (): Array<string> => [
   "u.avatar",
 ];
 
+const selectShortSupportRecommend = (): Array<string> => [
+  "r.id",
+  "r.rentPerMonth",
+  "r.squareMetre",
+  "r.type",
+  "p.id",
+  "p.code",
+];
+
 const findRecommendIds = async (cond: IRoomQueryCondition): Promise<[Array<Room>, Error | null]> => {
   const db = database.getDataSource();
 
@@ -176,10 +185,29 @@ const countById = async (id: string): Promise<number> => {
   }
 };
 
+const allShort = async (): Promise<[Room[], Error | null]> => {
+  const db = database.getDataSource();
+
+  try {
+    const q = db
+      .createQueryBuilder(Room, "r")
+      .leftJoinAndMapOne("r.province", "provinces", "p", "r.provinceId = p.id")
+      .select(selectShortSupportRecommend());
+
+    let docs = await q.getMany();
+
+    return [docs, null];
+  } catch (e: unknown) {
+    console.log(`[Error] dao.room.find.allShort ${(e as Error).message}`);
+    return [[], e as Error];
+  }
+};
+
 export default {
   all,
   rawById,
   countById,
   detailById,
   findRecommendIds,
+  allShort,
 };

@@ -14,12 +14,12 @@ const create = () => {
       .notEmpty()
       .isLength({ max: 999 })
       .withMessage(errorCode.room.ROOM_INVALID_DESCRIPTION),
-    body("rentPerMonth").isInt({ min: 0, max: 999999999 }).notEmpty().withMessage(errorCode.room.ROOM_INVALID_PRICE),
-    body("deposit").isInt({ min: 0, max: 999999999 }).notEmpty().withMessage(errorCode.room.ROOM_INVALID_DEPOSIT),
+    body("rentPerMonth").isInt({ min: 0, max: 100000000 }).notEmpty().withMessage(errorCode.room.ROOM_INVALID_PRICE),
+    body("deposit").isInt({ min: 0, max: 100000000 }).notEmpty().withMessage(errorCode.room.ROOM_INVALID_DEPOSIT),
     body("squareMetre")
       .isInt({
         min: 0,
-        max: 999999999,
+        max: 1000,
       })
       .notEmpty()
       .withMessage(errorCode.room.ROOM_INVALID_SQUARE_METRE),
