@@ -6,6 +6,7 @@ import s3 from "../external_node/s3";
 import upload from "../external_node/upload";
 import socket from "./socket";
 import { Server } from "http";
+import recommendation from "./recommendation";
 
 export default {
   initialize: async (e: Express): Promise<Server> => {
@@ -22,6 +23,8 @@ export default {
     upload.initFolderUpload();
 
     errorCode.init();
+
+    await recommendation.init();
 
     return await socket.socketIO(e)
   },

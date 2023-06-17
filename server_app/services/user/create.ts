@@ -13,6 +13,7 @@ import location from "../location";
 import services from "../index";
 import jwt from "jsonwebtoken";
 import config from "../../../external_node/config";
+import inconstants from "../../../internal/inconstants";
 
 const register = async (payload: IUserCreatePayload): Promise<[IUserLoginResponse | null, Error | null]> => {
   // validations identity info
@@ -86,6 +87,8 @@ const addFavouriteRoom = async (id: string, payload: IUserAddFavouriteRoomPayloa
   newUfr.userId = user.id;
   newUfr.createdAt = new Date();
   newUfr.updatedAt = new Date();
+
+  services.userRoomHistory.createAction(user.id, room.id, inconstants.userAction.action.favourite).then();
 
   return await dao.userFavouriteRoom.create.one(newUfr);
 };

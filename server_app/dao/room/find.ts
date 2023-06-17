@@ -26,6 +26,15 @@ const selectDetailColumn = (): Array<string> => [
   "u.avatar",
 ];
 
+const selectShortSupportRecommend = (): Array<string> => [
+  "r.id",
+  "r.rentPerMonth",
+  "r.squareMetre",
+  "r.type",
+  "p.id",
+  "p.code",
+];
+
 const findRecommendIds = async (cond: IRoomQueryCondition): Promise<[Array<Room>, Error | null]> => {
   const db = database.getDataSource();
 
@@ -129,6 +138,34 @@ const all = async (cond: IRoomQueryCondition): Promise<[Room[], number, Error | 
   }
 };
 
+const allSupportRecommendation = async (cond: IRoomQueryCondition): Promise<[Room[], Error | null]> => {
+  if (!cond.ids) {
+    return [[], null];
+  }
+  const db = database.getDataSource();
+
+  try {
+    const q = db
+      .createQueryBuilder(Room, "r")
+      .leftJoinAndMapOne("r.user", "users", "u", "r.userId = u.id")
+      .leftJoinAndMapMany("r.files", "room_files", "rf", "r.id = rf.room_id")
+      .leftJoinAndMapOne("r.province", "provinces", "p", "r.provinceId = p.id")
+      .leftJoinAndMapOne("r.ward", "wards", "w", "r.wardId = w.id")
+      .leftJoinAndMapOne("r.district", "districts", "d", "r.districtId = d.id")
+      .select(selectDetailColumn());
+
+    q.where("r.id IN (:...ids)", { ids: cond.ids });
+
+    q.orderBy("ARRAY_POSITION(:ids2, r.id)", "ASC").setParameter("ids2", cond.ids);
+
+    let docs = await q.getMany();
+    return [docs, null];
+  } catch (e: unknown) {
+    console.log(`[Error] dao.room.find.all ${(e as Error).message}`);
+    return [[], e as Error];
+  }
+};
+
 const detailById = async (id: string): Promise<[Room | null, Error | null]> => {
   const db = database.getDataSource();
 
@@ -176,10 +213,42 @@ const countById = async (id: string): Promise<number> => {
   }
 };
 
+const countByUserId = async (userId: string): Promise<number> => {
+  const db = database.getDataSource();
+
+  try {
+    return await db.createQueryBuilder(Room, "r").where("r.userId = :userId", { userId }).getCount();
+  } catch (e: unknown) {
+    console.log(`[Error] dao.room.find.countByUserId ${(e as Error).message}`);
+    return 0;
+  }
+};
+
+const allShort = async (): Promise<[Room[], Error | null]> => {
+  const db = database.getDataSource();
+
+  try {
+    const q = db
+      .createQueryBuilder(Room, "r")
+      .leftJoinAndMapOne("r.province", "provinces", "p", "r.provinceId = p.id")
+      .select(selectShortSupportRecommend());
+
+    let docs = await q.getMany();
+
+    return [docs, null];
+  } catch (e: unknown) {
+    console.log(`[Error] dao.room.find.allShort ${(e as Error).message}`);
+    return [[], e as Error];
+  }
+};
+
 export default {
   all,
   rawById,
   countById,
   detailById,
   findRecommendIds,
+  allShort,
+  allSupportRecommendation,
+  countByUserId,
 };

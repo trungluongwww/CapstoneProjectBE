@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, ViewColumn, VirtualColumn } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, ViewColumn, VirtualColumn } from "typeorm";
 import BaseEntity from "./base";
 import RoomFile from "./room-file";
 import { District, Province, User, Ward } from "./index";
@@ -7,6 +7,7 @@ import RoomConvenience from "./room-convenience";
 import Convenience from "./convenience";
 
 @Entity({ name: "rooms" })
+@Index(["status", "updatedAt"])
 export default class Room extends BaseEntity {
   @Column({ name: "user_id", nullable: false, type: "text" })
   userId: string;
