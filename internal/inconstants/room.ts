@@ -1,6 +1,9 @@
 import { ICommonKeyValue } from "../interfaces/common";
 
 export default {
+  freeAccountMaxNumOfRoom: 10,
+  maxSquareMeter: 500,
+  maxRentPerMonth: 100000000,
   status: {
     active: "active",
     inactive: "inactive",

@@ -1,8 +1,10 @@
-import { IRoomAllResponse } from "../../../internal/interfaces/room";
+import { IRoomAllResponse, IRoomQueryCondition } from "../../../internal/interfaces/room";
 import { IRoomRecommendData, IRoomSupportRecommend } from "../../../internal/interfaces/recommandation";
 import dao from "../../dao";
 import inconstants from "../../../internal/inconstants";
 import recommendation from "../../../modules/recommendation";
+import { ISortObject } from "../../../internal/interfaces/common";
+import services from "../index";
 
 const main = async (roomRecent: Array<IRoomSupportRecommend>): Promise<IRoomAllResponse> => {
   const selectedRooms = roomRecent.map<IRoomRecommendData>((e) => {
@@ -26,8 +28,24 @@ const main = async (roomRecent: Array<IRoomSupportRecommend>): Promise<IRoomAllR
     } as IRoomRecommendData;
   });
 
-  console.log(recommendation.getRecommend(selectedRooms));
-  return {} as IRoomAllResponse;
+  const ids = recommendation.getRecommend(selectedRooms);
+
+  let [rooms, err] = await dao.room.find.allSupportRecommendation({
+    ids: ids,
+  } as IRoomQueryCondition);
+
+  if (err) {
+    return {
+      rooms: [],
+      pageToken: "",
+      total: 0,
+    } as IRoomAllResponse;
+  }
+
+  return {
+    rooms: rooms.map((r) => services.room.find.convertRoomModelToResponse(r)),
+    total: rooms.length,
+  } as IRoomAllResponse;
 };
 
 export default {
