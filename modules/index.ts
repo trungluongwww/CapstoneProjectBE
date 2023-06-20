@@ -25,7 +25,7 @@ export default {
     errorCode.init();
 
     await recommendation.init();
-    recommendation.testInstance();
+
     return await socket.socketIO(e);
   },
 };

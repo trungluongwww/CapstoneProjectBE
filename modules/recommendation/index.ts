@@ -56,14 +56,19 @@ let instance: KNN;
 const init = async () => {
   const data = await helper.roomData();
   instance = new KNN(15, data);
+  testInstance();
+};
+
+const getInstance = () => {
+  return instance;
 };
 
 const testInstance = () => {
-  console.log(instance.data);
+  console.log(`[Recommendation] size of model: ${JSON.stringify(getInstance()).length}`);
 };
 
 const getRecommend = (rooms: Array<IRoomRecommendData>): Array<string> => {
-  return instance.predict(rooms);
+  return getInstance().predict(rooms);
 };
 
 export default {
