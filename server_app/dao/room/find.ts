@@ -231,6 +231,7 @@ const allShort = async (): Promise<[Room[], Error | null]> => {
     const q = db
       .createQueryBuilder(Room, "r")
       .leftJoinAndMapOne("r.province", "provinces", "p", "r.provinceId = p.id")
+      .where("r.status = :status", { status: inconstants.room.status.active })
       .select(selectShortSupportRecommend());
 
     let docs = await q.getMany();

@@ -17,10 +17,10 @@ const roomData = async (): Promise<Array<IRoomRecommendData>> => {
     );
     return {
       id: e.id,
-      price: normalize(e.rentPerMonth, 0, 100000000),
+      price: normalize(e.rentPerMonth, 0, inconstants.room.maxRentPerMonth),
       type: typeIndex,
       province: provinceCode,
-      squareMeter: normalize(e.squareMetre, 0, 1000),
+      squareMeter: normalize(e.squareMetre, 0, inconstants.room.maxSquareMeter),
     } as IRoomRecommendData;
   });
 };
