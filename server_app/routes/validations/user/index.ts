@@ -9,7 +9,7 @@ const create = () => {
     body("email").isEmail().notEmpty().isLength({ min: 8 }).withMessage(errorCode.user.USER_INVALID_EMAIL),
     body("password").isString().notEmpty().isLength({ min: 6 }).withMessage(errorCode.user.USER_INVALID_PASSWORD),
     body("phone").isString().notEmpty().isLength({ min: 10 }).withMessage(errorCode.user.USER_INVALID_PHONE),
-    body("name").isString().notEmpty().isLength({ min: 10 }).withMessage(errorCode.user.USER_INVALID_NAME),
+    body("name").isString().notEmpty().isLength({ min: 8 }).withMessage(errorCode.user.USER_INVALID_NAME),
     body("address").notEmpty().withMessage(errorCode.user.USER_INVALID_ADDRESS),
     body("provinceId")
       .isMongoId()

@@ -58,6 +58,7 @@ export default {
         break;
       case "share":
         value = "Tìm người ở ghép";
+        break;
       default:
         value = "";
         break;
