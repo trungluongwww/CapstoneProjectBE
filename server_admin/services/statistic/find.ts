@@ -1,14 +1,14 @@
 import dao from "../../dao";
-import { IStatisticAllQuery, IStatisticAllResponse } from "../../../internal/interfaces/statistic";
+import { IStatisticAllQuery, IStatisticCommonTodayResponse } from "../../../internal/interfaces/statistic";
 
-const all = async (query: IStatisticAllQuery): Promise<IStatisticAllResponse> => {
+const all = async (query: IStatisticAllQuery): Promise<IStatisticCommonTodayResponse> => {
   let result = {
     totalConversationCreated: 0,
     totalMessage: 0,
     totalRoomCreated: 0,
     totalRoomFavorites: 0,
     totalRoomUpdated: 0,
-  } as IStatisticAllResponse;
+  } as IStatisticCommonTodayResponse;
 
   if (!query.fromDate) {
     return result;
