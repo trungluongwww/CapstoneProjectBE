@@ -88,7 +88,7 @@ const addFavouriteRoom = async (id: string, payload: IUserAddFavouriteRoomPayloa
   newUfr.createdAt = new Date();
   newUfr.updatedAt = new Date();
 
-  services.userRoomHistory.createAction(user.id, room.id, inconstants.userAction.action.favourite).then();
+  services.trackingUserBehavior.createAction(user.id, room.id, inconstants.userAction.action.favourite, "").then();
 
   return await dao.userFavouriteRoom.create.one(newUfr);
 };

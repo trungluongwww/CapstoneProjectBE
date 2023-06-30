@@ -1,7 +1,7 @@
-import { UserRoomHistory } from "../../../modules/database/entities";
+import { TrackingUserBehavior } from "../../../modules/database/entities";
 import database from "../../../modules/database";
 
-const one = async (user: UserRoomHistory): Promise<Error | null> => {
+const one = async (user: TrackingUserBehavior): Promise<Error | null> => {
   const db = database.getDataSource();
   try {
     await db.manager.save(user);

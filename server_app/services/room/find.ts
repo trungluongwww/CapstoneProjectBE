@@ -130,7 +130,7 @@ const detailById = async (
   }
 
   if (userId) {
-    services.userRoomHistory.createAction(userId, id, inconstants.userAction.action.getDetail).then();
+    services.trackingUserBehavior.createAction(userId, id, inconstants.userAction.action.getDetail, "").then();
   }
 
   return [
@@ -142,7 +142,7 @@ const detailById = async (
 };
 
 const allRecommend = async (userId: string): Promise<IRoomAllResponse> => {
-  let actionRecent = await services.userRoomHistory.findRoomActionRecentByUser(userId);
+  let actionRecent = await services.trackingUserBehavior.findCarefulRoomActionByUser(userId);
   if (actionRecent.length) {
     return recommend.main(actionRecent);
   }
