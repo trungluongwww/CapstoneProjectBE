@@ -3,7 +3,6 @@ import { IRoomRecommendData, IRoomSupportRecommend } from "../../../internal/int
 import dao from "../../dao";
 import inconstants from "../../../internal/inconstants";
 import recommendation from "../../../modules/recommendation";
-import { ISortObject } from "../../../internal/interfaces/common";
 import services from "../index";
 
 const main = async (roomRecent: Array<IRoomSupportRecommend>): Promise<IRoomAllResponse> => {

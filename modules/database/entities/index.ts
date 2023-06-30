@@ -10,7 +10,7 @@ import UserFavouriteRoom from "./user-favourite-room";
 import Comment from "./comment";
 import Convenience from "./convenience";
 import RoomConvenience from "./room-convenience";
-import UserRoomHistory from "./user-room-history";
+import TrackingUserBehavior from "./tracking-user-behavior";
 
 export default [
   Ward,
@@ -25,7 +25,7 @@ export default [
   Comment,
   Convenience,
   RoomConvenience,
-  UserRoomHistory,
+  TrackingUserBehavior,
 ];
 
 export {
@@ -41,5 +41,5 @@ export {
   Comment,
   Convenience,
   RoomConvenience,
-  UserRoomHistory,
+  TrackingUserBehavior,
 };

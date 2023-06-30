@@ -7,10 +7,10 @@ import userFavouriteRoom from "./user-favourite-room";
 import conversation from "./conversation";
 import message from "./message";
 import convenience from "./convenience";
-import UserRoomHistory from "./user-room-history";
+import trackingUserBehavior from "./tracking-user-behavior";
 
 export default {
-  UserRoomHistory,
+  trackingUserBehavior,
   location,
   user,
   message,

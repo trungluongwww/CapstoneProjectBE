@@ -3,8 +3,8 @@ import BaseEntity from "./base";
 import Room from "./room";
 import { User } from "./index";
 
-@Entity({ name: "user_room_histories" })
-export default class UserRoomHistory extends BaseEntity {
+@Entity({ name: "tracking_user_behaviors" })
+export default class TrackingUserBehavior extends BaseEntity {
   @Column({ name: "room_id", nullable: false, type: "text" })
   roomId: string;
 
@@ -21,4 +21,7 @@ export default class UserRoomHistory extends BaseEntity {
 
   @Column({ name: "action", nullable: false, default: "", type: "text" })
   action: string;
+
+  @Column({ name: "conversation_id", nullable: false, default: "", type: "text" })
+  conversationId: string;
 }
