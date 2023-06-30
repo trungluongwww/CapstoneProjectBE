@@ -1,63 +1,9 @@
-import {
-  IUserLoginPayload,
-  IUserLoginResponse,
-  IUserQueryCondition,
-  IUserResponse,
-} from "../../../internal/interfaces/user";
+import { IUserAllQuery, IUserAllResponse, IUserQueryCondition, IUserResponse } from "../../../internal/interfaces/user";
+import inconstants from "../../../internal/inconstants";
 import dao from "../../dao";
-import errorCode from "../../../internal/error-code";
-import pToken from "../../../external_node/ultils/ptoken";
-import jwt from "jsonwebtoken";
-import config from "../../../external_node/config";
-import response from "../../../external_node/ultils/response";
 import { User } from "../../../modules/database/entities";
 import times from "../../../external_node/ultils/times";
 import services from "../../../server_admin/services";
-
-const login = async (payload: IUserLoginPayload): Promise<[IUserLoginResponse | null, Error | null]> => {
-  let [user, err] = await dao.user.find.findRawByEmail({ email: payload.email } as IUserQueryCondition);
-  console.log(user, err);
-  if (!user || err) {
-    return [null, Error(errorCode.user.USER_LOGIN_FAILED)];
-  }
-
-  if (!user.root) {
-    return [null, Error(response.common.commonNoPermissionKey)];
-  }
-  console.log(user.root);
-
-  if (!(await pToken.comparePassword(payload.password, user.password))) {
-    return [null, Error(errorCode.user.USER_LOGIN_FAILED)];
-  }
-  console.log("pass");
-
-  let token = jwt.sign(
-    {
-      id: user.id,
-      name: user.name,
-      phone: user.phone,
-      email: user.email,
-    },
-    config.get().common.jwtSecretAdmin,
-    { expiresIn: "200d" }
-  );
-
-  let rs = {
-    token: token,
-  } as IUserLoginResponse;
-
-  return [rs, null];
-};
-
-const profile = async (id: string): Promise<[IUserResponse | null, Error | null]> => {
-  let [user, err] = await dao.user.find.profileById(id);
-
-  if (!user || err) {
-    return [null, Error(errorCode.user.USER_NOT_FOUND)];
-  }
-
-  return [convertModelToResponse(user), null];
-};
 
 const convertModelToResponse = (user: User): IUserResponse => {
   if (!user) {
@@ -80,8 +26,29 @@ const convertModelToResponse = (user: User): IUserResponse => {
   } as IUserResponse;
 };
 
+const all = async (query: IUserAllQuery): Promise<IUserAllResponse> => {
+  const cond = {
+    limit: 20,
+    offset: query.page * 20,
+    wardId: query.wardId,
+    districtId: query.districtId,
+    searchText: query.searchText,
+    provinceId: query.provinceId,
+    sort: [{ value: "DESC", column: inconstants.user.sortColumns.createdAt }],
+  } as IUserQueryCondition;
+
+  const [docs] = await dao.user.find.allByCondition(cond);
+  const [total] = await dao.user.find.countByCondition(cond);
+
+  const users = docs.map((doc) => convertModelToResponse(doc));
+
+  return {
+    users: users,
+    total: total,
+  } as IUserAllResponse;
+};
+
 export default {
-  login,
+  all,
   convertModelToResponse,
-  profile,
 };

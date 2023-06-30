@@ -5,9 +5,11 @@ import socket from "./socket";
 import convenience from "./convenience";
 import province from "./province";
 import userAction from "./user-action";
+import user from "./user";
 
 export default {
   userAction,
+  user,
   convenience,
   message,
   province,

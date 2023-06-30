@@ -1,5 +1,6 @@
 import { IDistrictResponse, IProvinceResponse, IWardResponse } from "./location";
 import dao from "../../server_app/dao";
+import { ISortObject } from "./common";
 
 interface IUserCreatePayload {
   email: string;
@@ -61,6 +62,26 @@ interface IUserQueryCondition {
   email: string;
   phone: string;
   id: string;
+  limit: number;
+  offset: number;
+  provinceId: string;
+  wardId: string;
+  districtId: string;
+  searchText: string;
+  sort: Array<ISortObject>;
+}
+
+interface IUserAllQuery {
+  page: number;
+  provinceId: string;
+  wardId: string;
+  districtId: string;
+  searchText: string;
+}
+
+interface IUserAllResponse {
+  users: Array<IUserResponse>;
+  total: number;
 }
 
 export {
@@ -73,4 +94,6 @@ export {
   IUserChangePasswordPayload,
   IUserChangeAvatarPayload,
   IUserQueryCondition,
+  IUserAllQuery,
+  IUserAllResponse,
 };

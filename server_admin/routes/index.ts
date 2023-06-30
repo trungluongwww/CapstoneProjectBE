@@ -2,8 +2,10 @@ import express, { Express, NextFunction, Response } from "express";
 import { expressjwt, Request } from "express-jwt";
 import config from "../../external_node/config";
 import statistic from "./statistic";
-import user from "./user";
+import auth from "./auth";
 import convenience from "./convenience";
+import user from "./user";
+import location from "./location";
 
 export default (app: Express) => {
   const router = express.Router();
@@ -24,7 +26,9 @@ export default (app: Express) => {
     }
   );
 
-  user(router);
+  auth(router);
   statistic(router);
   convenience(router);
+  user(router);
+  location(router);
 };

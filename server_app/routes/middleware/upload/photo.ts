@@ -9,7 +9,8 @@ const storage = multer.diskStorage({
     cb(null, constants.upload.destination);
   },
   filename(req, file: Express.Multer.File, cb: (error: Error | null, filename: string) => void) {
-    cb(null, "photo" + random.randomCode() + "-" + file.originalname);
+    const name = ["photo_", random.randomCode(), path.extname(file.originalname)];
+    cb(null, name.join(""));
   },
 });
 
