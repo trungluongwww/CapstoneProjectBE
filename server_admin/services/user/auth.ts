@@ -22,12 +22,10 @@ const login = async (payload: IUserLoginPayload): Promise<[IUserLoginResponse | 
   if (!user.root) {
     return [null, Error(response.common.commonNoPermissionKey)];
   }
-  console.log(user.root);
 
   if (!(await pToken.comparePassword(payload.password, user.password))) {
     return [null, Error(errorCode.user.USER_LOGIN_FAILED)];
   }
-  console.log("pass");
 
   let token = jwt.sign(
     {

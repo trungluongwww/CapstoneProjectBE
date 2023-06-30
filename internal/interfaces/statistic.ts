@@ -3,7 +3,9 @@ interface IStatisticAllQuery {
   toDate: Date;
 }
 
-interface IStatisticAllResponse {
+interface IStatisticCommonTodayResponse {
+  totalRegister: number;
+  totalAccess: number;
   totalMessage: number;
   totalRoomCreated: number;
   totalRoomUpdated: number;
@@ -11,4 +13,19 @@ interface IStatisticAllResponse {
   totalRoomFavorites: number;
 }
 
-export { IStatisticAllResponse, IStatisticAllQuery };
+interface IStatisticRoomResponse {
+  total: number;
+  totalActive: number;
+  totalInactive: number;
+  totalBanned: number;
+  totalPostToday: number;
+}
+
+interface IStatisticUserResponse {
+  total: number;
+  totalSeeker: number;
+  totalLessor: number;
+  totalRegisterToday: number;
+}
+
+export { IStatisticCommonTodayResponse, IStatisticRoomResponse, IStatisticUserResponse, IStatisticAllQuery };
