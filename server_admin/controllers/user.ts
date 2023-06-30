@@ -1,30 +1,17 @@
 import { Request } from "express-jwt";
 import { Response } from "express";
-import { IUserLoginPayload } from "../../internal/interfaces/user";
-import response from "../../external_node/ultils/response";
+import { IUserAllQuery, IUserLoginPayload } from "../../internal/interfaces/user";
 import services from "../services";
+import response from "../../external_node/ultils/response";
 
-const login = async (req: Request, res: Response) => {
-  const payload = req.body as IUserLoginPayload;
+const findAll = async (req: Request, res: Response) => {
+  const query: IUserAllQuery = req.query as never;
 
-  const [rs, err] = await services.user.find.login(payload);
-  if (err) {
-    return response.r400(res, null, err.message);
-  }
-  return response.r200(res, rs);
-};
+  const rs = await services.user.find.all(query);
 
-const me = async (req: Request, res: Response) => {
-  const id = req.auth?.id;
-
-  const [rs, err] = await services.user.find.profile(id);
-  if (err) {
-    return response.r400(res, null, err.message);
-  }
   return response.r200(res, rs);
 };
 
 export default {
-  login,
-  me,
+  findAll,
 };
