@@ -62,6 +62,15 @@ const register = async (payload: IUserCreatePayload): Promise<[IUserLoginRespons
     token: token,
   } as IUserLoginResponse;
 
+  services.trackingUserBehavior
+    .createAction({
+      userId: user.id,
+      action: inconstants.userAction.action.register,
+      roomId: null,
+      conversationId: "",
+    })
+    .then();
+
   return [rs, null];
 };
 
@@ -88,7 +97,14 @@ const addFavouriteRoom = async (id: string, payload: IUserAddFavouriteRoomPayloa
   newUfr.createdAt = new Date();
   newUfr.updatedAt = new Date();
 
-  services.trackingUserBehavior.createAction(user.id, room.id, inconstants.userAction.action.favourite, "").then();
+  services.trackingUserBehavior
+    .createAction({
+      userId: user.id,
+      action: inconstants.userAction.action.favourite,
+      roomId: room.id,
+      conversationId: "",
+    })
+    .then();
 
   return await dao.userFavouriteRoom.create.one(newUfr);
 };

@@ -6,6 +6,7 @@ import auth from "./auth";
 import convenience from "./convenience";
 import user from "./user";
 import location from "./location";
+import room from "./room";
 
 export default (app: Express) => {
   const router = express.Router();
@@ -30,5 +31,6 @@ export default (app: Express) => {
   statistic(router);
   convenience(router);
   user(router);
+  room(router);
   location(router);
 };

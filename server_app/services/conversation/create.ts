@@ -4,6 +4,7 @@ import response from "../../../external_node/ultils/response";
 import dao from "../../dao";
 import { Conversation } from "../../../modules/database/entities";
 import pmongo from "../../../external_node/ultils/pmongo";
+import inconstants from "../../../internal/inconstants";
 
 const fromServer = async (userId: string, targetId: string): Promise<[string, Error | null]> => {
   if (!(await services.user.find.checkUserIdExist(userId)) || !(await services.user.find.checkUserIdExist(targetId))) {
@@ -27,6 +28,13 @@ const fromServer = async (userId: string, targetId: string): Promise<[string, Er
   if (err) {
     return ["", err];
   }
+
+  services.trackingUserBehavior.createAction({
+    userId: userId,
+    roomId: null,
+    action: inconstants.userAction.action.createConversation,
+    conversationId: conv.id
+  }).then()
 
   return [conv.id, null];
 };

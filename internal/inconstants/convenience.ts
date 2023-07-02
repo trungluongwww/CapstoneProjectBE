@@ -12,6 +12,9 @@ export default {
       "beekeeper",
       "clock",
       "wifi",
+      "air_filter",
+      "desk",
+      "sofa_single",
     ],
   },
 };

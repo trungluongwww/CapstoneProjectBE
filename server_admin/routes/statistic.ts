@@ -7,5 +7,11 @@ export default (g: Router) => {
   let r = express.Router();
   g.use("/statistics", r);
 
-  r.get("", required.loginAdmin, ...validations.statistic.all, controllers.statistic.all);
+  r.use(required.loginAdmin);
+
+  r.get("", controllers.statistic.commonToday);
+
+  r.get("/user", controllers.statistic.user);
+
+  r.get("/room", controllers.statistic.room);
 };

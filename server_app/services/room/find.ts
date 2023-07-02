@@ -130,7 +130,14 @@ const detailById = async (
   }
 
   if (userId) {
-    services.trackingUserBehavior.createAction(userId, id, inconstants.userAction.action.getDetail, "").then();
+    services.trackingUserBehavior
+      .createAction({
+        userId: userId,
+        action: inconstants.userAction.action.getDetail,
+        roomId: id,
+        conversationId: "",
+      })
+      .then();
   }
 
   return [

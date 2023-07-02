@@ -1,5 +1,5 @@
 import database from "../../../modules/database";
-import { Conversation, Message, Room, UserFavouriteRoom } from "../../../modules/database/entities";
+import { Conversation, Message, Room, User, UserFavouriteRoom } from "../../../modules/database/entities";
 
 const countRoomCreated = async (start: Date, end: Date): Promise<number> => {
   const db = database.getDataSource();
@@ -86,10 +86,46 @@ const countMessageCreated = async (start: Date, end: Date): Promise<number> => {
   }
 };
 
+const countSeeker = async (): Promise<number> => {
+  const db = database.getDataSource();
+
+  try {
+    const q = db.createQueryBuilder(User, "u");
+
+    q.where("u.id not in (select rooms.user_id from rooms group by rooms.user_id)");
+
+    q.select("*");
+
+    return await q.getCount();
+  } catch (e) {
+    console.log(`[Error admin] dao.statistic.index.countSeeker ${(e as Error).message}`);
+    return 0;
+  }
+};
+
+const countLessor = async (): Promise<number> => {
+  const db = database.getDataSource();
+
+  try {
+    const q = db.createQueryBuilder(User, "u");
+
+    q.where("u.id in (select rooms.user_id from rooms group by rooms.user_id)");
+
+    q.select("*");
+
+    return await q.getCount();
+  } catch (e) {
+    console.log(`[Error admin] dao.statistic.index.countLessor ${(e as Error).message}`);
+    return 0;
+  }
+};
+
 export default {
   countRoomCreated,
   countRoomUpdated,
   countRoomFavourites,
   countConversationCreated,
   countMessageCreated,
+  countSeeker,
+  countLessor,
 };

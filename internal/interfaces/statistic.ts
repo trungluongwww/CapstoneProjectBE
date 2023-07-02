@@ -8,7 +8,6 @@ interface IStatisticCommonTodayResponse {
   totalAccess: number;
   totalMessage: number;
   totalRoomCreated: number;
-  totalRoomUpdated: number;
   totalConversationCreated: number;
   totalRoomFavorites: number;
 }
