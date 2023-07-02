@@ -2,10 +2,10 @@ import { Request } from "express-jwt";
 import { Response } from "express";
 import services from "../services";
 import response from "../../external_node/ultils/response";
-import { IRoomAllQuery, IRoomChangeStatusPayload } from "../../internal/interfaces/room";
+import { IRoomAllQuerySupportAdmin, IRoomChangeStatusPayload } from "../../internal/interfaces/room";
 
 const all = async (req: Request, res: Response) => {
-  const query: IRoomAllQuery = req.query as never;
+  const query: IRoomAllQuerySupportAdmin = req.query as never;
 
   const rs = await services.room.find.all(query);
 

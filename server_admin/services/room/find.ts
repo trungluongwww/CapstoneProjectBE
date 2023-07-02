@@ -4,6 +4,7 @@ import dao from "../../dao";
 import inConstants from "../../../internal/inconstants";
 import {
   IRoomAllQuery,
+  IRoomAllQuerySupportAdmin,
   IRoomAllResponse,
   IRoomDetailResponse,
   IRoomFileResponse,
@@ -17,15 +18,9 @@ import strings from "../../../external_node/ultils/strings";
 import times from "../../../external_node/ultils/times";
 import errorCode from "../../../internal/error-code";
 
-const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
-  let page = 0;
-
-  let enCodePage = pagination.getDataFromToken(query.pageToken);
-  if (enCodePage.page) {
-    page = enCodePage.page;
-  }
-
-  let [limit, offset] = pagination.getLimitOffset(query.limit, page);
+const all = async (query: IRoomAllQuerySupportAdmin): Promise<IRoomAllResponse> => {
+  let limit = 20;
+  let offset = limit * query.page;
 
   let order = {} as ISortObject;
 
@@ -62,7 +57,6 @@ const all = async (query: IRoomAllQuery): Promise<IRoomAllResponse> => {
   return {
     rooms: rooms.map((r) => convertRoomModelToResponse(r)),
     total: total,
-    pageToken: rooms.length == limit ? pagination.createPageToken(page + 1, null) : "",
   } as IRoomAllResponse;
 };
 

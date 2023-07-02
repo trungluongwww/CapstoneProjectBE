@@ -8,6 +8,7 @@ import { User } from "../../../modules/database/entities";
 import { IDistrictResponse, IProvinceResponse, IWardResponse } from "../../../internal/interfaces/location";
 import services from "../index";
 import times from "../../../external_node/ultils/times";
+import inconstants from "../../../internal/inconstants";
 
 const login = async (payload: IUserLoginPayload): Promise<[IUserLoginResponse | null, Error | null]> => {
   let [user, err] = await dao.user.find.rawByUsername(payload.email);
@@ -71,6 +72,15 @@ const profile = async (id: string): Promise<[IUserResponse | null, Error | null]
   if (!user || err) {
     return [null, Error(errorCode.user.USER_NOT_FOUND)];
   }
+
+  services.trackingUserBehavior
+    .createAction({
+      userId: user.id,
+      roomId: null,
+      action: inconstants.userAction.action.access,
+      conversationId: "",
+    })
+    .then();
 
   return [convertModelToResponse(user), null];
 };

@@ -84,7 +84,18 @@ const fromClient = async (payload: IRoomCreatePayload): Promise<Error | null> =>
     });
   }
 
-  return await transaction.room.create(room, roomFiles, conveniences);
+  let err = await transaction.room.create(room, roomFiles, conveniences);
+
+  if (!err) {
+    services.trackingUserBehavior.createAction({
+      userId: user.id,
+      roomId: room.id,
+      action: inConstants.userAction.action.createRoom,
+      conversationId: "",
+    }).then()
+  }
+
+  return err
 };
 
 const addFile = async (

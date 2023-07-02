@@ -5,8 +5,8 @@ import { User } from "./index";
 
 @Entity({ name: "tracking_user_behaviors" })
 export default class TrackingUserBehavior extends BaseEntity {
-  @Column({ name: "room_id", nullable: false, type: "text" })
-  roomId: string;
+  @Column({ name: "room_id", nullable: true, type: "text" })
+  roomId: string | null;
 
   @ManyToOne(() => Room, (room) => room.id)
   @JoinColumn({ name: "room_id" })

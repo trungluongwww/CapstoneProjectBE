@@ -57,6 +57,19 @@ interface IRoomAllQuery {
   maxPrice: number;
 }
 
+interface IRoomAllQuerySupportAdmin {
+  provinceId: string;
+  districtId: string;
+  wardId: string;
+  limit: number;
+  page: number;
+  keyword: string;
+  orderField: string;
+  orderValue: "ASC" | "DESC";
+  type: string;
+  maxPrice: number;
+}
+
 interface IRoomAllResponse {
   rooms: Array<IRoomResponse>;
   total: number;
@@ -164,4 +177,5 @@ export {
   IRoomDetailResponse,
   IRoomQueryCondition,
   IUploadSingleFileRequest,
+  IRoomAllQuerySupportAdmin,
 };

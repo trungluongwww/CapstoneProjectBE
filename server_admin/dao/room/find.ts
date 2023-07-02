@@ -119,11 +119,17 @@ const rawById = async (id: string): Promise<[Room | null, Error | null]> => {
   }
 };
 
-const countById = async (id: string): Promise<number> => {
+const countByCondition = async (cond: IRoomQueryCondition): Promise<number> => {
   const db = database.getDataSource();
 
   try {
-    return await db.createQueryBuilder(Room, "r").where("r.id = :id", { id }).getCount();
+    const q = db.createQueryBuilder(Room, "r");
+
+    if (cond.status) {
+      q.andWhere("r.status = :status", { status: cond.status });
+    }
+
+    return q.getCount();
   } catch (e: unknown) {
     console.log(`[Error] dao.room.find.countById ${(e as Error).message}`);
     return 0;
@@ -134,4 +140,5 @@ export default {
   all,
   detailById,
   rawById,
+  countByCondition,
 };

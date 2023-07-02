@@ -13,6 +13,26 @@ const all = async (req: Request, res: Response) => {
   return response.r200(res, rs);
 };
 
+const commonToday = async (req: Request, res: Response) => {
+  const rs = await services.statistic.find.commonToday();
+
+  return response.r200(res, rs);
+};
+
+const user = async (req: Request, res: Response) => {
+  const rs = await services.statistic.find.statisticUser();
+
+  return response.r200(res, rs);
+};
+
+const room = async (req: Request, res: Response) => {
+  const rs = await services.statistic.find.statisticRoom();
+
+  return response.r200(res, rs);
+};
 export default {
   all,
+  commonToday,
+  user,
+  room,
 };
