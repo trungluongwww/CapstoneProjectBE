@@ -7,6 +7,8 @@ import upload from "../external_node/upload";
 import socket from "./socket";
 import { Server } from "http";
 import recommendation from "./recommendation";
+import email from "../external_node/email";
+import redis from "../external_node/redis";
 
 export default {
   initialize: async (e: Express): Promise<Server> => {
@@ -25,6 +27,10 @@ export default {
     errorCode.init();
 
     await recommendation.init();
+
+    await email.init(cfg);
+
+    await redis.init(cfg)
 
     return await socket.socketIO(e);
   },
