@@ -64,7 +64,7 @@ const getInstance = () => {
 };
 
 const testInstance = () => {
-  console.log(`[Recommendation] size of model: ${JSON.stringify(getInstance()).length}`);
+  console.log(`⚡ [Recommendation] size of model: ${JSON.stringify(getInstance()).length}`);
 };
 
 const getRecommend = (rooms: Array<IRoomRecommendData>): Array<string> => {

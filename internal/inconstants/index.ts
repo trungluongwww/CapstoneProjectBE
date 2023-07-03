@@ -6,6 +6,7 @@ import convenience from "./convenience";
 import province from "./province";
 import userAction from "./user-action";
 import user from "./user";
+import redis from "./redis";
 
 export default {
   userAction,
@@ -16,4 +17,5 @@ export default {
   room,
   socket,
   common,
+  redis,
 };

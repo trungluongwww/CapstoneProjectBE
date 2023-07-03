@@ -14,11 +14,17 @@ import services from "../index";
 import jwt from "jsonwebtoken";
 import config from "../../../external_node/config";
 import inconstants from "../../../internal/inconstants";
+import email from "../../../external_node/email";
 
 const register = async (payload: IUserCreatePayload): Promise<[IUserLoginResponse | null, Error | null]> => {
   // validations identity info
   if ((await dao.user.find.countByIdentity(payload.email, payload.phone)) > 0) {
     return [null, Error(errorCode.user.USER_ALREADY_EXITS)];
+  }
+
+  // verify email
+  if (!await email.verifyEmail(payload.email)) {
+    return [null, Error(errorCode.user.USER_VERIFY_FAILED_EMAIL)]
   }
 
   // validations location info

@@ -12,6 +12,7 @@ const USER_INVALID_ZALO = "USER_INVALID_ZALO";
 const USER_LOGIN_FAILED = "USER_LOGIN_FAILED";
 const USER_INVALID_AVATAR = "USER_INVALID_AVATAR";
 const OLD_PASSWORD_INCORRECT = "OLD_PASSWORD_INCORRECT";
+const USER_VERIFY_FAILED_EMAIL = "USER_VERIFY_FAILED_EMAIL";
 
 const list: Array<IResponseCode> = [
   {
@@ -54,6 +55,10 @@ const list: Array<IResponseCode> = [
     message: "Mật khẩu cũ không chính xác",
     key: OLD_PASSWORD_INCORRECT,
   },
+  {
+    message: "Không thể xác thực email",
+    key: USER_VERIFY_FAILED_EMAIL,
+  },
 ];
 
 export default {
@@ -70,4 +75,5 @@ export default {
   USER_LOGIN_FAILED,
   USER_INVALID_AVATAR,
   OLD_PASSWORD_INCORRECT,
+  USER_VERIFY_FAILED_EMAIL,
 };
