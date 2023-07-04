@@ -7,7 +7,7 @@ import upload from "../external_node/upload";
 import socket from "./socket";
 import { Server } from "http";
 import recommendation from "./recommendation";
-import email from "../external_node/email";
+import sesEmail from "../external_node/ses-email";
 import redis from "../external_node/redis";
 
 export default {
@@ -28,9 +28,9 @@ export default {
 
     await recommendation.init();
 
-    await email.init(cfg);
+    await sesEmail.init(cfg);
 
-    await redis.init(cfg)
+    await redis.init(cfg);
 
     return await socket.socketIO(e);
   },
