@@ -121,9 +121,10 @@ const resetPassword = async (p: IResetPasswordPayload): Promise<[IUserLoginRespo
   if (err || !user) {
     return [null, Error(errorCode.user.USER_NOT_FOUND)];
   }
-
+  console.log(`${inconstants.redis.keyPrefix.forgotPassword}_${user.id}`);
   const code = await redis.get.byKey(`${inconstants.redis.keyPrefix.forgotPassword}_${user.id}`);
 
+  console.log(p, code, p.password == code);
   if (code != p.password) {
     return [null, Error(errorCode.user.USER_INVALID_CODE_RESET_PASSWORD)];
   }
