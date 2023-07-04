@@ -14,7 +14,7 @@ import services from "../index";
 import jwt from "jsonwebtoken";
 import config from "../../../external_node/config";
 import inconstants from "../../../internal/inconstants";
-import email from "../../../external_node/email";
+import email from "../../../external_node/ses-email";
 
 const register = async (payload: IUserCreatePayload): Promise<[IUserLoginResponse | null, Error | null]> => {
   // validations identity info
@@ -22,9 +22,9 @@ const register = async (payload: IUserCreatePayload): Promise<[IUserLoginRespons
     return [null, Error(errorCode.user.USER_ALREADY_EXITS)];
   }
 
-  // verify email
-  if (!await email.verifyEmail(payload.email)) {
-    return [null, Error(errorCode.user.USER_VERIFY_FAILED_EMAIL)]
+  // verify ses-email
+  if (!(await email.verifyEmail(payload.email))) {
+    return [null, Error(errorCode.user.USER_VERIFY_FAILED_EMAIL)];
   }
 
   // validations location info

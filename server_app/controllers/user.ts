@@ -1,6 +1,8 @@
 import { Response } from "express";
 import { Request } from "express-jwt";
 import {
+  IForgotPasswordPayload,
+  IResetPasswordPayload,
   IUserAddFavouriteRoomPayload,
   IUserChangeAvatarPayload,
   IUserChangePasswordPayload,
@@ -127,6 +129,27 @@ const allFavouriteRoom = async (req: Request, res: Response) => {
   return response.r200(res, rs);
 };
 
+const forgotPassword = async (req: Request, res: Response) => {
+  const payload = req.body as IForgotPasswordPayload;
+
+  const [rs, err] = await services.user.find.forgotPassword(payload);
+
+  if (err) {
+    return response.r400(res, null, err.message);
+  }
+  return response.r200(res, rs);
+};
+
+const resetPassword = async (req: Request, res: Response) => {
+  const payload = req.body as IResetPasswordPayload;
+
+  const [rs, err] = await services.user.find.resetPassword(payload);
+
+  if (err) {
+    return response.r400(res, null, err.message);
+  }
+  return response.r200(res, rs);
+};
 export default {
   register,
   update,
@@ -139,4 +162,6 @@ export default {
   changePassword,
   removeFavouriteRoom,
   allFavouriteRoom,
+  forgotPassword,
+  resetPassword,
 };

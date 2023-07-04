@@ -84,6 +84,19 @@ interface IUserAllResponse {
   total: number;
 }
 
+interface IForgotPasswordPayload {
+  email: string;
+}
+
+interface IForgotPasswordResponse {
+  message: string;
+}
+
+interface IResetPasswordPayload {
+  email: string;
+  password: string;
+}
+
 export {
   IUserAddFavouriteRoomPayload,
   IUserCreatePayload,
@@ -96,4 +109,7 @@ export {
   IUserQueryCondition,
   IUserAllQuery,
   IUserAllResponse,
+  IForgotPasswordPayload,
+  IForgotPasswordResponse,
+  IResetPasswordPayload,
 };

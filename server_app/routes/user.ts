@@ -15,6 +15,8 @@ export default (g: Router) => {
   // post
   r.post("/register", ...validations.user.create, controllers.user.register);
   r.post("/login", ...validations.user.login, controllers.user.login);
+  r.post("/forgot-password", ...validations.user.forgotPassword, controllers.user.forgotPassword);
+  r.post("/reset-password", ...validations.user.resetPassword, controllers.user.resetPassword);
 
   // put
   r.put("/", required.login, ...validations.user.update, controllers.user.update);

@@ -13,10 +13,11 @@ const USER_LOGIN_FAILED = "USER_LOGIN_FAILED";
 const USER_INVALID_AVATAR = "USER_INVALID_AVATAR";
 const OLD_PASSWORD_INCORRECT = "OLD_PASSWORD_INCORRECT";
 const USER_VERIFY_FAILED_EMAIL = "USER_VERIFY_FAILED_EMAIL";
+const USER_INVALID_CODE_RESET_PASSWORD = "USER_INVALID_CODE_RESET_PASSWORD";
 
 const list: Array<IResponseCode> = [
   {
-    message: "thông tin email không hợp lệ",
+    message: "thông tin ses-email không hợp lệ",
     key: USER_INVALID_EMAIL,
   },
   {
@@ -56,8 +57,12 @@ const list: Array<IResponseCode> = [
     key: OLD_PASSWORD_INCORRECT,
   },
   {
-    message: "Không thể xác thực email",
+    message: "Không thể xác thực ses-email",
     key: USER_VERIFY_FAILED_EMAIL,
+  },
+  {
+    message: "mã xác thực không hợp lệ",
+    key: USER_INVALID_CODE_RESET_PASSWORD,
   },
 ];
 
@@ -76,4 +81,5 @@ export default {
   USER_INVALID_AVATAR,
   OLD_PASSWORD_INCORRECT,
   USER_VERIFY_FAILED_EMAIL,
+  USER_INVALID_CODE_RESET_PASSWORD,
 };

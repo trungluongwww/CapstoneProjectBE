@@ -38,6 +38,16 @@ const login = () => {
   ];
 };
 
+const forgotPassword = () => {
+  return [body("email").isString().notEmpty().isLength({ min: 8 }).withMessage(errorCode.user.USER_INVALID_EMAIL)];
+};
+
+const resetPassword = () => {
+  return [
+    body("email").isString().notEmpty().isLength({ min: 8 }).withMessage(errorCode.user.USER_INVALID_EMAIL),
+    body("password").notEmpty().withMessage(errorCode.user.USER_INVALID_PASSWORD),
+  ];
+};
 const profile = () => {
   return [query("userId").isMongoId().notEmpty().withMessage(response.common.commonInvalidID)];
 };
@@ -70,4 +80,6 @@ export default {
   login: [login(), checkErrors],
   profile: [profile(), checkErrors],
   allRoom: [allRoom(), checkErrors],
+  forgotPassword: [forgotPassword(), checkErrors],
+  resetPassword: [resetPassword(), resetPassword],
 };
