@@ -81,5 +81,5 @@ export default {
   profile: [profile(), checkErrors],
   allRoom: [allRoom(), checkErrors],
   forgotPassword: [forgotPassword(), checkErrors],
-  resetPassword: [resetPassword(), resetPassword],
+  resetPassword: [resetPassword(), checkErrors],
 };
