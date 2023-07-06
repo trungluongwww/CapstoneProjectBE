@@ -41,7 +41,10 @@ const all = async (cond: IRoomQueryCondition): Promise<[Room[], number, Error | 
       .select(selectDetailColumn());
 
     if (cond.keyword) {
-      q.andWhere("r.searchText like :keyword", { keyword: `%${cond.keyword}%` });
+      q.andWhere("r.searchText like :keyword OR r.userId = :keyword2", {
+        keyword: `%${cond.keyword}%`,
+        keyword2: cond.keyword,
+      });
     }
 
     if (cond.status) {
@@ -54,6 +57,10 @@ const all = async (cond: IRoomQueryCondition): Promise<[Room[], number, Error | 
       q.andWhere("r.districtId = :districtId", { districtId: cond.districtId });
     } else if (cond.provinceId) {
       q.andWhere("r.provinceId = :provinceId", { provinceId: cond.provinceId });
+    }
+
+    if (cond.ownerId) {
+      q.andWhere("r.userId = :ownerId", { ownerId: cond.ownerId });
     }
 
     if (cond.type) {
