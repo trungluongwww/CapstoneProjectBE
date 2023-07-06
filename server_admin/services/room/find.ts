@@ -19,6 +19,10 @@ import times from "../../../external_node/ultils/times";
 import errorCode from "../../../internal/error-code";
 
 const all = async (query: IRoomAllQuerySupportAdmin): Promise<IRoomAllResponse> => {
+  if (!query.page) {
+    query.page = 0;
+  }
+
   let limit = 20;
   let offset = limit * query.page;
 
@@ -42,7 +46,6 @@ const all = async (query: IRoomAllQuerySupportAdmin): Promise<IRoomAllResponse> 
     limit: limit,
     offset: offset,
     orders: [order],
-    status: inConstants.room.status.active,
     type: query.type,
   } as IRoomQueryCondition);
 
