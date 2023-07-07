@@ -25,14 +25,14 @@ jobs:
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
             cd app/CapstoneProjectBE/
-            git checkout develop
-            git pull origin develop
+            git checkout release
+            git pull origin release
             git submodule update --init --recursive && \
-            git submodule foreach git checkout develop && \
-            git submodule foreach git pull origin develop
+            git submodule foreach git checkout main && \
+            git submodule foreach git pull origin main
             npm install
             cd external_node/
             npm install
             cd ..
-            pm2 stop all
+            pm2 delete all
             pm2 start
