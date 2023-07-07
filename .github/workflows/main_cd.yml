@@ -33,4 +33,5 @@ jobs:
             npm install
             cd external_node/
             npm install
-            pm2 reload API
+            cd ..
+            pm2 start
