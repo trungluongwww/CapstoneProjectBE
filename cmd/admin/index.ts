@@ -27,7 +27,7 @@ async function init() {
     return response.r404(res, "The route not found");
   });
 
-  const port = process.env.PORT || 5000;
+  const port = process.env.PORT || 4000;
 
   httpServer.listen(port, () => {
     console.log("⚡ server listen on port: ", port);
