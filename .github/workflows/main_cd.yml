@@ -34,4 +34,5 @@ jobs:
             cd external_node/
             npm install
             cd ..
+            pm2 stop all
             pm2 start
