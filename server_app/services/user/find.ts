@@ -121,10 +121,15 @@ const resetPassword = async (p: IResetPasswordPayload): Promise<[IUserLoginRespo
   if (err || !user) {
     return [null, Error(errorCode.user.USER_NOT_FOUND)];
   }
-  console.log(`${inconstants.redis.keyPrefix.forgotPassword}_${user.id}`);
-  const code = await redis.get.byKey(`${inconstants.redis.keyPrefix.forgotPassword}_${user.id}`);
 
-  console.log(p, code, p.password == code);
+  const key = `${inconstants.redis.keyPrefix.forgotPassword}_${user.id}`
+
+  const code = await redis.get.byKey(key);
+
+  if (!code) {
+    return [null, Error(errorCode.user.USER_EXPIRED_CODE_RESET_PASSWORD)]
+  }
+
   if (code != p.password) {
     return [null, Error(errorCode.user.USER_INVALID_CODE_RESET_PASSWORD)];
   }
@@ -148,6 +153,8 @@ const resetPassword = async (p: IResetPasswordPayload): Promise<[IUserLoginRespo
   let rs = {
     token: token,
   } as IUserLoginResponse;
+
+  redis.del.byKey(key).then()
 
   return [rs, null];
 };
