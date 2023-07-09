@@ -8,8 +8,10 @@ import message from "./Message";
 import common from "./common";
 import convenience from "./convenience";
 import trackingUserBehavior from "./tracking-user-behavior";
+import cronjob from "./cronjob";
 
 export default {
+  cronjob,
   convenience,
   trackingUserBehavior,
   message,
