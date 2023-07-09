@@ -26,10 +26,6 @@ export default {
 
     errorCode.init();
 
-    await recommendation.init();
-
-    await sesEmail.init(cfg);
-
     await redis.init(cfg);
 
     return await socket.socketIO(e);
