@@ -16,7 +16,7 @@ class KNN {
     }
     const typeDiff = room1.type == room2.type ? 0 : 1;
     const priceDiff = room1.price - room2.price;
-    const provinceDiff = room1.province - room2.province;
+    const provinceDiff = room1.province == room2.province ? 0 : 1;
     const squareMeterDiff = room1.squareMeter - room2.squareMeter;
 
     const distance = Math.sqrt(
