@@ -55,7 +55,7 @@ let instance: KNN;
 
 const init = async () => {
   const data = await helper.roomData();
-  instance = new KNN(15, data);
+  instance = new KNN(10, data);
   testInstance();
 };
 
