@@ -20,7 +20,10 @@ class KNN {
     const squareMeterDiff = room1.squareMeter - room2.squareMeter;
 
     const distance = Math.sqrt(
-      (typeDiff * 0.15) ** 2 + (priceDiff * 0.2) ** 2 + (provinceDiff * 0.45) ** 2 + (squareMeterDiff * 0.2) ** 2
+      Math.pow(typeDiff, 2) * 0.15 +
+        Math.pow(priceDiff, 2) * 0.2 +
+        Math.pow(provinceDiff, 2) * 0.45 +
+        Math.pow(squareMeterDiff, 2) * 0.2
     );
 
     return distance;
