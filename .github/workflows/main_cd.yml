@@ -1,0 +1,38 @@
+name: Node.js CI CD
+on:
+  # trigger
+  push:
+    branches:
+      - release
+  pull_request:
+    branches:
+      - release
+  workflow_dispatch:
+
+jobs:
+  # CD develop
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.CAPSTONE_HOST }}
+          username: ${{ secrets.PRIVATE_USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: | # run multiple script
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            cd app/CapstoneProjectBE/
+            git checkout release
+            git pull origin release
+            git submodule update --init --recursive && \
+            git submodule foreach git checkout main && \
+            git submodule foreach git pull origin main
+            npm install
+            cd external_node/
+            npm install
+            cd ..
+            pm2 delete all
+            pm2 start
