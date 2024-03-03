@@ -1,77 +1,73 @@
-# PBL6
----
+# Guide to Setting Up Node.js Project
 
-# Hướng dẫn cài đặt dự án Node.js
+## Step 1: Install Node.js Environment
 
-## Bước 1: Cài đặt môi trường Node.js
+First, you need to install the Node.js environment on your computer:
 
-Đầu tiên cần cài đặt môi trường Node.js trên máy tính:
-
-1. Truy cập vào đường dẫn sau để tải xuống Node.js: [https://nodejs.org/en](https://nodejs.org/en).
-2. Tải xuống phiên bản Node.js phù hợp với hệ điều hành và tiến hành cài đặt.
-3. Kiểm tra cài đặt thành công bằng cách mở Terminal (hoặc Command Prompt) và chạy lệnh sau:
+1. Access the following link to download Node.js: [Node.js Download](https://nodejs.org/en).
+2. Download the appropriate version of Node.js for your operating system and proceed with the installation.
+3. Verify the successful installation by opening Terminal (or Command Prompt) and running the following commands:
 
 ```shell
 node --version
 npm --version
 ```
 
-Nếu phiên bản của Node.js và npm hiển thị, có nghĩa là cài đặt đã thành công.
+If the Node.js and npm versions are displayed, the installation was successful.
 
-## Bước 2: Cài đặt cơ sở dữ liệu PostgreSQL
+## Step 2: Install PostgreSQL Database
 
-Dự án yêu cầu cơ sở dữ liệu PostgreSQL để cài đặt và cấu hình PostgreSQL:
+The project requires a PostgreSQL database to be installed and configured:
 
-1. Truy cập vào đường dẫn sau để tải xuống PostgreSQL: [https://www.postgresql.org/](https://www.postgresql.org/).
-2. Tải xuống và cài đặt phiên bản PostgreSQL 12.15.
-3. Sau khi cài đặt, mở PostgreSQL và tạo một cơ sở dữ liệu mới có tên "capstone".
-4. Khi cài đặt phải setup PostgreSQL chạy trên cổng 5432
+1. Access the following link to download PostgreSQL: [PostgreSQL Download](https://www.postgresql.org/).
+2. Download and install PostgreSQL version 12.15.
+3. After installation, open PostgreSQL and create a new database named "capstone".
+4. During installation, ensure that PostgreSQL is set to run on port 5432.
 
-## Bước 3: Cài đặt Redis
+## Step 3: Install Redis
 
-1. Truy cập vào đường dẫn sau để tải xuống Redis: [https://redis.io/download/](https://redis.io/download/).
-2. Tải xuống và cài đặt phiên bản Redis phù hợp với hệ điều hành.
-3. Sau khi cài đặt, mở Redis và đảm bảo nó đang chạy trên cổng 6379.
+1. Access the following link to download Redis: [Redis Download](https://redis.io/download/).
+2. Download and install the appropriate version of Redis for your operating system.
+3. After installation, open Redis and ensure it is running on port 6379.
 
-## Bước 4: Mở dự án Node.js
+## Step 4: Open Node.js Project
 
-1. Mở Terminal (hoặc Command Prompt) và điều hướng đến thư mục root của dự án.
+1. Open Terminal (or Command Prompt) and navigate to the root directory of the project.
 
-## Bước 5: Thêm file .env
+## Step 5: Add .env File
 
-Để cấu hình các biến môi trường, cần thêm một file .env tại thư mục gốc của dự án. Hãy tạo một file có tên ".env" và
-sao chép các biến môi trường sau vào:
+To configure environment variables, you need to add a .env file in the root directory of the project. Create a file named ".env" and copy the following environment variables into it:
 
 ```shell
 PORT=5000
 POSTGRES_PORT=5432
-POSTGRES_USER_NAME=<Thêm nếu có>
-POSTGRES_USER_PASSWORD=<Thêm nếu có>
+POSTGRES_USER_NAME=<Add if applicable>
+POSTGRES_USER_PASSWORD=<Add if applicable>
 POSTGRES_DB_NAME=capstone
-POSTGRES_HOST=<Thêm nếu có>
+POSTGRES_HOST=<Add if applicable>
 SECRET_JWT=
 SECRET_JWT_ADMIN=
-S3_ACCESS_KEY= <Khóa truy cập S3 của AWS>
-S3_SECRET_KEY= <Mật khẩu truy cập S3 của AWS>
-S3_REGION= <Khu vực bucket S3 của AWS>
-S3_BUCKET= <Tên bucket S3 của AWS>
-SES_USERNAME=<Tài khoản user SES của AWS>
-SES_PASSWORD=<Mật khẩu user SES của AWS>
-SES_REGION=<Khu vực user SES của AWS>
+S3_ACCESS_KEY=<AWS S3 Access Key>
+S3_SECRET_KEY=<AWS S3 Secret Key>
+S3_REGION=<AWS S3 Bucket Region>
+S3_BUCKET=<AWS S3 Bucket Name>
+SES_USERNAME=<AWS SES User Account>
+SES_PASSWORD=<AWS SES User Password>
+SES_REGION=<AWS SES User Region>
 REDIS_URI=redis://localhost:6379
-REDIS_USERNAME=<Thêm nếu có>
-REDIS_PASSWORD=<Thêm nếu có>
+REDIS_USERNAME=<Add if applicable>
+REDIS_PASSWORD=<Add if applicable>
 ```
 
-## Bước 6: Cài đặt thư viện
+## Step 6: Install Dependencies
 
-Trước khi chạy dự án, bạn cần cài đặt các thư viện phụ thuộc. Mở Terminal (hoặc Command Prompt) và chạy lệnh sau:
+Before running the project, you need to install the dependencies. Open Terminal (or Command Prompt) and run the following command:
 
 ```shell
 npm install
 ```
 
-Chạy lệnh để tải git submodule cho dự án
+Run the command to download git submodule for the project:
 
 ```shell
 git submodule update --init --recursive && \
@@ -79,17 +75,17 @@ git submodule foreach git checkout $(branch) && \
 git submodule foreach git pull origin $(branch)
 ```
 
-## Bước 7: Chạy dự án
+## Step 7: Run the Project
 
-Chạy lệnh để Run dữ án
+Run the following command to run the project:
 
-Đối với server admin
+For admin server:
 
 ```shell
 npx ts-node cmd/admin/index.ts
 ```
 
-Đối với server app
+For app server:
 
 ```shell
 npx ts-node cmd/app/index.ts
